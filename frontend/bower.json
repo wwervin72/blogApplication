@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "description": "blog application frontend",
+  "main": "index.js",
+  "authors": [
+    "ervin"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "blog",
+    "angularjs",
+    "jquery",
+    "bootstrap",
+    "application"
+  ],
+  "homepage": "https://github.com/wwervin72/blogApplication",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "^2.3.2"
+  }
+}
