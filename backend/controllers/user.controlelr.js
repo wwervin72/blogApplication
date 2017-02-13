@@ -9,13 +9,22 @@ module.exports = {
 				return next(err);
 			}
 			if(!user){
-				return res.redirect('/signin');
+				res.status(200);
+				return res.json({
+					result: false,
+					msg: '用户名不存在'
+				});
 			}
 			req.logIn(user, (err) => {
 				if(err){
 					return next(err);
 				}
-				res.redirect('/');
+				res.status(200);
+				return res.json({
+					result: true,
+					msg: '登陆成功',
+					token: ''
+				});
 			});
 		})(req, res, next);
 	},
