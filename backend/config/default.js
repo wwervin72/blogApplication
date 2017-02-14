@@ -1,11 +1,11 @@
 module.exports = {
-	mongoDB: 'mongodb://localhost:8080/myBlog',
-	port: 3030,
+	mongoDB: 'mongodb://localhost:8080/blog',
+	port: 3000,
 	session: {
 		key: 'myBlog',
 		secret: 'myblog',
 		maxAge: 30 * 60 * 1000,
-		url: 'mongodb://localhost:8080/myBlog'
+		url: 'mongodb://localhost:8080/blog'
 	},
 	github: {
 		clientID: 'cb448b1d4f0c743a1e36',

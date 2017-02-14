@@ -1,15 +1,15 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
-  "description": "blog application frontend",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "ervin",
-  "license": "ISC",
-  "devDependencies": {
-    "browser-sync": "^2.18.7",
-    "gulp": "^3.9.1"
-  }
+    "name": "frontend",
+    "version": "1.0.0",
+    "description": "blog application frontend",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "ervin",
+    "license": "ISC",
+    "devDependencies": {
+        "browser-sync": "^2.18.7",
+        "gulp": "^3.9.1"
+    }
 }

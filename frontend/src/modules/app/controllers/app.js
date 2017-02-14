@@ -1,32 +1,29 @@
-define(['angular'], (angular) => {
+define(['angular', 'uiRouter', './homeController', '../../user/controllers/loginController', '../../user/controllers/registerController'], (angular, uiRouter, home, login, register) => {
 	let appCtrl = ['$scope', ($scope) => {
 		
 	}];
-	let dependency = [];
+
+	let dependency = ['ui.router', home.name, login.name, register.name];
 	let appModule = angular.module('app', dependency);
 	appModule.controller('ctrl', appCtrl);
-	appModule.config(($stateProvider, $urlRouterProvider) => {
+	appModule.config(function ($stateProvider, $urlRouterProvider){
+		$urlRouterProvider.otherwise("/");
 		$stateProvider
 			.state('home', {
 				url: '/',
-				templateUrl: '../views/home.html',
+				templateUrl: 'src/modules/app/views/home.html',
 				controller: 'home.ctrl'
 			})
-			.state('user', {
-				url: '/',
-				templateUrl: '../views/home.html',
-				controller: 'home.ctrl'
-			})
-			.state('user.login', {
+			.state('login', {
 				url: '/login',
-				templateUrl: '../../user/views/login.html',
-				controller: 'user.login.ctrl'
+				templateUrl: 'src/modules/user/views/login.html',
+				controller: 'login.ctrl'
 			})
-			.state('user.register', {
+			.state('register', {
 				url: '/register',
-				templateUrl: '../views/home.html',
-				controller: 'home.ctrl'
-			})
-	})
+				templateUrl: 'src/modules/user/views/home.html',
+				controller: 'register.ctrl'
+			});
+	});
 	return appModule;
 });

@@ -27,7 +27,7 @@ app.use(session({
 		maxAge: config.session.maxAge
 	},
 	store: new mongoStore({
-		url: 'mongodb://localhost:8080/myBlog'
+		url: config.session.url
 	})
 }));
 
