@@ -1,6 +1,7 @@
 module.exports = {
 	mongoDB: 'mongodb://localhost:8080/blog',
 	port: 3000,
+	cookieSecret: 'myBlog',
 	session: {
 		key: 'myBlog',
 		secret: 'myblog',

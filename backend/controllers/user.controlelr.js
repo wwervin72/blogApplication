@@ -9,13 +9,23 @@ module.exports = {
 				return next(err);
 			}
 			if(!user){
-				return res.redirect('/signin');
+				res.status(200);
+				return res.json({
+					result: false,
+					msg: '用户名不存在'
+				});
 			}
 			req.logIn(user, (err) => {
 				if(err){
 					return next(err);
 				}
-				res.redirect('/');
+
+				res.status(200);
+				return res.json({
+					result: true,
+					msg: '登陆成功',
+					token: ''
+				});
 			});
 		})(req, res, next);
 	},
@@ -23,9 +33,21 @@ module.exports = {
 		let user = new User(req.body);
 		user.save((err, user) => {
 			if(err) {
-				return next(err);
+				let msg = {};
+				Object.keys(err.errors).forEach(function (item) {
+					msg[item==='hashed_password'?'password':item] = err.errors[item].message;
+				});
+				res.status(200);
+				return res.json({
+					result: false,
+					msg: msg
+				});
 			}
-			res.redirect('/');
+			res.status(200);
+			return res.json({
+				result: true,
+				msg: '注册成功'
+			});
 		})
 	}
 };

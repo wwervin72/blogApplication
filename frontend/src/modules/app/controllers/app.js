@@ -21,7 +21,7 @@ define(['angular', 'uiRouter', './homeController', '../../user/controllers/login
 			})
 			.state('register', {
 				url: '/register',
-				templateUrl: 'src/modules/user/views/home.html',
+				templateUrl: 'src/modules/user/views/register.html',
 				controller: 'register.ctrl'
 			});
 	});

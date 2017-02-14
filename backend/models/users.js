@@ -15,16 +15,20 @@ let UserSchema = new Schema({
 UserSchema
 	.virtual('password')
 	.set(function (password) {
+		this._password = password;
 		this.salt = this.makeSalt();
 		this.hashed_password = this.encryptoPassword(password);
+	})
+	.get(function () {
+	    return this._password;
 	});
 
 UserSchema.path('username').validate((username) => {
 	return /^[a-z]{1}[a-z0-9]{0,5}$/.test(username);
 }, '用户名必须是以字母开头的1到6个长度的小写字母或者数字');
 
-UserSchema.path('hashed_password').validate((hashed_password) => {
-	return /^[a-zA-Z0-9-_.]{3, 12}$/.test(password);
+UserSchema.path('hashed_password').validate(function(hashed_password){
+	return /^[a-zA-Z0-9-_.]{3,12}$/.test(this.toObject({virtuals: true}).password);
 }, '密码必须是长度为3到12个的字母、数字、-、_、.');
 
 UserSchema.methods = {

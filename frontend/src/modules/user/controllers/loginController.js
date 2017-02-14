@@ -5,17 +5,21 @@ define(['angular', 'jquery'], (angular, $) => {
             password: ''
         };
         $scope.login = function () {
-            let promise = $.ajax({
-                type: 'POST',
-                url: 'http://localhost:3030/signIn',
-                data: $scope.user,
-                dataType: 'json'
-            });
-            promise.then(function (res) {
-                console.log(res)
-            }, function (res) {
-                console.log(res)
-            });
+            if($scope.user.username && $scope.user.password){
+                let promise = $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/signIn',
+                    data: $scope.user,
+                    dataType: 'json'
+                });
+                promise.then(function (res) {
+                    console.log(res)
+                }, function (res) {
+                    console.log(res)
+                });
+            }else{
+                alert('请输入账号密码');
+            }
         }
     }];
     let dependency = [];
