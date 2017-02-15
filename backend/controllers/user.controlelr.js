@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 let User = mongoose.model('User');
 let passport = require('passport');
+let jwt = require('jsonwebtoken');
 
 module.exports = {
 	login: (req, res, next) => {
@@ -19,12 +20,14 @@ module.exports = {
 				if(err){
 					return next(err);
 				}
-
+				let token = jwt.sign({
+					data: user
+				}, 'ervin', {expiresIn: 60 * 30});
 				res.status(200);
 				return res.json({
 					result: true,
 					msg: '登陆成功',
-					token: ''
+					token: token
 				});
 			});
 		})(req, res, next);

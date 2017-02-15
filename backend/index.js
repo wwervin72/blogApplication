@@ -6,8 +6,6 @@ let mongoStore = require('connect-mongo')(session);
 let config = require('config-lite');
 let passport = require('passport');
 let bodyParser = require('body-parser');
-let redis = require('redis');
-let client = redis.createClient(6379, '127.0.0.1', {});
 let app = express();
 
 app.set('views', join(__dirname, 'public/views'));
@@ -23,18 +21,6 @@ app.all('*', function(req, res, next) {
     if(req.method=="OPTIONS") res.send(200);/*让options请求快速返回*/
     else  next();
 });
-
-client.on('connect', function () {
-	console.log('redis connected');
-	client.set('user', 'admin', redis.print);
-	client.expire('user', 10);
-	
-	client.get('user', redis.print)
-	setTimeout(function () {
-		 /* body... */ 
-		client.get('user', redis.print)
-	}, 10000)
-})
 
 connectMongoDB()
 	.on('error', console.log)

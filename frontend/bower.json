@@ -1,31 +1,32 @@
 {
-    "name": "frontend",
-    "description": "blog application frontend",
-    "main": "index.js",
-    "authors": [
-        "ervin"
-    ],
-    "license": "ISC",
-    "keywords": [
-        "blog",
-        "angularjs",
-        "jquery",
-        "bootstrap",
-        "application"
-    ],
-    "homepage": "https://github.com/wwervin72/blogApplication",
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "requirejs": "^2.3.2",
-        "bootstrap": "^3.3.7",
-        "jquery": "^3.1.1",
-        "angular": "angularjs#^1.6.2",
-        "angular-ui-router": "ui-router#^0.4.2"
-    }
+  "name": "frontend",
+  "description": "blog application frontend",
+  "main": "index.js",
+  "authors": [
+    "ervin"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "blog",
+    "angularjs",
+    "jquery",
+    "bootstrap",
+    "application"
+  ],
+  "homepage": "https://github.com/wwervin72/blogApplication",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "^2.3.2",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1",
+    "angular": "angularjs#^1.6.2",
+    "angular-ui-router": "ui-router#^0.4.2",
+    "angular-cookies": "^1.6.2"
+  }
 }

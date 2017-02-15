@@ -1,11 +1,12 @@
-define(['angular'], (angular) => {
-    let registerCtrl = ['$scope', function($scope){
+define(['angular', 'jquery', 'ngCookies'], (angular, $) => {
+    let registerCtrl = ['$scope', '$cookies', function($scope, $cookies){
         $scope.user = {
         	username: '',
         	username: ''
         };
         $scope.register = function () {
         	if($scope.user.username && $scope.user.password){
+                $scope.user.token = $cookies.get('TOKEN');
         		let promise = $.ajax({
                     type: 'POST',
                     url: 'http://localhost:3000/signup',
@@ -22,7 +23,7 @@ define(['angular'], (angular) => {
         	}
         }
     }];
-    let dependency = [];
+    let dependency = ['ngCookies'];
     let registerModule = angular.module('register', dependency);
     registerModule.controller('register.ctrl', registerCtrl);
     return registerModule;

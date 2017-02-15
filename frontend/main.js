@@ -4,7 +4,8 @@ requirejs.config({
 		angular: 'libs/angular/angular.min',
 		jquery: 'libs/jquery/dist/jquery.min',
 		bootstrap: 'libs/bootstrap/dist/js/bootstrap.min',
-		uiRouter: 'libs/angular-ui-router/release/angular-ui-router.min'
+		uiRouter: 'libs/angular-ui-router/release/angular-ui-router.min',
+		ngCookies: 'libs/angular-cookies/angular-cookies.min'
 	},
 	shim: {
 		angular: {

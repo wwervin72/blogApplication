@@ -1,5 +1,5 @@
-define(['angular', 'jquery'], (angular, $) => {
-    let loginCtrl = ['$scope', '$http', function($scope, $http){
+define(['angular', 'jquery', 'ngCookies'], (angular, $) => {
+    let loginCtrl = ['$scope', '$cookies', function($scope, $cookies){
         $scope.user = {
             username: '',
             password: ''
@@ -13,7 +13,12 @@ define(['angular', 'jquery'], (angular, $) => {
                     dataType: 'json'
                 });
                 promise.then(function (res) {
-                    console.log(res)
+                    if(res.result){
+                        $cookies.remove("TOKEN", {path: '/'});
+                        var timeCount = new Date().getTime() + 1000 * 60 * 30;
+                        var deadline = new Date(timeCount);
+                        $cookies.put('TOKEN', res.token, {'expires': deadline, path: '/'});
+                    }
                 }, function (res) {
                     console.log(res)
                 });
@@ -22,7 +27,7 @@ define(['angular', 'jquery'], (angular, $) => {
             }
         }
     }];
-    let dependency = [];
+    let dependency = ['ngCookies'];
     let loginModule = angular.module('login', dependency);
     loginModule.controller('login.ctrl', loginCtrl);
     return loginModule;
