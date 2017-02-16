@@ -1,6 +1,17 @@
 let mongoose = require('mongoose');
 let crypto = require('crypto');
 let Schema = mongoose.Schema;
+let config = require('config-lite');
+
+function connectMongoDB (argument) {
+	mongoose.Promise = global.Promise;
+	return mongoose.connect(config.mongoDB).connection;
+}
+
+connectMongoDB()
+	.on('error', console.log)
+	.on('disconnected', connectMongoDB)
+	.once('open', console.log);
 
 let UserSchema = new Schema({
 	username: String,

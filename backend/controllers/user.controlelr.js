@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 let User = mongoose.model('User');
 let passport = require('passport');
 let jwt = require('jsonwebtoken');
+let tokenManage = require('../utils/tokenManage');
 
 module.exports = {
 	login: (req, res, next) => {
@@ -20,13 +21,16 @@ module.exports = {
 				if(err){
 					return next(err);
 				}
+				req.user = user;
 				let token = jwt.sign({
 					data: user
 				}, 'ervin', {expiresIn: 60 * 30});
-				res.status(200);
-				return res.json({
+				return res.status(200).json({
 					result: true,
 					msg: '登陆成功',
+					data: {
+						user: user._id
+					},
 					token: token
 				});
 			});
@@ -52,5 +56,24 @@ module.exports = {
 				msg: '注册成功'
 			});
 		})
+	},
+	signOut: function (req, res, next) {
+		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
+		if(token != null){
+			tokenManage.expireToken(token);
+			delete req.user;
+			return res.status(200).json({
+				result: true,
+				msg: '登出成功'
+			});
+		}else{
+			return res.status(401).json({
+				result: false,
+				msg: '没有token'
+			});
+		}
+	},
+	getInfo: function (req, res, next) {
+		return res.status(200).json(req.user);
 	}
 };

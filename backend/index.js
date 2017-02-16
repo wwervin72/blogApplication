@@ -22,41 +22,16 @@ app.all('*', function(req, res, next) {
     else  next();
 });
 
-connectMongoDB()
-	.on('error', console.log)
-	.on('disconnected', connectMongoDB)
-	.once('open', listen);
-
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
-// app.use(session({
-// 	name: config.session.key,
-// 	secret: config.session.secret,
-// 	cookie: {
-// 		maxAge: config.session.maxAge
-// 	},
-// 	store: new mongoStore({
-// 		url: config.session.url
-// 	})
-// }));
 
 require('./models/users');
 require('./passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session())
 
-
 require('./routes')(app, passport);
 
-function connectMongoDB (argument) {
-	mongoose.Promise = global.Promise;
-	return mongoose.connect(config.mongoDB).connection;
-}
-
-function listen () {
-	app.listen(config.port, () => {
-		console.log('server is running at port ' + config.port);
-	});
-}
+app.listen(config.port, () => {
+	console.log('server is running at port ' + config.port);
+});

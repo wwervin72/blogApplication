@@ -1,12 +1,12 @@
 let express = require('express');
 let router = express.Router();
 let userCtrl = require('../controllers/user.controlelr');
-let checkUser = require('../utils/checks');
+let tokenManage = require('../utils/tokenManage');
 
 router.get('/', (req, res, next) => {
 	res.render('signUp');
 });
 
-router.post('/', checkUser.checkLogin, userCtrl.register);
+router.post('/', tokenManage.verifyToken, userCtrl.register);
 
 module.exports = router;

@@ -1,8 +1,8 @@
-define(['angular'], (angular) => {
-    let homeCtrl = ['$scope', function($scope){
-
+define(['angular', 'jquery'], (angular, $) => {
+    let homeCtrl = ['$scope', '$cookies', function($rootScope, $scope, $cookies){
+    	
     }];
-    let dependency = [];
+    let dependency = ['ngCookies'];
     let homeModule = angular.module('home', dependency);
     homeModule.controller('home.ctrl', homeCtrl);
     return homeModule;

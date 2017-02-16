@@ -6,15 +6,13 @@ module.exports = {
 		if(token){
 			jwt.verify(token, 'ervin', function (err, decode) {
 				if(err){
-					res.status(200);
-					return res.json({
+					return res.status(200).json({
 						result: false,
 						msg: 'token错误, 请从新登陆'
 					});
 				}else{
 					if(Date.now() > decode.exp * 1000){
-						res.status(200);
-						return res.json({
+						return res.status(200).json({
 							result: false,
 							msg: 'token过期, 请从新登陆'
 						});
@@ -24,8 +22,7 @@ module.exports = {
 				}
 			});
 		}else{
-			res.status(200);
-			return res.json({
+			return res.status(200).json({
 				result: false,
 				msg: '没有token, 请登录'
 			});

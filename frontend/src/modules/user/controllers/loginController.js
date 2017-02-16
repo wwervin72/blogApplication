@@ -1,5 +1,5 @@
 define(['angular', 'jquery', 'ngCookies'], (angular, $) => {
-    let loginCtrl = ['$scope', '$cookies', function($scope, $cookies){
+    let loginCtrl = ['$scope', '$cookies', '$state', function($scope, $cookies, $state){
         $scope.user = {
             username: '',
             password: ''
@@ -14,6 +14,7 @@ define(['angular', 'jquery', 'ngCookies'], (angular, $) => {
                 });
                 promise.then(function (res) {
                     if(res.result){
+                        $state.go('home');
                         $cookies.remove("TOKEN", {path: '/'});
                         var timeCount = new Date().getTime() + 1000 * 60 * 30;
                         var deadline = new Date(timeCount);
