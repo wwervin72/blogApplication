@@ -5,6 +5,8 @@ module.exports = {
 		port: 6379,
 		expireTime: 60 * 30
 	},
+	tokenSecret: 'ervinBlog',
+	tokenExpireTime: 60 * 30,
 	cookieSecret: 'myBlog',
 	session: {
 		key: 'myBlog',

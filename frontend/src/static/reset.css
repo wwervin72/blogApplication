@@ -1,0 +1,10 @@
+.form-horizontal .form-group{
+	margin-right: 0;
+	margin-left: 0;
+}
+.form-group label{
+	padding: 0;
+}
+input{
+	outline: none;
+}

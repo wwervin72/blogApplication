@@ -8,18 +8,26 @@ define(['angular', 'uiRouter', './homeController', '../../user/controllers/login
 			}
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:3000/userinfo?token='+token
+				url: 'http://localhost:3000/userinfo?token=' + token
 			}).then(function (res) {
-				$scope.$apply(function () {
-					$rootScope.user = res.data.username;
-				});
+				if(res.result){
+					$scope.$apply(function () {
+						$rootScope.user = res.user;
+					});
+					$cookies.remove("TOKEN", {path: '/'});
+                    let timeCount = new Date().getTime() + 1000 * 60 * 30;
+                    let deadline = new Date(timeCount);
+                    $cookies.put('TOKEN', res.token, {'expires': deadline, path: '/'});
+				}else{
+
+				}
 			}, function (res) {
 				console.log(res)
 			});
 		};
 		$scope.getUserInfo();
 		//登出
-		$scope.loginOut = function () {
+		$scope.loginOut = function (){
     		$.ajax({
     			type: 'GET',
     			url: 'http://localhost:3000/signout?token=' + $cookies.get('TOKEN')

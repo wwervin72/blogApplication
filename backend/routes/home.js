@@ -8,6 +8,10 @@ router.get('/', (req, res, next) => {
 	res.render('home');
 });
 
-router.get('/userinfo', tokenManage.verifyToken, check.checkLogin, userCtrl.getInfo);
+// 获取用户信息
+router.get('/userinfo', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.getInfo);
+
+// 获取验证码
+router.get('/captcha', userCtrl.createCaptcha);
 
 module.exports = router;

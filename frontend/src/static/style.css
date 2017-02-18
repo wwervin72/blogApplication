@@ -1,0 +1,13 @@
+.popUpLayer{
+	padding: 10px 0;
+	display: none;
+}
+.noRadius{
+	border-radius: 0;
+}
+.layui-layer-btn0{
+	border-radius: 0 !important;
+}
+.layui-layer-content{
+	border-bottom: 1px solid #ddd;
+}

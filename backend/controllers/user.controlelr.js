@@ -3,40 +3,55 @@ let User = mongoose.model('User');
 let passport = require('passport');
 let jwt = require('jsonwebtoken');
 let tokenManage = require('../utils/tokenManage');
+let config = require('config-lite');
+// let captcha = require('canvas-captcha');
 
+// let captchaOptions = {
+// 	charPool: ('abcdefghijklmnopqrstuvwxyz' + 'abcdefghijklmnopqrstuvwxyz'.toUpperCase() + '1234567890').split(''), //char pool Array 
+//     size: {
+//         width: 100,
+//         height: 32
+//     }, //image size 
+//     textPos: {
+//         left: 15,
+//         top: 26
+//     }, //text drawing start position 
+//     rotate: .01, //text ratate 
+//     charLength: 4, //how many chars 
+//     font: '26px Unifont', //font size 
+//     strokeStyle: '#0088cc', //style 
+//     bgColor: '#eeeeee', //bg color 
+//     confusion: true, //draw another group background text to mangle the text 
+//     cFont: '30px Arial', //bg text style 
+//     cStrokeStyle: '#adc', //bg text color 
+//     cRotate: -.05, //bg text rotate 
+// };
 module.exports = {
-	login: (req, res, next) => {
-		passport.authenticate('local', (err, user, info) => {
+	login: function(req, res, next){
+		passport.authenticate('local', function(err, user, info){
 			if(err){
 				return next(err);
 			}
 			if(!user){
-				res.status(200);
-				return res.json({
+				return res.status(200).json({
 					result: false,
-					msg: '用户名不存在'
+					msg: info.message
 				});
 			}
 			req.logIn(user, (err) => {
 				if(err){
 					return next(err);
 				}
-				req.user = user;
-				let token = jwt.sign({
-					data: user
-				}, 'ervin', {expiresIn: 60 * 30});
+				
 				return res.status(200).json({
 					result: true,
 					msg: '登陆成功',
-					data: {
-						user: user._id
-					},
-					token: token
+					token: tokenManage.createNewToken(user)
 				});
 			});
 		})(req, res, next);
 	},
-	register: (req, res, next) => {
+	register: function(req, res, next){
 		let user = new User(req.body);
 		user.save((err, user) => {
 			if(err) {
@@ -59,21 +74,39 @@ module.exports = {
 	},
 	signOut: function (req, res, next) {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
-		if(token != null){
-			tokenManage.expireToken(token);
-			delete req.user;
-			return res.status(200).json({
-				result: true,
-				msg: '登出成功'
-			});
-		}else{
-			return res.status(401).json({
-				result: false,
-				msg: '没有token'
-			});
-		}
+		tokenManage.expireToken(token);
+		delete req.user;
+		return res.status(200).json({
+			result: true,
+			msg: '登出成功'
+		});
 	},
 	getInfo: function (req, res, next) {
-		return res.status(200).json(req.user);
+		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
+		tokenManage.expireToken(token);
+		return res.status(200).json({
+			user: req.user.username,
+			token: tokenManage.createNewToken(req.user),
+			result: true
+		});
+	},
+	createCaptcha: function (req, res, next) {
+		// captcha(captchaOptions, function (err, data) {
+		// 	if(err){
+		// 		return res.status(200).json({
+		// 			result: false,
+		// 			msg: '获取验证码失败'
+		// 		});
+		// 	}
+		// 	console.log(data.captchaImg);
+		// 	res.status(200).json({
+		// 		result: true,
+		// 		msg: data.captchaImg
+		// 	});
+		// });
+		res.status(200).json({
+			result: false,
+			msg: '没有验证码'
+		})
 	}
 };
