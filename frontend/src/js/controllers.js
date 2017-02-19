@@ -1,4 +1,25 @@
-const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
+const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function ($rootScope, $scope, $cookies, http) {
+	let headerTimer = setTimeout(function () {
+		$('#header').animate({top: '-80px'}, 500);
+	}, 3000);
+	$scope.headerAniFinish = true;
+	// header开关动画
+	$scope.toggleHeader = function () {
+		let t = parseInt($('#header').css('top'), 10);
+		clearTimeout(headerTimer);
+		if($scope.headerAniFinish){
+			$scope.headerAniFinish = false;
+			if(t === 0){
+				$('#header').animate({top: '-80px'}, 500, function () {
+					$scope.headerAniFinish = true;
+				});
+			}else{
+				$('#header').animate({top: 0}, 500, function () {
+					$scope.headerAniFinish = true;
+				});
+			}
+		}
+	}
 	//登陆
 	$scope.popUpLoginLayer = function () {
 		layer.open({
@@ -59,7 +80,10 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 			url: '/userinfo?token=' + token
 		}).then(function (res) {
 			if(res.data.result){
-				$rootScope.userInfo = res.data.user;
+				$rootScope.userInfo = {
+					nickName: res.data.user.nickname,
+					avatar: res.data.user.avatar
+				};
 			}
 		}, function (res) {
 			console.log(res)
@@ -77,6 +101,9 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 				delete $rootScope.userInfo;
 		});
 	};
+}]);
+
+const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
 }]);
 
 const registerCtrl = app.controller('register.ctrl', ['$scope', 'http', function($scope, http){

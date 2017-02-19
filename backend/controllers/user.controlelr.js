@@ -127,7 +127,10 @@ module.exports = {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
 		tokenManage.expireToken(token);
 		return res.status(200).json({
-			user: req.user.nickname,
+			user: {
+				nickname: req.user.nickname,
+				avatar: req.user.avatar
+			},
 			token: tokenManage.createNewToken(req.user),
 			result: true
 		});

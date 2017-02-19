@@ -10,6 +10,50 @@
 	<link rel="stylesheet" href="src/static/style.css"/>
 </head>
 <body>
+	<div class="header" id="header" ng-controller="header.ctrl">
+		<div class="userInfo pull-right" ng-show="userInfo">
+			<img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickName}}"/>
+			<span ng-bind="userInfo.nickName"></span>
+			<div class="btn btn-default noRadius" ng-show="userInfo" ng-click="loginOut()">
+				登出
+			</div>
+		</div>
+		<div class="btn btn-default pull-right noRadius" ng-click="popUpLoginLayer()" ng-show="!userInfo">登陆</div>
+		<div class="headerToggleBtn" ng-click="toggleHeader()"></div>
+		<div id="loginLayer" class="popUpLayer">
+			<form class="form-horizontal" novalidate>
+				<div class="form-group">
+					<label for="username" class="control-label col-sm-3">用户名: </label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control noRadius" ng-model="loginUser.username" id="username" name="username" placeholder="用户名" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="control-label col-sm-3">密&nbsp;&nbsp;码: </label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control noRadius" ng-model="loginUser.password" id="password" name="password" placeholder="密码" />
+					</div>
+				</div>
+		<!-- 		<div class="form-group">
+					<label for="captcha" class="control-label col-sm-3">验证码: </label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control noRadius col-sm-6" ng-model="loginUser.captcha" id="captcha" name="captcha" placeholder="验证码" style="width: 30%;" />
+						<div class="btn btn-default col-sm-3" id="refreshCaptcha" ng-click="getCaptcha()">刷新验证码</div>
+					</div>
+				</div> -->
+				<div class="form-group" style="display: none;" id="loginMsg">
+					<div class="col-sm-8 col-sm-push-3 error">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-8 col-sm-push-3">
+						<button class="btn btn-default noRadius" ng-click="login()">登陆</button>
+						<button class="btn btn-default noRadius" ui-sref="register">注册</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 	<div ui-view></div>
 	<script src="libs/angular/angular.min.js"></script>
 	<script src="libs/jquery/dist/jquery.min.js"></script>

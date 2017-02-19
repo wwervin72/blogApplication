@@ -8,8 +8,9 @@ let passport = require('passport');
 let bodyParser = require('body-parser');
 let app = express();
 
-app.set('views', join(__dirname, 'public/views'));
-app.set('view engine', 'ejs');
+// app.set('views', join(__dirname, '/public/views'));
+// app.set('view engine', 'ejs');
+
 app.use(express.static(join(__dirname, 'public')));
 app.use(require('cookie-parser')(config.cookieSecret));
 
