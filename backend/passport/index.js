@@ -3,14 +3,14 @@ let User = mongoose.model('User');
 let local = require('./local');
 let github = require('./github');
 
-module.exports = (passport) => {
+module.exports = function(passport){
 	
-	passport.serializeUser((user, done) =>{
+	passport.serializeUser(function(user, done){
         return done(null, user.id);
     });
 
-	passport.deserializeUser((id, done) => {
-		User.findById(id, (err, user) => {
+	passport.deserializeUser(function(id, done){
+		User.findById(id, function(err, user){
 			done(err, user);
 		});
 	});

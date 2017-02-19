@@ -11,3 +11,9 @@
 .layui-layer-content{
 	border-bottom: 1px solid #ddd;
 }
+.error{
+	color: #f00;
+}
+.success{
+	color: #0f0;
+}

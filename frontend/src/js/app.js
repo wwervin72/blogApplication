@@ -12,4 +12,7 @@ const app = angular.module('app', ['ui.router', 'ngCookies'])
 							templateUrl: 'src/views/register.html',
 							controller: 'register.ctrl'
 						});
+				})
+				.config(function ($httpProvider) {
+					$httpProvider.interceptors.push('tokenInterceptor');
 				});

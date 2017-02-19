@@ -14,7 +14,18 @@ connectMongoDB()
 	.once('open', console.log);
 
 let UserSchema = new Schema({
-	username: String,
+	username: {
+		type: String,
+		unique: true
+	},
+	nickname: {
+		type: String,
+		default: createNickname()
+	},
+	avatar: {
+		type: String,
+		default: 'http://localhost:3000/public/upload/defaultAvatar.jpg'
+	},
 	hashed_password: String,
 	salt: String,
 	email: String,
@@ -60,3 +71,16 @@ UserSchema.methods = {
 };
 
 mongoose.model('User', UserSchema);
+
+// 利用随机数生成一个5-10长度的昵称
+function createNickname () {
+	let str = 'abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	// nickname的长度为5-10
+	let nickNameLen = Math.floor(Math.random() * (10 - 5 + 1) + 5);
+	let nickName = [];
+	while (nickNameLen) {
+		nickName.push(str.substr(Math.floor(Math.random() * 62), 1));
+		nickNameLen--;
+	}
+	return nickName.join('');
+}

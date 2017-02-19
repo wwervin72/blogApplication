@@ -1,6 +1,6 @@
-<div class="btn btn-default" ng-show="!user" ng-click="popUpLoginLayer()">登陆</div>
-<div ng-show="user">你好！<span ng-bind="user"></span></div>
-<div class="btn btn-default" ng-show="user" ng-click="loginOut()">登出</div>
+<div class="btn btn-default" ng-show="!userInfo" ng-click="popUpLoginLayer()">登陆</div>
+<div ng-show="userInfo">你好！<span ng-bind="userInfo"></span></div>
+<div class="btn btn-default" ng-show="userInfo" ng-click="loginOut()">登出</div>
 <h1>主页</h1>
 
 <div id="loginLayer" class="popUpLayer">
@@ -24,6 +24,10 @@
 				<div class="btn btn-default col-sm-3" id="refreshCaptcha" ng-click="getCaptcha()">刷新验证码</div>
 			</div>
 		</div> -->
+		<div class="form-group" style="display: none;" id="loginMsg">
+			<div class="col-sm-8 col-sm-push-3 error">
+			</div>
+		</div>
 		<div class="form-group">
 			<div class="col-sm-8 col-sm-push-3">
 				<button class="btn btn-default noRadius" ng-click="login()">登陆</button>

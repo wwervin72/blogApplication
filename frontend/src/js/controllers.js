@@ -1,4 +1,4 @@
-const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies', function($rootScope, $scope, $cookies){
+const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
 	//登陆
 	$scope.popUpLoginLayer = function () {
 		layer.open({
@@ -6,14 +6,13 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 			skin: 'layui-layer-molv',
 			shade: false,
 			title: '登陆',
-			area: ['300px', '260px'],
+			area: ['300px', '300px'],
 			content: $('#loginLayer'),
+			closeBtn: 0,
 			btn: ['取消'],
-			close: function (layer) {
-				console.log('cancel') 
-			},
 			yes: function (index, layero) {
-				// layer.close(index);
+				$('#loginMsg').hide();
+				layer.close(index);
 			}
 		});
 	};
@@ -23,56 +22,44 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
         captcha: ''
     };
     $scope.login = function () {
-        if($scope.loginUser.username && $scope.loginUser.password){
-            let promise = $.ajax({
-                type: 'POST',
-                url: 'http://localhost:3000/signIn',
-                data: $scope.loginUser,
-                dataType: 'json'
-            });
-            promise.then(function (res) {
-                if(res.result){
-                	layer.closeAll();
-                    $cookies.remove("TOKEN", {path: '/'});
-                    let timeCount = new Date().getTime() + 1000 * 60 * 30;
-                    let deadline = new Date(timeCount);
-                    $cookies.put('TOKEN', res.token, {'expires': deadline, path: '/'});
-                    // 获取用户的基本信息
-                    $scope.getUserInfo()
-                }else{
-                	return {
-                		result: false,
-                		msg: res
-                	};
-                }
-            }, function (res) {
-                return {
-            		result: false,
-            		msg: res
-            	};
-            });
-        }
+    	if($scope.loginUser.username === ''){
+    		$('#loginMsg').show().find('>div').html('请输入用户名');
+    		return;
+    	}
+    	if($scope.loginUser.password === ''){
+    		$('#loginMsg').show().find('>div').html('请输入密码');
+    		return;
+    	}
+    	http.request({
+    		method: 'POST',
+    		url: '/login',
+    		data: $scope.loginUser,
+    		'Content-Type': 'application/json'
+    	}).then(function (res) {
+			if(res.data.result){
+				$('#loginMsg').hide();
+				layer.closeAll();
+				$scope.getUserInfo();
+				$('#loginMsg').hide();
+			}else{
+				$('#loginMsg').show().find('>div').html(res.data.msg);
+			}    		
+    	}, function (res) {
+    		console.log(res);
+    	});
     };
 	// 获取token后，获取用户的信息
 	$scope.getUserInfo = function () {
 		let token = $cookies.get('TOKEN');
-		if(!token || $rootScope.user){
+		if(!token || $rootScope.userInfo){
 			return;
 		}
-		$.ajax({
-			type: 'GET',
-			url: 'http://localhost:3000/userinfo?token=' + token
+		http.request({
+			method: 'GET',
+			url: '/userinfo?token=' + token
 		}).then(function (res) {
-			if(res.result){
-				$scope.$apply(function () {
-					$rootScope.user = res.user;
-				});
-				$cookies.remove("TOKEN", {path: '/'});
-                let timeCount = new Date().getTime() + 1000 * 60 * 30;
-                let deadline = new Date(timeCount);
-                $cookies.put('TOKEN', res.token, {'expires': deadline, path: '/'});
-			}else{
-
+			if(res.data.result){
+				$rootScope.userInfo = res.data.user;
 			}
 		}, function (res) {
 			console.log(res)
@@ -81,22 +68,77 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 	$scope.getUserInfo()
 	// 登出
 	$scope.loginOut = function (){
-		$.ajax({
-			type: 'GET',
-			url: 'http://localhost:3000/signout?token=' + $cookies.get('TOKEN')
+		http.request({
+			method: 'GET',
+			url: '/logout?token=' + $cookies.get('TOKEN')
 		}).then(function (res) {
-			if(res.result){
+			if(res.data.result){}
 				$cookies.remove("TOKEN", {path: '/'});
-				$scope.$apply(function () {
-					delete $rootScope.user;
-				});
-			}
-		}, function (res) {
-			console.log(res)
-		})
+				delete $rootScope.userInfo;
+		});
 	};
 }]);
 
-const registerCtrl = app.controller('register.ctrl', ['$scope', function($scope){
-	
+const registerCtrl = app.controller('register.ctrl', ['$scope', 'http', function($scope, http){
+	$scope.newUser = {
+		username: '',
+		password: '',
+		nickname: '',
+		avatar: '',
+		email: ''
+	};
+	$scope.unique = {
+		email: false,
+		username: false
+	};
+	$scope.register = function () {
+		if($scope.registerForm.$invalid || !$scope.unique.username || !$scope.unique.email){
+			return;
+		}
+		http.request({
+			method: 'POST',
+			url: '/register',
+			data: $scope.newUser
+		}).then(function (res) {
+			if(res.result) {
+				console.log('注册成功');
+				for(let prop in $scope.newUser){
+					$scope.newUser[prop] = '';
+				}
+			}
+		}, function (res) {
+
+		})
+	};
+
+	$scope.checkUnique = function (obj) {
+		obj = $(obj.target);
+		let val = obj.val();
+		let id = obj.attr('id');
+		if(val !== '' && $scope.registerForm[id].$valid){
+			http.request({
+				method: 'GET',
+				url: '/register/unique?'+id+'='+val
+			}).then(function (res) {
+				if(res.data.result){
+					$scope.unique[id] = true;
+				}else{
+					$scope.unique[id] = false;
+					obj.parent().find('++div>span').eq(0).show();
+					obj.parent().find('++div>span').eq(1).hide();
+				}
+			}, function () {
+
+			})
+		}
+	};
+	$scope.changeIpt = function (e) {
+		let event = window.event || e;
+		let target = event.target || event.srcElement;
+		$scope.unique[target.id] = false;
+		$(target).parent().find('++div>span').eq(0).hide();
+		if($scope.registerForm[target.id].$valid){
+			$(target).parent().find('++div>span').eq(1).show();
+		}
+	}
 }]);

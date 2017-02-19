@@ -7,6 +7,9 @@ router.get('/', (req, res, next) => {
 	res.render('signUp');
 });
 
-router.post('/', tokenManage.verifyToken, userCtrl.register);
+router.post('/', userCtrl.register);
+
+//注册验证唯一性
+router.get('/unique', userCtrl.registerCheckUnique)
 
 module.exports = router;
