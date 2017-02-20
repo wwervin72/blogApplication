@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Blog</title>
 	<link rel="icon" href="src/static/img/favicon.png"/>
 	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="libs/layer/src/skin/default/layer.css"/>
@@ -11,14 +11,16 @@
 </head>
 <body>
 	<div class="header" id="header" ng-controller="header.ctrl">
+		<img src="src/static/img/blog.png" class="logo_goHome" title="回到首页" ui-sref="home" class="pull-left"/>
 		<div class="userInfo pull-right" ng-show="userInfo">
-			<img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickName}}"/>
-			<span ng-bind="userInfo.nickName"></span>
-			<div class="btn btn-default noRadius" ng-show="userInfo" ng-click="loginOut()">
-				登出
+			<img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}"/>
+			<span ng-bind="userInfo.nickname"></span>
+			<a class="btn btn-primary noRadius" href="/{{userInfo.username}}">我的博客</a>
+			<div class="btn btn-primary noRadius" ng-click="loginOut()">
+				退出
 			</div>
 		</div>
-		<div class="btn btn-default pull-right noRadius" ng-click="popUpLoginLayer()" ng-show="!userInfo">登陆</div>
+		<div class="btn btn-primary pull-right noRadius" ng-click="popUpLoginLayer()" ng-show="!userInfo">登陆</div>
 		<div class="headerToggleBtn" ng-click="toggleHeader()"></div>
 		<div id="loginLayer" class="popUpLayer">
 			<form class="form-horizontal" novalidate>
@@ -48,13 +50,16 @@
 				<div class="form-group">
 					<div class="col-sm-8 col-sm-push-3">
 						<button class="btn btn-default noRadius" ng-click="login()">登陆</button>
-						<button class="btn btn-default noRadius" ui-sref="register">注册</button>
+						<button class="btn btn-default noRadius"ng-click="goRegister()">
+							注册
+						</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-	<div ui-view></div>
+	<div ui-view>
+	</div>
 	<script src="libs/angular/angular.min.js"></script>
 	<script src="libs/jquery/dist/jquery.min.js"></script>
 	<script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>

@@ -68,6 +68,7 @@ module.exports = {
 	createNewToken: function (user) {
 		let token = jwt.sign({
 			_id: user._id,
+			username: user.username,
 			nickname: user.nickname,
 			avatar: user.avatar,
 			// 用来生成不同的token，因为如果同一用户在一秒内连续请求，生成的token是一样的。需要一个一直变化的值来生成变化的token

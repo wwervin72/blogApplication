@@ -1,14 +1,19 @@
 /********************************header部分样式********************************/
 .header{
-	position: absolute;
+	position: relative;
 	width: 100%;
 	height: 80px;
-	top: 0;
-	left: 0;
 	padding: 0 30px;
 	border-bottom: 1px solid #ddd;
 	z-index: 100;
-	background-color: rgba(0, 0, 0, .5);
+	background-color: #0d0a31;
+}
+.header>.logo_goHome{
+	width: 60px;
+	height: 60px;
+	margin-top: 10px;
+	border-radius: 50%;
+	cursor: pointer;
 }
 .header .headerToggleBtn{
 	position: absolute;
@@ -32,6 +37,8 @@
 	white-space:nowrap; 
 	overflow:hidden; 
 	text-overflow:ellipsis;
+	font-size: 16px;
+    color: #fff;
 }
 .header > .userInfo > img{
 	border-radius: 50%;
@@ -55,3 +62,4 @@
 .success{
 	color: #0f0;
 }
+/**/
