@@ -20,3 +20,10 @@ body{
 input{
 	outline: none;
 }
+.noRadius{
+	border-radius: 0;
+}
+.newPostContent{
+	width: 100%;
+	height: 300px;
+}

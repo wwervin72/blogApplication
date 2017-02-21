@@ -15,7 +15,10 @@
 		<div class="userInfo pull-right" ng-show="userInfo">
 			<img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}"/>
 			<span ng-bind="userInfo.nickname"></span>
-			<a class="btn btn-primary noRadius" href="/{{userInfo.username}}">我的博客</a>
+			<a class="btn btn-primary noRadius" href="/#!/{{userInfo.username}}">我的博客</a>
+			<a class="btn btn-primary noRadius" href="#!/{{userInfo.username}}/createPost">
+				写博客
+			</a>
 			<div class="btn btn-primary noRadius" ng-click="loginOut()">
 				退出
 			</div>
@@ -58,7 +61,7 @@
 			</form>
 		</div>
 	</div>
-	<div ui-view>
+	<div ui-view class="wrap">
 	</div>
 	<script src="libs/angular/angular.min.js"></script>
 	<script src="libs/jquery/dist/jquery.min.js"></script>

@@ -1,5 +1,6 @@
 const app = angular.module('app', ['ui.router', 'ngCookies'])
-				.config(function ($stateProvider, $urlRouterProvider){
+				.config(function ($locationProvider, $stateProvider, $urlRouterProvider){
+
 					$urlRouterProvider.otherwise("/");
 					$stateProvider
 						.state('home', {
@@ -16,6 +17,16 @@ const app = angular.module('app', ['ui.router', 'ngCookies'])
 							url: '/:username',
 							templateUrl: 'src/views/user.html',
 							controller: 'user.ctrl'
+						})
+						.state('createPost', {
+							url: '/:username/createPost',
+							templateUrl: 'src/views/createPost.html',
+							controller: 'createPost.ctrl'
+						})
+						.state('userPost', {
+							url: '/:username/:postId',
+							templateUrl: 'src/views/post.html',
+							controller: 'post.ctrl'
 						})
 						.state('404', {
 							url: '/404',

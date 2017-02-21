@@ -9,4 +9,16 @@ module.exports = (app, passport) => {
 		}), (req, res) => {
 	  		res.redirect(req.session.returnTo || '/');
 	});
+	app.use(function (req, res, next) {
+		return res.status(404).json({
+			result: false,
+			msg: '404 not found'
+		});
+	});
+	app.use(function (err, req, res, next) {
+		return res.status(200).json({
+			result: false,
+			msg: '500 server error'
+		});
+	});
 }

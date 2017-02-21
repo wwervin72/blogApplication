@@ -15,16 +15,18 @@ module.exports = {
 				next(err);
 			}
 			if(!user){
-				return res.status(200).json({
-					result: false,
-					msg: '用户名不存在'
-				});
+				return next();
 			}
 			// 查找该用户的所有文章
-			return res.status(200).json({
-					result: false,
-					msg: '用户名不存在'
+			Post.find({user: user.username}, function (err, posts) {
+				if(err){
+					next(err);
+				}			
+				return res.status(200).json({
+					result: true,
+					data: posts
 				});
+			});
 		})
 	}
 }

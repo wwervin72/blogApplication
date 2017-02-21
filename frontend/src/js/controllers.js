@@ -195,16 +195,30 @@ const registerCtrl = app.controller('register.ctrl', ['$rootScope', '$scope', '$
 	}
 }]);
 
-const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', 'http', function($scope, $stateParams, http){
+const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', '$state', 'http', function($scope, $stateParams, $state, http){
 	$scope.getUserPosts = function () {
 		http.request({
 			type: 'GET',
 			url: '/user/posts?username=' + $stateParams.username
 		}).then(function (res) {
-			console.log(res)
+			if(!res.data.result && res.data.msg === '404 not found'){
+				$state.go('404');
+			}
 		}, function (res) {
 
 		})
 	};
 	$scope.getUserPosts();
+}]);
+
+const createPostCtrl = app.controller('createPost.ctrl', ['$scope', function($scope){
+	$scope.newPost = {
+		title: '',
+		content: '',
+		tags: ''
+	};
+}]);
+
+const postCtrl = app.controller('post.ctrl', ['$scope', function($scope){
+	
 }]);
