@@ -15,7 +15,7 @@ app.factory('http', ['$http', function($http){
 	};
 }]);
 
-app.factory('tokenInterceptor', ['$q', '$cookies', function($q, $cookies){
+app.factory('tokenInterceptor', ['$q', '$cookies', '$location', function($q, $cookies, $location){
 	return {
 		request: function (config) {
 			return config;
@@ -34,6 +34,12 @@ app.factory('tokenInterceptor', ['$q', '$cookies', function($q, $cookies){
 			return res;
 		},
 		responseError: function (rejection) {
+			if(rejection.status === 404){
+				$location.path('/404');
+			}
+			if(rejection.status === 500){
+				$location.path('/500');
+			}
 			return $q.reject(rejection)
 		}
 	};

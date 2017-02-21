@@ -37,6 +37,6 @@ const app = angular.module('app', ['ui.router', 'ngCookies'])
 							templateUrl: 'src/views/500.html'
 						});
 				})
-				.config(function ($httpProvider) {
+				.config(['$httpProvider', function ($httpProvider) {
 					$httpProvider.interceptors.push('tokenInterceptor');
-				});
+				}]);
