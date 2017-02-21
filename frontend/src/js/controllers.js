@@ -1,20 +1,20 @@
-const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function ($rootScope, $scope, $cookies, http) {
+const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function ($rootScope, $scope, $cookies, $state, http) {
 	let headerTimer = setTimeout(function () {
-		$('#header').animate({top: '-80px'}, 500);
+		$('#header').animate({marginTop: '-80px'}, 500);
 	}, 3000);
 	$scope.headerAniFinish = true;
 	// header开关动画
 	$scope.toggleHeader = function () {
-		let t = parseInt($('#header').css('top'), 10);
+		let t = parseInt($('#header').css('margin-top'), 10);
 		clearTimeout(headerTimer);
 		if($scope.headerAniFinish){
 			$scope.headerAniFinish = false;
 			if(t === 0){
-				$('#header').animate({top: '-80px'}, 500, function () {
+				$('#header').animate({marginTop: '-80px'}, 500, function () {
 					$scope.headerAniFinish = true;
 				});
 			}else{
-				$('#header').animate({top: 0}, 500, function () {
+				$('#header').animate({marginTop: 0}, 500, function () {
 					$scope.headerAniFinish = true;
 				});
 			}
@@ -60,7 +60,7 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
 			if(res.data.result){
 				$('#loginMsg').hide();
 				layer.closeAll();
-				$scope.getUserInfo();
+				$rootScope.getUserInfo();
 				$('#loginMsg').hide();
 			}else{
 				$('#loginMsg').show().find('>div').html(res.data.msg);
@@ -70,7 +70,7 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
     	});
     };
 	// 获取token后，获取用户的信息
-	$scope.getUserInfo = function () {
+	$rootScope.getUserInfo = function () {
 		let token = $cookies.get('TOKEN');
 		if(!token || $rootScope.userInfo){
 			return;
@@ -81,7 +81,8 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
 		}).then(function (res) {
 			if(res.data.result){
 				$rootScope.userInfo = {
-					nickName: res.data.user.nickname,
+					nickname: res.data.user.nickname,
+					username: res.data.user.username,
 					avatar: res.data.user.avatar
 				};
 			}
@@ -89,7 +90,7 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
 			console.log(res)
 		});
 	};
-	$scope.getUserInfo()
+	$rootScope.getUserInfo()
 	// 登出
 	$scope.loginOut = function (){
 		http.request({
@@ -101,12 +102,19 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
 				delete $rootScope.userInfo;
 		});
 	};
+	$scope.goRegister = function () {
+		$('#header').animate({
+			marginTop: '-80px'
+		}, 500);
+		layer.closeAll();
+		$state.go('register');
+	}
 }]);
 
 const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
 }]);
 
-const registerCtrl = app.controller('register.ctrl', ['$scope', 'http', function($scope, http){
+const registerCtrl = app.controller('register.ctrl', ['$rootScope', '$scope', '$state', 'http', function($rootScope, $scope, $state, http){
 	$scope.newUser = {
 		username: '',
 		password: '',
@@ -127,12 +135,29 @@ const registerCtrl = app.controller('register.ctrl', ['$scope', 'http', function
 			url: '/register',
 			data: $scope.newUser
 		}).then(function (res) {
-			if(res.result) {
-				console.log('注册成功');
+			$('#registerMsg').show().find('>div').html(res.data.msg); 
+    		if(res.data.result){
+    			$('#registerMsg>div').addClass('success');
+				http.request({
+		    		method: 'POST',
+		    		url: '/login',
+		    		data: {
+		    			username: $scope.newUser.username,
+		    			password: $scope.newUser.password
+		    		},
+		    		'Content-Type': 'application/json'
+		    	}).then(function (data) {
+		    		if(data.data.result){
+			    		$state.go('home');
+			    		$rootScope.getUserInfo();
+		    		}
+		    	})
 				for(let prop in $scope.newUser){
 					$scope.newUser[prop] = '';
 				}
-			}
+    		}else{
+    			$('#registerMsg>div').addClass('error');
+    		}
 		}, function (res) {
 
 		})
@@ -168,4 +193,18 @@ const registerCtrl = app.controller('register.ctrl', ['$scope', 'http', function
 			$(target).parent().find('++div>span').eq(1).show();
 		}
 	}
+}]);
+
+const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', 'http', function($scope, $stateParams, http){
+	$scope.getUserPosts = function () {
+		http.request({
+			type: 'GET',
+			url: '/user/posts?username=' + $stateParams.username
+		}).then(function (res) {
+			console.log(res)
+		}, function (res) {
+
+		})
+	};
+	$scope.getUserPosts();
 }]);

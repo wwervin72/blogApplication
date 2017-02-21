@@ -53,6 +53,10 @@ UserSchema.path('hashed_password').validate(function(hashed_password){
 	return /^[a-zA-Z0-9-_.]{3,12}$/.test(this.toObject({virtuals: true}).password);
 }, '密码必须是长度为3到12个的字母、数字、-、_、.');
 
+UserSchema.path('email').validate((email) => {
+	return /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email);
+}, '邮箱格式不正确');
+
 UserSchema.methods = {
 	makeSalt: () => {
 		return Math.round(new Date().getTime() * Math.random()) + '';

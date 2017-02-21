@@ -129,6 +129,7 @@ module.exports = {
 		return res.status(200).json({
 			user: {
 				nickname: req.user.nickname,
+				username: req.user.username,
 				avatar: req.user.avatar
 			},
 			token: tokenManage.createNewToken(req.user),

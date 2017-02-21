@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 require('./models/users');
+require('./models/posts');
 require('./passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session())
