@@ -5,26 +5,30 @@ let getTags = tags => tags.join(',');
 let setTags = tags => tags.split(',');
 
 let PostSchema = new Schema({
+	// 文章标题
 	title: {
 		type: String,
 		default: '',
 		trim: true
 	},
-	body: {
+	// 文章内容
+	content: {
 		type: String, 
 		default: '', 
 		trim: true
 	},
-	user: {
+	// 文章作者
+	author: {
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
+	// 文章评论
 	comments: [{
-		body: {
+		content: {
 			type: String,
 			default: ''
 		},
-		user: {
+		author: {
 			type: Schema.ObjectId,
 			ref: 'User'
 		},
@@ -33,19 +37,40 @@ let PostSchema = new Schema({
 			default: Date.now
 		}
 	}],
+	// 文章标签
 	tags: {
-		type: [],
-		get: getTags,
-		set: setTags
+		type: Array,
+		set: setTags,
+		get: getTags
 	},
-	img: {
-		url: String,
-		files: []
-	},
+	// 创建时间
 	createAt: {
 		type: Date,
 		default: Date.now
+	},
+	// 阅读量
+	views: {
+		type: Number,
+		default: 0
+	},
+	// 推荐数
+	heart: {
+		type: Number,
+		default: 0
+	},
+	// 反对数
+	stamp: {
+		type: Number,
+		default: 0
 	}
+});
+
+PostSchema.post('find', function (result, next) {
+	result.forEach(function (item, index) {
+		// item.tags = item.tags.get();
+		// console.log(mongoose.model('Post').tags)
+		next();
+	});
 });
 
 mongoose.model('Post', PostSchema);

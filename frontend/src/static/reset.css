@@ -10,6 +10,9 @@ body, html{
 body{
 	font: 12px 'microsoft yahei';
 }
+ul{
+	list-style: none;
+}
 .form-horizontal .form-group{
 	margin-right: 0;
 	margin-left: 0;

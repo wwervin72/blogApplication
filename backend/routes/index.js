@@ -15,8 +15,8 @@ module.exports = (app, passport) => {
 			msg: '404 not found'
 		});
 	});
-	app.use(function (err, req, res, next) {
-		return res.status(200).json({
+	app.use(function (err, req, res) {
+		return res.status(500).json({
 			result: false,
 			msg: '500 server error'
 		});

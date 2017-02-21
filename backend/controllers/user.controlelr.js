@@ -27,6 +27,20 @@ let config = require('config-lite');
 //     cRotate: -.05, //bg text rotate 
 // };
 module.exports = {
+	findUserByName: function (req, res, next) {
+		User.findOne({username: req.query.username || req.user.username}, function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(!user){
+				return res.status(404).json({
+					result: false,
+					msg: '404 not found'
+				});
+			}
+			return next();
+		});
+	},
 	login: function(req, res, next){
 		if(req.body.username === '' || req.body.password === ''){
 			return res.status(200).json({

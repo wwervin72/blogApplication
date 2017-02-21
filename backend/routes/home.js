@@ -19,6 +19,9 @@ router.get('/captcha', userCtrl.createCaptcha);
 router.get('/posts', postCtrl.getAllPost);
 
 //获取用户的文章
-router.get('/user/posts', postCtrl.getUserPosts);
+router.get('/user/posts', userCtrl.findUserByName, postCtrl.getUserPosts);
+
+// 用户添加文章
+router.post('/user/post', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.findUserByName, postCtrl.createPost);
 
 module.exports = router;

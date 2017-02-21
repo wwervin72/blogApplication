@@ -112,6 +112,18 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
 }]);
 
 const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
+	$scope.posts = [];
+	$scope.getAllPosts = function () {
+		http.request({
+			method: 'GET',
+			url: '/posts',
+		}).then(function (res) {
+			if(res.data.result){
+				$scope.posts = res.data.data;
+			}
+		})
+	};
+	$scope.getAllPosts();
 }]);
 
 const registerCtrl = app.controller('register.ctrl', ['$rootScope', '$scope', '$state', 'http', function($rootScope, $scope, $state, http){
@@ -211,12 +223,25 @@ const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', '$state'
 	$scope.getUserPosts();
 }]);
 
-const createPostCtrl = app.controller('createPost.ctrl', ['$scope', function($scope){
+const createPostCtrl = app.controller('createPost.ctrl', ['$scope', '$cookies', 'http', function($scope, $cookies, http){
 	$scope.newPost = {
 		title: '',
 		content: '',
 		tags: ''
 	};
+	$scope.createPost = function () {
+		if($scope.newPost.title === '' || $scope.newPost.content === '' || $scope.newPost.tags === ''){
+			return;
+		}
+		$scope.newPost.token = $cookies.get('TOKEN');
+		http.request({
+			method: 'POST',
+			url: '/user/post',
+			data: $scope.newPost
+		}).then(function (res) {
+			console.log(res)
+		});
+	}
 }]);
 
 const postCtrl = app.controller('post.ctrl', ['$scope', function($scope){
