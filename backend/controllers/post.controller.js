@@ -36,7 +36,11 @@ module.exports = {
 		})
 	},
 	getAllPost: function (req, res, next) {
-		Post.find({}, function (err, posts) {
+		Post.find({}).populate('author', ['nickname', 'avatar', 'username']).exec(function (err, posts) {
+			posts.map(function (item) {
+				return item.parseDate();
+			});
+			console.log(posts)
 			if(err){
 				return next(err);
 			}
