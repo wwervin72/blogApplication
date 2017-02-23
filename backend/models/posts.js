@@ -1,9 +1,9 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let moment = require('moment');
-// let objectIdToTimestamp = require('objectid-to-timestamp');
+let objectIdToTimestamp = require('objectid-to-timestamp');
 
-let getTags = tags => tags.join(',');
+// let getTags = tags => tags.join(',');
 let setTags = tags => tags.split(',');
 
 let PostSchema = new Schema({
@@ -42,8 +42,7 @@ let PostSchema = new Schema({
 	// 文章标签
 	tags: {
 		type: Array,
-		set: setTags,
-		get: getTags
+		set: setTags
 	},
 	// 创建时间
 	createAt: {
@@ -67,17 +66,20 @@ let PostSchema = new Schema({
 	}
 });
 
-PostSchema.post('find', function (result, next) {
-	result.forEach(function (item, index) {
-
-		// item.tags = item.tags.get();
-		// console.log(mongoose.model('Post').tags)
-	});
-	result.map(function (item) {
-		item.created_at = moment(item.createAt).format('YYYY-MM-DD HH:mm');
-	});
-	console.log(result)
-	next();
-});
+PostSchema.methods = {
+	parseDate: function () {
+		date = new Date(this.date);
+		let month = date.getMonth() + 1;
+		month = month < 10 ? ('0' + month) : month;
+		let day = date.getDate();
+		day = day < 10 ? ('0' + day) : day;
+		let hours = date.getHours();
+		hours = hours < 10 ? ('0' + hours) : hours;
+		let minutes = date.getMinutes();
+		minutes = minutes < 10 ? ('0' + minutes) : minutes;
+		this.createAt = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+		console.log(this)
+	}
+}
 
 mongoose.model('Post', PostSchema);

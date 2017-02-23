@@ -120,6 +120,7 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 		}).then(function (res) {
 			if(res.data.result){
 				$scope.posts = res.data.data;
+				console.log($scope.posts)
 			}
 		})
 	};
@@ -213,6 +214,7 @@ const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', '$state'
 			type: 'GET',
 			url: '/user/posts?username=' + $stateParams.username
 		}).then(function (res) {
+
 			if(!res.data.result && res.data.msg === '404 not found'){
 				$state.go('404');
 			}
