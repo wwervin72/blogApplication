@@ -1,5 +1,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
+let moment = require('moment');
+// let objectIdToTimestamp = require('objectid-to-timestamp');
 
 let getTags = tags => tags.join(',');
 let setTags = tags => tags.split(',');
@@ -67,10 +69,15 @@ let PostSchema = new Schema({
 
 PostSchema.post('find', function (result, next) {
 	result.forEach(function (item, index) {
+
 		// item.tags = item.tags.get();
 		// console.log(mongoose.model('Post').tags)
-		next();
 	});
+	result.map(function (item) {
+		item.created_at = moment(item.createAt).format('YYYY-MM-DD HH:mm');
+	});
+	console.log(result)
+	next();
 });
 
 mongoose.model('Post', PostSchema);
