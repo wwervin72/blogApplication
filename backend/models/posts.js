@@ -67,15 +67,6 @@ let PostSchema = new Schema({
 	}
 });
 
-// PostSchema.post('find', function (result, next) {
-// 	result.forEach(function (item, index) {
-// 		item.createAt = parseDate(item.createAt);
-// 		if(index >= result.length - 1){
-// 			next();
-// 		}
-// 	});
-// });
-
 PostSchema.methods = {
 	parseDate: function () {
 		date = new Date(this.date);
@@ -93,4 +84,3 @@ PostSchema.methods = {
 }
 
 mongoose.model('Post', PostSchema);
-
