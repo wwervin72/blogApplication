@@ -40,7 +40,6 @@ module.exports = {
 			posts.map(function (item) {
 				return item.parseDate();
 			});
-			console.log(posts)
 			if(err){
 				return next(err);
 			}
