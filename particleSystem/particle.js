@@ -13,7 +13,6 @@
             nodeColor: '#aaa',
             lineColor: '#fff',
         };
-        console.log(typeof(this.getCustomSetting()))
         this.option = _extend(defaultSetting, this.getCustomSetting());
         // 生成canvas
         this.ctx = this.createCanvas();
@@ -39,7 +38,7 @@
     Particle.prototype = {
         contructor: Particle,
         getCustomSetting: function () {
-            return JSON.parse(JSON.stringify(this.dom.getAttribute('particle-set'))) || {};
+            return JSON.parse(this.dom.getAttribute('particle-set')) || {};
         },
         createCanvas: function () {
             let canvas = document.createElement('canvas'),
