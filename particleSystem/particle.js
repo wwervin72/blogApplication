@@ -5,44 +5,40 @@
         this.lines = [];
         this.mousePos = [0, 0];
         let defaultSetting = {
-            width: 600,
-            height: 500,
-            backgroundColor: '#fff',
-            easingFactor: 5,
+            width: document.body.clientWidth,
+            height: document.body.clientHeight,
+            backgroundColor: '#000',
+            easingFactor: 3,
             nodeCount: 100,
-            lineColor: '#aaa',
+            nodeColor: '#aaa',
+            lineColor: '#fff',
         };
         this.option = _extend(defaultSetting, this.getCustomSetting());
         // 生成canvas
         this.ctx = this.createCanvas();
         this.createNodes();
-        window.onmousemove = function(particle) {
-            let e = window.event;
-            particle.mousePos[0] = e.clientX;
-            particle.mousePos[1] = e.clientY;
-        };
-        window.onmousemove(this);
-        window.onresize = function (particle) {
-            particle.canvas.width = particle.option.width;
-            particle.canvas.height = particle.option.height;
-
-            if(particle.nodes.length == 0) {
-                particle.createNodes();
-            }
-            particle.render();
-        }
-
-        window.onresize(this); // trigger the event manually.
-        window.requestAnimationFrame = function () {
-            return requestAnimationFrame.bind(this);
-        }
-        window.requestAnimationFrame(this.step)
+        (function (particle) {
+            window.onmousemove = function (event) {
+                particle.mousePos[0] = event.clientX;
+                particle.mousePos[1] = event.clientY;
+            };
+            window.onresize = function () {
+                particle.canvas.width = particle.canvas.clientWidth;
+                particle.canvas.height = particle.canvas.clientHeight;
+                if(particle.nodes.length == 0) {
+                    particle.createNodes();
+                }
+                particle.render();
+            };
+        }(this));  
+        window.requestAnimationFrame(this.step.bind(this));
+        return this;
     }
 
     Particle.prototype = {
         contructor: Particle,
         getCustomSetting: function () {
-            return this.dom.getAttribute('particle-set') || {};
+            return JSON.parse(this.dom.getAttribute('particle-set')) || {};
         },
         createCanvas: function () {
             let canvas = document.createElement('canvas'),
@@ -56,7 +52,7 @@
             ctx = canvas.getContext('2d');
             // 添加背景色
             ctx.fillStyle = this.option.backgroundColor;
-            ctx.fillRect(0, 0, canvas.width, canvas.width);
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             return ctx;
         },
         createNodes: function () {
@@ -92,16 +88,16 @@
                 }
                 if(item.y <= 0 || item.y >= h){
                     item.vy *= -1;
-                    item.y = clamp(0, w, item.y);
+                    item.y = clamp(0, h, item.y);
                 }
             });
             this.adjustNodeDrivenByMouse();
             this.render();
-            this.requestAnimationFrame(this.step);
+            window.requestAnimationFrame(this.step.bind(this));
         },
         adjustNodeDrivenByMouse: function () {
-            this.nodes[0].x += (this.mousePos[0] - this.nodes[0].x) / this.easingFactor;
-            this.nodes[0].y += (this.mousePos[1] - this.nodes[0].y) / this.easingFactor;
+            this.nodes[0].x += (this.mousePos[0] - this.nodes[0].x) / this.option.easingFactor;
+            this.nodes[0].y += (this.mousePos[1] - this.nodes[0].y) / this.option.easingFactor;
         },
         lengthOfEdge: function (line) {
             return Math.sqrt(Math.pow((line.from.x - line.to.x), 2) + Math.pow((line.from.y - line.to.y), 2));
@@ -109,7 +105,9 @@
         render: function () {
             let ctx = this.ctx,
                 _this = this;
-            this.lines.forEach(function (item) {
+            ctx.fillStyle = _this.option.backgroundColor;
+            ctx.fillRect(0, 0, _this.option.width, _this.option.height);
+            _this.lines.forEach(function (item) {
                 let l = _this.lengthOfEdge(item),
                     threshold = _this.canvas.width / 8;
                 if(l > threshold){
@@ -122,6 +120,16 @@
                 ctx.moveTo(item.from.x, item.from.y);
                 ctx.lineTo(item.to.x, item.to.y);
                 ctx.stroke();
+            });
+            _this.nodes.forEach(function (ele) {
+                if(ele.drivenByMouse) {
+                    return;
+                }
+
+                ctx.fillStyle = _this.option.nodeColor;
+                ctx.beginPath();
+                ctx.arc(ele.x, ele.y, ele.radius, 0, 2 * Math.PI);
+                ctx.fill();
             });
         }
     };
@@ -156,8 +164,8 @@
         return Object.prototype.toString.call(o).slice(8, -1);
     }
 
-    function clamp (mix, max, value) {
-        if(mix > value){
+    function clamp (min, max, value) {
+        if(min > value){
             return min;
         }
         if(max < value){

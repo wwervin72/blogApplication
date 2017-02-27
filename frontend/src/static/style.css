@@ -120,12 +120,18 @@
 	height: 30px;
 	line-height: 30px;
 }
+.postInfo > ul{
+	max-width: 180px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
 .postInfo > div {
 	margin-right: 10px;
 }
 .postInfo img, 
 .postInfo span{
-	vertical-align: middle;
+	/*vertical-align: middle;*/
 }
 .postInfoIcon{
 	width: 20px;

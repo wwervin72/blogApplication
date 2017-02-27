@@ -3,7 +3,7 @@ let Schema = mongoose.Schema;
 let moment = require('moment');
 // let objectIdToTimestamp = require('objectid-to-timestamp');
 
-// let getTags = tags => tags.join(',');
+let getTags = tags => tags.join(',');
 let setTags = tags => tags.split(',');
 
 let PostSchema = new Schema({
@@ -42,7 +42,8 @@ let PostSchema = new Schema({
 	// 文章标签
 	tags: {
 		type: Array,
-		set: setTags
+		set: setTags,
+		get: getTags
 	},
 	// 创建时间
 	createAt: {

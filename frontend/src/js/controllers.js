@@ -120,7 +120,11 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 		}).then(function (res) {
 			if(res.data.result){
 				$scope.posts = res.data.data;
+<<<<<<< HEAD
 				console.log(Object.prototype.toString.call($scope.posts.tags))
+=======
+				// console.log(Object.prototype.toString.call($scope.posts[3].tags))
+>>>>>>> faf8a088af4bedcedf4d2df99560ba47d8fceb48
 			}
 		})
 	};
