@@ -92,7 +92,21 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
 			console.log(res)
 		});
 	};
-	$rootScope.getUserInfo()
+	$rootScope.getUserInfo();
+	$rootScope.parseTime = function (date) {
+		date = new Date(date);
+		let month = date.getMonth() + 1;
+		month = month < 10 ? ('0' + month) : month;
+		let day = date.getDate();
+		day = day < 10 ? ('0' + day) : day;
+		let hours = date.getHours();
+		hours = hours < 10 ? ('0' + hours) : hours;
+		let minutes = date.getMinutes();
+		minutes = minutes < 10 ? ('0' + minutes) : minutes;
+		let seconds = date.getSeconds();
+		seconds = seconds < 10 ? ('0' + seconds) : seconds;
+		return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+	};
 	// 登出
 	$scope.loginOut = function (){
 		http.request({
@@ -121,6 +135,9 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 			url: '/posts',
 		}).then(function (res) {
 			if(res.data.result){
+				res.data.data.forEach(function (item) {
+					item.createAt = $rootScope.parseTime(item.createAt);
+				})
 				$scope.posts = res.data.data;
 			}
 		})
@@ -215,10 +232,13 @@ const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', '$state'
 			type: 'GET',
 			url: '/user/posts?username=' + $stateParams.username
 		}).then(function (res) {
-
 			if(!res.data.result && res.data.msg === '404 not found'){
 				$state.go('404');
 			}
+			if(res.data.data.result){
+				$scope.userPosts = res.data.data;
+			}
+			// if(res.data.)
 		}, function (res) {
 
 		})

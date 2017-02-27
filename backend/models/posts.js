@@ -1,12 +1,48 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let moment = require('moment');
-// let objectIdToTimestamp = require('objectid-to-timestamp');
 
-let getTags = tags => tags.join(',');
-let setTags = tags => tags.split(',');
+let setTags = tags => {
+	let res = [];
+	tags.split(',').forEach(function (item) {
+		if(res.indexOf(item) === -1){
+			res.push(item)
+		}
+	});
+	return res;
+};
+
+let setPostTime = () => {
+	let date = new Date();
+	let month = date.getMonth() + 1;
+	month = month < 10 ? ('0' + month) : month;
+
+	let day = date.getDate();
+	day = day < 10 ? ('0' + day) : day;
+
+	let hours = date.getHours();
+	hours = hours < 10 ? ('0' + hours) : hours;
+
+	let minutes = date.getMinutes();
+	minutes = minutes < 10 ? ('0' + minutes) : minutes;
+
+	let seconds = date.getSeconds();
+	seconds = seconds < 10 ? ('0' + seconds) : seconds;
+
+	return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+};
+
+let getPostCreateTime = time => {
+	console.log(time)
+	return time;  
+}
 
 let PostSchema = new Schema({
+	id: {
+		type: String,
+		default: String(new Date().getTime()),
+		unique: true
+	},
 	// 文章标题
 	title: {
 		type: String,
@@ -42,8 +78,8 @@ let PostSchema = new Schema({
 	// 文章标签
 	tags: {
 		type: Array,
-		set: setTags,
-		get: getTags
+		set: setTags
+		// get: getTags
 	},
 	// 创建时间
 	createAt: {
@@ -66,21 +102,5 @@ let PostSchema = new Schema({
 		default: 0
 	}
 });
-
-PostSchema.methods = {
-	parseDate: function () {
-		date = new Date(this.date);
-		let month = date.getMonth() + 1;
-		month = month < 10 ? ('0' + month) : month;
-		let day = date.getDate();
-		day = day < 10 ? ('0' + day) : day;
-		let hours = date.getHours();
-		hours = hours < 10 ? ('0' + hours) : hours;
-		let minutes = date.getMinutes();
-		minutes = minutes < 10 ? ('0' + minutes) : minutes;
-		this.createAt = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
-		console.log(this)
-	}
-}
 
 mongoose.model('Post', PostSchema);

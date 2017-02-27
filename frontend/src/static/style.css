@@ -97,12 +97,11 @@
 	line-height: 20px;
 	overflow: hidden;
 }
-.postList > li > .postContent > img, 
+.postList > li > .postContent > a img, 
 .postList > li > .postContent > span{
 	float: left;
 	width: 60px;
 	height: 60px;
-	text-indent: 2em;
 }
 .postList > li > .postContent > span{
 	width: calc(100% - 65px);

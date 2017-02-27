@@ -1,39 +1,39 @@
-<div class="container">
-	<div class="col-sm-2"></div>
-	<div class="col-sm-8">
-		<ul class="col-sm-12 postList">
-			<li ng-repeat="item in posts">
-				<a class="postTitle" ng-bind="item.title" href="/#!/{{item.author.username}}/articles/{{item._id}}">
-				</a>
-				<div class="postContent">
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+	<ul class="col-sm-12 postList">
+		<li ng-repeat="item in posts">
+			<a class="postTitle" ng-bind="item.title" href="/#!/{{item.author.username}}/articles/{{item.id}}">
+			</a>
+			<div class="postContent">
+				<a href="/#!/{{item.author.username}}">
 					<img ng-src="{{item.author.avatar}}">
-					<span ng-bind="item.content"></span>
+				</a>
+				<span ng-bind="item.content"></span>
+			</div>
+			<div class="postInfo">
+				<div class="createTime">
+					<img src="./src/static/img/time.png" class="createTimeIcon postInfoIcon" alt="创建时间"/>
+					<span><strong ng-bind="item.author.nickname"></strong> 发布于 </span>
+					<span ng-bind="item.createAt"></span>
 				</div>
-				<div class="postInfo">
-					<div class="createTime">
-						<img src="./src/static/img/time.png" class="createTimeIcon postInfoIcon" alt="创建时间"/>
-						<span><strong ng-bind="item.author.nickname"></strong> 发布于 </span>
-						<span ng-bind="item.createAt"></span>
-					</div>
-					<ul class="tags">
-						<li ng-repeat="tag in item.tags">
-							<img src="./src/static/img/tags.png" class="tagIcon postInfoIcon" alt="标签"/>
-							<span ng-bind="tag"></span>
-						</li>
-					</ul>
-					<!-- 评论数 -->
-					<div class="commentsCount">
-						<img src="./src/static/img/comments.png" class="postInfoIcon" alt="评论"/>
-						评论(<span ng-bind="item.comments.length"></span>)
-					</div>
-					<!-- 阅读数 -->
-					<div class="viewsCount" ui-sref="/#!/{{item.author.username}}/articles/{{item._id}}">
-						<img src="./src/static/img/views.png" class="postInfoIcon" alt="阅读"/>
-						阅读(<span ng-bind="item.views"></span>)
-					</div>
+				<ul class="tags">
+					<li ng-repeat="tag in item.tags">
+						<img src="./src/static/img/tags.png" class="tagIcon postInfoIcon" alt="标签"/>
+						<span ng-bind="tag"></span>
+					</li>
+				</ul>
+				<!-- 评论数 -->
+				<div class="commentsCount">
+					<img src="./src/static/img/comments.png" class="postInfoIcon" alt="评论"/>
+					评论(<span ng-bind="item.comments.length"></span>)
 				</div>
-			</li>
-		</ul>
-	</div>
-	<div class="col-sm-2"></div>
+				<!-- 阅读数 -->
+				<div class="viewsCount" ui-sref="/#!/{{item.author.username}}/articles/{{item._id}}">
+					<img src="./src/static/img/views.png" class="postInfoIcon" alt="阅读"/>
+					阅读(<span ng-bind="item.views"></span>)
+				</div>
+			</div>
+		</li>
+	</ul>
 </div>
+<div class="col-sm-2"></div>

@@ -36,10 +36,8 @@ module.exports = {
 		})
 	},
 	getAllPost: function (req, res, next) {
-		Post.find({}).populate('author', ['nickname', 'avatar', 'username']).exec(function (err, posts) {
-			posts.map(function (item) {
-				return item.parseDate();
-			});
+		Post.find().populate('author', ['nickname', 'avatar', 'username']).sort({_id: -1})
+		.exec(function (err, posts) {
 			if(err){
 				return next(err);
 			}
@@ -47,7 +45,7 @@ module.exports = {
 				result: true,
 				data: posts
 			});
-		})
+		});
 	},
 	getUserPosts: function (req, res, next) {
 		User.findOne({username: req.query.username}, function (err, user) {
