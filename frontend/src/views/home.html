@@ -7,7 +7,7 @@
 				</a>
 				<div class="postContent">
 					<img ng-src="{{item.author.avatar}}">
-					<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, numquam illum illo dolore sed deserunt nemo, accusantium officia natus blanditiis architecto rerum nesciunt id! Labore est, commodi doloremque ea nesciunt. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus sint iure maiores laborum quasi quaerat, molestiae, deserunt. Modi, perferendis quam qui debitis accusantium enim nam non placeat aut mollitia assumenda.</span>
+					<span ng-bind="item.content"></span>
 				</div>
 				<div class="postInfo">
 					<div class="createTime">
@@ -27,7 +27,7 @@
 						评论(<span ng-bind="item.comments.length"></span>)
 					</div>
 					<!-- 阅读数 -->
-					<div class="viewsCount">
+					<div class="viewsCount" ui-sref="/#!/{{item.author.username}}/articles/{{item._id}}">
 						<img src="./src/static/img/views.png" class="postInfoIcon" alt="阅读"/>
 						阅读(<span ng-bind="item.views"></span>)
 					</div>

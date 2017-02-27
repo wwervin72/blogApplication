@@ -120,7 +120,7 @@ const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies'
 		}).then(function (res) {
 			if(res.data.result){
 				$scope.posts = res.data.data;
-				console.log($scope.posts)
+				console.log(Object.prototype.toString.call($scope.posts.tags))
 			}
 		})
 	};
