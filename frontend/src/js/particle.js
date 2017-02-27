@@ -5,33 +5,16 @@
         this.lines = [];
         this.mousePos = [0, 0];
         let defaultSetting = {
-            width: document.body.clientWidth,
-            height: document.body.clientHeight,
+            width: this.dom.getBoundingClientRect().width,
+            height: this.dom.getBoundingClientRect().height,
             backgroundColor: '#000',
             easingFactor: 3,
             nodeCount: 100,
             nodeColor: '#aaa',
-            lineColor: '#fff',
+            lineColor: '#fff'
         };
         this.option = _extend(defaultSetting, this.getCustomSetting());
-        // 生成canvas
-        this.ctx = this.createCanvas();
-        this.createNodes();
-        (function (particle) {
-            window.onmousemove = function (event) {
-                particle.mousePos[0] = event.clientX;
-                particle.mousePos[1] = event.clientY;
-            };
-            window.onresize = function () {
-                particle.canvas.width = particle.canvas.clientWidth;
-                particle.canvas.height = particle.canvas.clientHeight;
-                if(particle.nodes.length == 0) {
-                    particle.createNodes();
-                }
-                particle.render();
-            };
-        }(this));  
-        window.requestAnimationFrame(this.step.bind(this));
+        this.draw();
         return this;
     }
 
@@ -41,21 +24,24 @@
             return JSON.parse(this.dom.getAttribute('particle-set')) || {};
         },
         createCanvas: function () {
-            let canvas = document.createElement('canvas'),
+            let canvas = this.dom.querySelector('canvas'),
                 ctx;
-
+            if(!canvas){
+                canvas = document.createElement('canvas');
+                this.dom.appendChild(canvas);
+            }
             canvas.width = this.option.width;
             canvas.height = this.option.height;
             this.canvas = canvas;
-            this.dom.appendChild(canvas);
 
             ctx = canvas.getContext('2d');
             // 添加背景色
             ctx.fillStyle = this.option.backgroundColor;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillRect(0, 0, this.option.width, this.option.height);
             return ctx;
         },
         createNodes: function () {
+            this.nodes.length = 0;
             for(let i = 0; i < this.option.nodeCount; i++){
                 this.nodes.push({
                     drivenByMouse: i == 0,
@@ -63,7 +49,7 @@
                     y: Math.random() * this.option.height,
                     vx: Math.random() * 1 - 0.5,
                     vy: Math.random() * 1 - 0.5,
-                    radius: Math.random() > 0.9 ? 2 + Math.random() * 2 : 1 + Math.random() * 2
+                    radius: Math.random() > 0.9 ? (2 + Math.random() * 1) : (1 + Math.random() * 2)
                 });
             }
             let len = this.nodes.length;
@@ -107,6 +93,7 @@
                 _this = this;
             ctx.fillStyle = _this.option.backgroundColor;
             ctx.fillRect(0, 0, _this.option.width, _this.option.height);
+            ctx.globalAlpha = _this.option.globalAlpha;
             _this.lines.forEach(function (item) {
                 let l = _this.lengthOfEdge(item),
                     threshold = _this.canvas.width / 8;
@@ -125,12 +112,27 @@
                 if(ele.drivenByMouse) {
                     return;
                 }
-
                 ctx.fillStyle = _this.option.nodeColor;
                 ctx.beginPath();
                 ctx.arc(ele.x, ele.y, ele.radius, 0, 2 * Math.PI);
                 ctx.fill();
             });
+        },
+        draw: function () {
+            this.ctx = this.createCanvas();
+            this.createNodes();
+            (function (particle) {
+                window.onmousemove = function (event) {
+                    particle.mousePos[0] = event.pageX;
+                    particle.mousePos[1] = event.pageY;
+                };
+            }(this));  
+            window.requestAnimationFrame(this.step.bind(this));
+        },
+        refresh: function (width, height) {
+            this.option.width = width;
+            this.option.height = height;
+            this.draw()
         }
     };
 
