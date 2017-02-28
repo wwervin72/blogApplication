@@ -28,6 +28,7 @@
     "angular": "angularjs#^1.6.2",
     "angular-ui-router": "ui-router#^0.4.2",
     "angular-cookies": "^1.6.2",
-    "layer": "^3.0.1"
+    "layer": "^3.0.1",
+    "wangEditor": "^2.1.23"
   }
 }

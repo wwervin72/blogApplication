@@ -4,6 +4,7 @@ let userCtrl = require('../controllers/user.controlelr');
 let postCtrl = require('../controllers/post.controller');
 let check = require('../utils/checks');
 let tokenManage = require('../utils/tokenManage');
+let uploadFile = require('../utils/uploadFile');
 
 router.get('/', (req, res, next) => {
 	res.render('home');
@@ -20,6 +21,9 @@ router.get('/posts', postCtrl.getAllPost);
 
 //获取用户的文章
 router.get('/user/posts', userCtrl.findUserByName, postCtrl.getUserPosts);
+
+//上传文件
+router.post('/upload', uploadFile.upload);
 
 // 用户添加文章
 router.post('/user/post', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.findUserByName, postCtrl.createPost);
