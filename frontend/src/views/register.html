@@ -62,8 +62,10 @@
 		</div>
 		<div class="form-group">
 			<label for="avatar" class="control-label col-sm-2">头像: </label>
-			<div class="col-sm-5">
-				<input type="file" id="avatar" class="form-control noRadius"/>
+			<div class="col-sm-5 avatar">
+				<input type="file" id="avatar" class="form-control"/>
+				<img src="http://localhost:3000/upload/defaultAvatar.jpg" ng-click="selectAvatar($event)" title="点击我上传头像"/>
+				<span id="avatarMsg"></span>
 			</div>
 		</div>
 		<div class="form-group" style="display: none;" id="registerMsg">

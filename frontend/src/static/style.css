@@ -145,3 +145,21 @@
 	width: 20px;
 	height: 20px;
 }
+/*******************************register部分********************************/
+.avatar{
+	height: 50px;
+	position: relative;
+}
+.avatar input[type=file]{
+	width: 0;
+	height: 0;
+	transform: scale(0);
+}
+.avatar img{
+	position: absolute;
+	top: 0;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	cursor: pointer;
+}

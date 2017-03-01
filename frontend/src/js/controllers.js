@@ -223,7 +223,33 @@ const registerCtrl = app.controller('register.ctrl', ['$rootScope', '$scope', '$
 		if($scope.registerForm[target.id].$valid){
 			$(target).parent().find('++div>span').eq(1).show();
 		}
-	}
+	};
+	$scope.selectAvatar = function ($event) {
+		let target = $($event.target);
+		target.prev().click();
+	};
+	$('#avatar').change(function () {
+		var files = this.files || event.dataTransfer.files;
+		var formData = new FormData();
+		Array.prototype.forEach.call(files, function (item) {
+			formData.append('file', item);
+			console.log(formData)
+		});
+
+		$.ajax({
+			type: 'POST',
+			url: 'http://localhost:3000/upload',
+			data: formData,
+			processData: false,
+        	contentType: false
+		}).then(function (res) {
+			$('#avatarMsg').text('上传成功');
+			$('#avatar').next('img').attr('src', res);
+			$scope.newUser.avatar = res;
+		}, function (res) {
+			$('#avatarMsg').text('上传失败');
+		});
+	})
 }]);
 
 const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', '$state', 'http', function($scope, $stateParams, $state, http){
