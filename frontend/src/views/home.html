@@ -1,39 +1,76 @@
-<div class="col-sm-2"></div>
-<div class="col-sm-8">
-	<ul class="col-sm-12 postList">
-		<li ng-repeat="item in posts">
-			<a class="postTitle" ng-bind="item.title" href="/#!/{{item.author.username}}/articles/{{item.id}}">
-			</a>
-			<div class="postContent">
-				<a href="/#!/{{item.author.username}}">
-					<img ng-src="{{item.author.avatar}}">
-				</a>
-				<span ng-bind="item.content"></span>
-			</div>
-			<div class="postInfo">
-				<div class="createTime">
-					<img src="./src/static/img/time.png" class="createTimeIcon postInfoIcon" alt="创建时间"/>
-					<span><strong ng-bind="item.author.nickname"></strong> 发布于 </span>
-					<span ng-bind="item.createAt"></span>
-				</div>
-				<ul class="tags">
-					<li ng-repeat="tag in item.tags">
-						<img src="./src/static/img/tags.png" class="tagIcon postInfoIcon" alt="标签"/>
-						<span ng-bind="tag"></span>
-					</li>
-				</ul>
-				<!-- 评论数 -->
-				<div class="commentsCount">
-					<img src="./src/static/img/comments.png" class="postInfoIcon" alt="评论"/>
-					评论(<span ng-bind="item.comments.length"></span>)
-				</div>
-				<!-- 阅读数 -->
-				<div class="viewsCount" ui-sref="/#!/{{item.author.username}}/articles/{{item._id}}">
-					<img src="./src/static/img/views.png" class="postInfoIcon" alt="阅读"/>
-					阅读(<span ng-bind="item.views"></span>)
-				</div>
-			</div>
-		</li>
-	</ul>
+<div class="bg_particle"></div>
+<div class="home_content">
+    <img src="src/static/img/blog.png" title="title"/>
+    <ul class="tabs">
+        <li>
+            <a href="#register" ng-class="{active: home.register}">
+                注册
+            </a>
+            <s ng-show="home.register"></s>
+        </li>
+        <li>
+            <a href="#login" ng-class="{active: home.login}">
+                登陆
+            </a>
+            <s ng-show="home.login"></s>
+        </li>
+    </ul>
+    <div class="from_content">
+        <div ng-show="home.register">
+            <form id="register" name="registerForm" novalidate>
+                <div class="ipt_group">
+                    <input type="text" ng-focus="ff()" name="account" ng-model="register.account" placeholder="注册账号" required/>
+                    <div class="iptMsg" ng-show="!registerForm.account.$focused && registerForm.account.$invalid">
+                        <span ng-show="registerForm.account.$error.required">
+                        请填写注册账号
+                        </span>
+                        <span>账号格式不正确</span>
+                        <span>用户名已被注册</span>
+                    </div>
+                </div>
+                <div class="ipt_group">
+                    <input type="text" id="rePwd" ng-model="register.pwd" placeholder="密码"/>
+                    <div class="iptMsg">
+                        <span>请填写密码</span>
+                    </div>
+                </div>
+                <div class="ipt_group">
+                    <input type="text" id="replayPwd" ng-model="register.replayPwd" placeholder="重复密码"/>
+                    <div class="iptMsg">
+                        <span>请填写重复密码</span>
+                    </div>
+                </div>
+                <div class="ipt_group">
+                    <input type="text" id="nickName" ng-model="register.nickName" placeholder="昵称"/>
+                </div>
+                <div class="ipt_group">
+                    <input type="text" id="email" ng-model="register.email" placeholder="邮箱"/>
+                    <div class="iptMsg">
+                        <span>请填写邮箱</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div ng-show="home.login">
+            <form id="login">
+                <div class="ipt_group">
+                    <input type="text" ng-model="login.account" placeholder="登陆账号"/>
+                    <div class="iptMsg">
+                        <span>请填写登陆账号</span>
+                        <span>该账号不存在</span>
+                    </div>
+                </div>
+                <div class="ipt_group">
+                    <input type="password" ng-model="login.pwd" placeholder="密码"/>
+                    <div class="iptMsg">
+                        <span>请填写密码</span>
+                        <span>密码不正确</span>
+                    </div>
+                </div>
+            </form>
+            <a class="forgetPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
+        </div>
+        <button ng-show="home.register">注册</button>
+        <button ng-show="home.login">登陆</button>
+    </div>
 </div>
-<div class="col-sm-2"></div>

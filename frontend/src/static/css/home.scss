@@ -1,0 +1,134 @@
+@import 'variable.scss';
+@keyframes tabsBorderInc{
+    from{
+        width: 0;
+        left: 50%;
+    }
+    to{
+        width: 50%;
+        left: 25%;
+    }
+}
+%border{
+    border: 1px solid #ddd;
+}
+%loginSelect{
+    display: inline-block;
+    width: 50%;
+    height: 36px;
+    line-height: 36px;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+}
+.bg_particle{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+.home_content{
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    &>img{
+        width: 350px;
+        height: 60px;
+    }
+    &>ul.tabs{
+        overflow: hidden;
+        li{
+            float: left;
+            position: relative;
+            width: 50%;
+            height: 30px;
+            line-height: 30px;
+            &>a{
+                display: block;
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                font-size: 18px;
+                color: #999;
+                text-align: center;
+                &.active{
+                    color: $color;
+                }
+            }
+            &>s{
+                position: absolute;
+                top: 28px;
+                left: 25%;
+                width: 50%;
+                height: 2px;
+                background-color: $color;
+                animation: tabsBorderInc 0.5s;
+            }
+        }
+    }
+    .from_content{
+        margin-top: 20px;
+        .ipt_group{
+            position: relative;
+            border-bottom: 1px solid #ddd;
+            &:last-child{
+                border: none;
+            }
+            input{
+                width: 350px;
+                height: 36px;
+                line-height: 36px;
+                padding: 25px 15px;
+                font-size: 14px;
+                border: none;
+                &::-webkit-input-placeholder{
+                    color: #c3c3c3;
+                }
+                &:-ms-input-placeholder{
+                    color: #c3c3c3;
+                }
+                &:-moz-placeholder{
+                    color: #c3c3c3;
+                }
+                &::-moz-placeholder{
+                    color: #c3c3c3;
+                }
+            }
+            .iptMsg{
+                position: absolute;
+                top: 0;
+                right: 10px;
+                height: 50px;
+                line-height: 50px;
+                color: $errColor;
+            }
+        }
+        button{
+            width: 100%;
+            height: 46px;
+            line-height: 46px;
+            margin-top: 10px;
+            border: none;
+            background-color: $color;
+            font-size: 18px;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+    }
+    #register{
+        @extend %border;
+    }
+    #login{
+        @extend %border;
+    }
+    .forgetPwd{
+        color: $color;
+        @extend %loginSelect;
+    }
+    .authLogin{
+        @extend %loginSelect;
+        color: #999;
+        text-align: right;
+    }
+}

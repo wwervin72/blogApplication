@@ -8,6 +8,11 @@ const app = angular.module('app', ['ui.router', 'ngCookies'])
 							templateUrl: 'src/views/home.html',
 							controller: 'home.ctrl'
 						})
+						.state('article', {
+							url: '/a',
+							templateUrl: 'src/views/article.html',
+							controller: 'article.ctrl'
+						})
 						// 注册
 						.state('register', {
 							url: '/register',
