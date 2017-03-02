@@ -1,5 +1,4 @@
 const homeCtrl = app.controller('home.ctrl', ['$scope', function($scope){
-    // $('.bg_particle').
     $scope.home = {
         register: true,
         login: false
@@ -15,9 +14,6 @@ const homeCtrl = app.controller('home.ctrl', ['$scope', function($scope){
         account: '',
         pwd: ''
     };
-    $scope.ff = function () {
-        console.log($scope.register.account.$focused)
-    }
     $('.tabs li').click(function () {
         if($(this).index()){
             $scope.home = {
@@ -31,6 +27,11 @@ const homeCtrl = app.controller('home.ctrl', ['$scope', function($scope){
             };
         }
     });
+    // 背景图
+	var particle = $('.bg_particle');
+	particle.ready(function () {
+		var particleWeb = new Particle(particle[0]);
+	});
 }]);
 
 const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function ($rootScope, $scope, $cookies, $state, http) {

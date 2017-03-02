@@ -1,69 +1,80 @@
-define(['angular', 'uiRouter', './homeController', '../../user/controllers/loginController', '../../user/controllers/registerController'], (angular, uiRouter, home, login, register) => {
-	let appCtrl = ['$rootScope', '$scope', '$cookies', '$state', ($rootScope, $scope, $cookies, $state) => {
-		// 获取token后，获取用户的信息
-		$scope.getUserInfo = function () {
-			let token = $cookies.get('TOKEN');
-			if(!token || $rootScope.user){
-				return;
-			}
-			$.ajax({
-				type: 'GET',
-				url: 'http://localhost:3000/userinfo?token=' + token
-			}).then(function (res) {
-				if(res.result){
-					$scope.$apply(function () {
-						$rootScope.user = res.user;
-					});
-					$cookies.remove("TOKEN", {path: '/'});
-                    let timeCount = new Date().getTime() + 1000 * 60 * 30;
-                    let deadline = new Date(timeCount);
-                    $cookies.put('TOKEN', res.token, {'expires': deadline, path: '/'});
-				}else{
-
-				}
-			}, function (res) {
-				console.log(res)
-			});
-		};
-		$scope.getUserInfo();
-		//登出
-		$scope.loginOut = function (){
-    		$.ajax({
-    			type: 'GET',
-    			url: 'http://localhost:3000/signout?token=' + $cookies.get('TOKEN')
-    		}).then(function (res) {
-    			if(res.result){
-    				$cookies.remove("TOKEN", {path: '/'});
-    				$state.go('login');
-    				delete $rootScope.user;
-    			}
-    		}, function (res) {
-    			console.log(res)
-    		})
-    	};
-	}];
-
-	let dependency = ['ui.router', home.name, login.name, register.name];
-	let appModule = angular.module('app', dependency);
-	appModule.controller('ctrl', appCtrl);
-	appModule.config(function ($stateProvider, $urlRouterProvider){
-		$urlRouterProvider.otherwise("/");
-		$stateProvider
-			.state('home', {
-				url: '/',
-				templateUrl: 'src/modules/app/views/home.html',
-				controller: 'home.ctrl'
+define([], function () {
+	var deps = ['oc.lazyLoad', 'ui.router'];
+	var app = angular.module('app', deps);
+	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider) {
+        $ocLazyLoadProvider.config({
+            jsLoader: requirejs,
+            debug: false
+        });
+        $stateProvider
+            .state('home', {
+                url: '/',
+                templateUrl: 'src/modules/home/tpls/home.html',
+                controller: 'home.ctrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('home')
+                    }]
+                }
+            })
+            .state('articles', {
+            	url: '/a',
+            	templateUrl: 'src/modules/articles/tpls/articles.html',
+                controller: 'articles.ctrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('articles')
+                    }]
+                }
+            })
+            .state('user', {
+            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}',
+            	templateUrl: 'src/modules/user/tpls/user.html',
+				controller: 'user.ctrl',
+				resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('user')
+                    }]
+                }
+            })
+            .state('article', {
+            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/a/{postId}',
+            	templateUrl: 'src/modules/article/tpls/article.html',
+				controller: 'article.ctrl',
+				resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('article')
+                    }]
+                }
+            })
+            .state('createPost', {
+				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/createPost',
+				templateUrl: 'src/modules/createPost/tpls/createPost.html',
+				controller: 'createPost.ctrl',
+				resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('createPost')
+                    }]
+                }
 			})
-			.state('login', {
-				url: '/login',
-				templateUrl: 'src/modules/user/views/login.html',
-				controller: 'login.ctrl'
+			.state('updatePost', {
+				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/articles/{postId}/update',
+				template: 'src/modules/updatePost/updatePost.html',
+				controller: 'updatePost.ctrl',
+				resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('updatePost')
+                    }]
+                }
 			})
-			.state('register', {
-				url: '/register',
-				templateUrl: 'src/modules/user/views/register.html',
-				controller: 'register.ctrl'
+			.state('404', {
+				url: '/404',
+				templateUrl: 'src/modules/404/tpls/404.html'
+			})
+			.state('500', {
+				url: '/500',
+				templateUrl: 'src/modules/500/tpls/500.html'
 			});
-	});
-	return appModule;
-});
+        $urlRouterProvider.otherwise("/a");
+    }]);
+})

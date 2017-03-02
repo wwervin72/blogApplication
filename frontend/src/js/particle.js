@@ -8,7 +8,7 @@
             width: this.dom.getBoundingClientRect().width,
             height: this.dom.getBoundingClientRect().height,
             backgroundColor: '#000',
-            easingFactor: 3,
+            easingFactor: 5,
             nodeCount: 100,
             nodeColor: '#aaa',
             lineColor: '#fff'
@@ -49,7 +49,7 @@
                     y: Math.random() * this.option.height,
                     vx: Math.random() * 1 - 0.5,
                     vy: Math.random() * 1 - 0.5,
-                    radius: Math.random() > 0.9 ? (2 + Math.random() * 1) : (1 + Math.random() * 2)
+                    radius: Math.random() > 0.9 ? (2 + Math.random() * 1) : (1 + Math.random() * 10)
                 });
             }
             let len = this.nodes.length;
