@@ -1,3 +1,38 @@
+const homeCtrl = app.controller('home.ctrl', ['$scope', function($scope){
+    // $('.bg_particle').
+    $scope.home = {
+        register: true,
+        login: false
+    };
+    $scope.register = {
+        account: '',
+        pwd: '',
+        replayPwd: '',
+        nickName: '',
+        email: ''
+    };
+    $scope.login = {
+        account: '',
+        pwd: ''
+    };
+    $scope.ff = function () {
+        console.log($scope.register.account.$focused)
+    }
+    $('.tabs li').click(function () {
+        if($(this).index()){
+            $scope.home = {
+                register: false,
+                login: true
+            };
+        }else{
+            $scope.home = {
+                register: true,
+                login: false
+            };
+        }
+    });
+}]);
+
 const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function ($rootScope, $scope, $cookies, $state, http) {
 	let particle = $('.bg_particle');
 	let particleWeb = new Particle(particle[0]);
@@ -127,7 +162,7 @@ const headerCtrl = app.controller('header.ctrl', ['$rootScope', '$scope', '$cook
 	}
 }]);
 
-const homeCtrl = app.controller('home.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
+const articleCtrl = app.controller('article.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
 	$scope.posts = [];
 	$scope.getAllPosts = function () {
 		http.request({
@@ -179,7 +214,7 @@ const registerCtrl = app.controller('register.ctrl', ['$rootScope', '$scope', '$
 		    		'Content-Type': 'application/json'
 		    	}).then(function (data) {
 		    		if(data.data.result){
-			    		$state.go('home');
+			    		$state.go('article');
 			    		$rootScope.getUserInfo();
 		    		}
 		    	})
