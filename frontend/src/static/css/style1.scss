@@ -8,112 +8,108 @@
     overflow: hidden;
 }
 /********************************header部分样式********************************/
-.header{
-	position: relative;
-	width: 100%;
-	height: 80px;
-	padding: 0 30px;
-	border-bottom: 1px solid #ddd;
-	z-index: 100;
-	background-color: #0d0a31;
-}
-.header>.logo_goHome{
-	width: 60px;
-	height: 60px;
-	margin-top: 10px;
-	border-radius: 50%;
-	cursor: pointer;
-}
-.header .headerToggleBtn{
-	position: absolute;
-	top: 80px;
-	right: 22px;
-	width: 22px;
-	height: 68px;
-	background: url('img/ring-btn.png');
-	cursor: pointer;
-}
-.header > .btn,
-.header > .userInfo{
-	position: absolute;
-	top: 50%;
-	right: 30px;
-	transform: translateY(-50%);
-}
-.header > .userInfo > span{
-	padding: 5px 10px;
-	max-width: 100px;
-	white-space:nowrap; 
-	overflow:hidden; 
-	text-overflow:ellipsis;
-	font-size: 16px;
-    color: #fff;
-}
-.header > .userInfo > img{
-	border-radius: 50%;
-}
-.popUpLayer{
-	padding: 10px 0;
-	display: none;
-}
-.layui-layer-btn0{
-	border-radius: 0 !important;
-}
-.layui-layer-content{
-	border-bottom: 1px solid #ddd;
-}
-.error{
-	color: #f00;
-}
-.success{
-	color: #0f0;
-}
-/**/
-.wrap{
-	padding: 10px;
-}
-.postList > li{
-	width: 100%;
-	padding: 0 10px;
-	border: 1px solid #ddd;
-	margin: 20px 0;
-}
-.postList > li > .postTitle,
-.postList > li > .postContent{
-	width: 100%;
-	padding: 5px 0 10px 0;
-	border-bottom: 1px solid #ddd;
-}
-.postList > li > .postTitle{
-	display: block;
-	font-size: 24px;
-	font-weight: bold;
-	overflow: hidden;
-	border-bottom: 1px solid #ddd;
-}
-.postList > li > .postContent{
-	padding: 5px;
-	font-size: 14px;
-	line-height: 20px;
-	overflow: hidden;
-}
-.postList > li > .postContent > a img, 
-.postList > li > .postContent > span{
-	float: left;
-	width: 60px;
-	height: 60px;
-}
-.postList > li > .postContent > span{
-	width: calc(100% - 65px);
-	height: 60px;
-	margin-left: 5px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-.postList > li > .postInfo{
-	height: 32px;
-	line-height: 32px;
-}
+// .header{
+// 	position: relative;
+// 	width: 100%;
+// 	height: 80px;
+// 	padding: 0 30px;
+// 	border-bottom: 1px solid #ddd;
+// 	z-index: 100;
+// 	background-color: #0d0a31;
+// }
+// .header>.logo_goHome{
+// 	width: 60px;
+// 	height: 60px;
+// 	margin-top: 10px;
+// 	border-radius: 50%;
+// 	cursor: pointer;
+// }
+// .header .headerToggleBtn{
+// 	position: absolute;
+// 	top: 80px;
+// 	right: 22px;
+// 	width: 22px;
+// 	height: 68px;
+// 	background: url('img/ring-btn.png');
+// 	cursor: pointer;
+// }
+// .header > .btn,
+// .header > .userInfo{
+// 	position: absolute;
+// 	top: 50%;
+// 	right: 30px;
+// 	transform: translateY(-50%);
+// }
+// .header > .userInfo > span{
+// 	padding: 5px 10px;
+// 	max-width: 100px;
+// 	white-space:nowrap; 
+// 	overflow:hidden; 
+// 	text-overflow:ellipsis;
+// 	font-size: 16px;
+//     color: #fff;
+// }
+// .header > .userInfo > img{
+// 	border-radius: 50%;
+// }
+// .popUpLayer{
+// 	padding: 10px 0;
+// 	display: none;
+// }
+// .layui-layer-btn0{
+// 	border-radius: 0 !important;
+// }
+// .layui-layer-content{
+// 	border-bottom: 1px solid #ddd;
+// }
+// .error{
+// 	color: #f00;
+// }
+// .success{
+// 	color: #0f0;
+// }
+// .postList > li{
+// 	width: 100%;
+// 	padding: 0 10px;
+// 	border: 1px solid #ddd;
+// 	margin: 20px 0;
+// }
+// .postList > li > .postTitle,
+// .postList > li > .postContent{
+// 	width: 100%;
+// 	padding: 5px 0 10px 0;
+// 	border-bottom: 1px solid #ddd;
+// }
+// .postList > li > .postTitle{
+// 	display: block;
+// 	font-size: 24px;
+// 	font-weight: bold;
+// 	overflow: hidden;
+// 	border-bottom: 1px solid #ddd;
+// }
+// .postList > li > .postContent{
+// 	padding: 5px;
+// 	font-size: 14px;
+// 	line-height: 20px;
+// 	overflow: hidden;
+// }
+// .postList > li > .postContent > a img, 
+// .postList > li > .postContent > span{
+// 	float: left;
+// 	width: 60px;
+// 	height: 60px;
+// }
+// .postList > li > .postContent > span{
+// 	width: calc(100% - 65px);
+// 	height: 60px;
+// 	margin-left: 5px;
+// 	overflow: hidden;
+// 	text-overflow: ellipsis;
+// }
+// .postList > li > .postInfo{
+// 	height: 32px;
+// 	line-height: 32px;
+// }
 /********************************posts部分样式********************************/
 .postInfo > div, .postInfo > ul,
 .postInfo > ul.tags > li{

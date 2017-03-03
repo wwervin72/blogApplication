@@ -300,7 +300,6 @@ const userCtrl = app.controller('user.ctrl', ['$scope', '$stateParams', '$state'
 			if(res.data.data.result){
 				$scope.userPosts = res.data.data;
 			}
-			// if(res.data.)
 		}, function (res) {
 
 		})

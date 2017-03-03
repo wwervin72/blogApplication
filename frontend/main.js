@@ -7,14 +7,17 @@ requirejs.config({
 		uiRouter: 'libs/angular-ui-router/release/angular-ui-router.min',
 		ngCookies: 'libs/angular-cookies/angular-cookies.min',
 		oclazyload: 'libs/oclazyload/dist/ocLazyLoad.require.min',
+		wangEditor: 'libs/wangEditor/src/js/wangEditor',
+		httpRequest: 'src/services/httpService',
+		particle: 'src/services/particleService',
+		editor: 'src/directives/editorDirective',
 		app: 'src/modules/app/controllers/app',
 		home: 'src/modules/home/controllers/home.controller',
 		articles: 'src/modules/articles/controllers/articles.controller',
 		user: 'src/modules/user/controllers/user.controller',
 		article: 'src/modules/article/controllers/article.controller',
-		createPost: 'src/modules/createPost/controllers/createPost.controller',
-		updatePost: 'src/modules/updatePost/controllers/updatePost.controller'
-
+		createArticle: 'src/modules/createArticle/controllers/createArticle.controller',
+		updateArticle: 'src/modules/updateArticle/controllers/updateArticle.controller'
 	},
 	shim: {
 		angular: {
@@ -23,12 +26,58 @@ requirejs.config({
 		uiRouter: {
 			deps: ['angular']
 		},
+		oclazyload: {
+			deps: ['angular']
+		},
+		ngCookies: {
+			deps: ['angular']	
+		},
+		httpRequest: {
+			deps: ['angular']
+		},
+		particle: {
+			exports: 'particle'
+		},
 		app: {
-			deps: ['oclazyload', 'uiRouter']
+			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'httpRequest', 'editor']
+		},
+		home: {
+			deps: ['particle']
+		},
+		editor: {
+			deps: ['wangEditor']
 		}
 	}
 });
 
 require(['angular', 'jquery', 'app'], (angular, $, app) => {
-	let injector = angular.bootstrap($('html'), [app.name]);
+	var injector = angular.bootstrap($('html'), [app.name]);
+	var cookies = angular.injector(['ngCookies']).get('$cookies');
+	var http = angular.injector(['ng', 'httpRequest']).get('http');
+	var location = injector.get('$location');
+	(function () {
+        if(!cookies.get('TOKEN')){
+            return;
+        }
+        http.request({
+            method: 'GET',
+            url: '/userinfo?token=' + cookies.get('TOKEN')
+        }).then(function (res) {
+            if(res.data.result){
+            	var rootScope = injector.get("$rootScope");
+                rootScope.userInfo = res.data.user;
+            }
+            cookies.remove("TOKEN", {path: '/'});
+            var timeCount = new Date().getTime() + 1000 * 60 * 30;
+            var deadline = new Date(timeCount);
+            cookies.put('TOKEN', res.data.token, {'expires': deadline, path: '/'});
+        }, function (res) {
+        	if(res.status === 404){
+                location.path('/404');
+            }
+            if(res.status === 500){
+                location.path('/500');
+            }
+        });
+    }());
 });

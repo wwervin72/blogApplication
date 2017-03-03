@@ -4,28 +4,6 @@ let passport = require('passport');
 let jwt = require('jsonwebtoken');
 let tokenManage = require('../utils/tokenManage');
 let config = require('config-lite');
-// let captcha = require('canvas-captcha');
-
-// let captchaOptions = {
-// 	charPool: ('abcdefghijklmnopqrstuvwxyz' + 'abcdefghijklmnopqrstuvwxyz'.toUpperCase() + '1234567890').split(''), //char pool Array 
-//     size: {
-//         width: 100,
-//         height: 32
-//     }, //image size 
-//     textPos: {
-//         left: 15,
-//         top: 26
-//     }, //text drawing start position 
-//     rotate: .01, //text ratate 
-//     charLength: 4, //how many chars 
-//     font: '26px Unifont', //font size 
-//     strokeStyle: '#0088cc', //style 
-//     bgColor: '#eeeeee', //bg color 
-//     confusion: true, //draw another group background text to mangle the text 
-//     cFont: '30px Arial', //bg text style 
-//     cStrokeStyle: '#adc', //bg text color 
-//     cRotate: -.05, //bg text rotate 
-// };
 module.exports = {
 	findUserByName: function (req, res, next) {
 		User.findOne({username: req.query.username || req.user.username}, function (err, user) {
@@ -66,7 +44,12 @@ module.exports = {
 				return res.status(200).json({
 					result: true,
 					msg: '登陆成功',
-					token: tokenManage.createNewToken(user)
+					token: tokenManage.createNewToken(user),
+					info: {
+						username: user.username,
+						avatar: user.avatar,
+						nickname: user.nickname
+					}
 				});
 			});
 		})(req, res, next);
@@ -151,19 +134,6 @@ module.exports = {
 		});
 	},
 	createCaptcha: function (req, res, next) {
-		// captcha(captchaOptions, function (err, data) {
-		// 	if(err){
-		// 		return res.status(200).json({
-		// 			result: false,
-		// 			msg: '获取验证码失败'
-		// 		});
-		// 	}
-		// 	console.log(data.captchaImg);
-		// 	res.status(200).json({
-		// 		result: true,
-		// 		msg: data.captchaImg
-		// 	});
-		// });
 		res.status(200).json({
 			result: false,
 			msg: '没有验证码'
