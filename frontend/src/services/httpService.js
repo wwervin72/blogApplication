@@ -42,7 +42,7 @@ define([], function () {
                 if(rejection.status === 500){
                     $location.path('/500');
                 }
-                return $q.reject(rejection)
+                return $q.reject(rejection);
             }
         };
     }]);

@@ -1,7 +1,7 @@
 define([], function (){
     var deps = [];
     var articlesModel = angular.module('articles', deps);
-    articlesModel.controller('articles.ctrl', ['$scope', 'http', function($scope, http){
+    articlesModel.controller('articles.ctrl', ['$rootScope', '$scope', 'http', function($rootScope, $scope, http){
         (function () {
             http.request({
                 method: 'GET',
@@ -11,7 +11,7 @@ define([], function (){
                     res.data.data.forEach(function (item) {
                         item.createAt = $rootScope.parseTime(item.createAt);
                     })
-                    $scope.posts = res.data.data;
+                    $scope.articles = res.data.data;
                 }
             })
         }());

@@ -27,10 +27,7 @@ module.exports = {
 				return next(err);
 			}
 			if(!post){
-				return res.status(404).json({
-					result: false,
-					msg: '404 not found'
-				});
+				return next();
 			}
 			return next();
 		})
@@ -47,6 +44,31 @@ module.exports = {
 			});
 		});
 	},
+	findArticleById: function (req, res, next) {
+		User.findOne({username: req.query.username}, function (err, user) {
+			if(err){
+				return next(err);
+			} 
+			if(!user){
+				return next();
+			}
+			Post.findOne({author: user._id, id: req.query.articleId})
+				.populate('author', ['nickname', 'avatar', 'username'])
+				.exec(function (err, article) {
+					if(err){
+						return next(err);
+					} 
+					if(!article){
+						return next();
+					}
+					return res.status(200).json({
+						result: true,
+						msg: '文章获取成功',
+						data: article
+						});
+				});
+		});
+	},
 	getUserPosts: function (req, res, next) {
 		User.findOne({username: req.query.username}, function (err, user) {
 			if(err){
@@ -56,13 +78,16 @@ module.exports = {
 				return next();
 			}
 			// 查找该用户的所有文章
-			Post.find({user: user.username}, function (err, posts) {
+			Post.find({author: user._id})
+				.populate('author', ['nickname', 'avatar', 'username'])
+				.sort({_id: -1})
+				.exec(function (err, articles) {
 				if(err){
 					next(err);
 				}			
 				return res.status(200).json({
 					result: true,
-					data: posts
+					data: articles
 				});
 			});
 		})

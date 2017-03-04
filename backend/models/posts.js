@@ -93,13 +93,15 @@ let PostSchema = new Schema({
 	},
 	// 推荐数
 	heart: {
-		type: Number,
-		default: 0
+		// type: Number,
+		// default: 0
+		type: Array
 	},
 	// 反对数
 	stamp: {
-		type: Number,
-		default: 0
+		// type: Number,
+		// default: 0
+		type: Array
 	}
 });
 

@@ -1,0 +1,90 @@
+.articleContent{
+	width: 50%;
+	min-width: 700px;
+	margin: 20px auto;
+	.articleTitle{
+		word-break: break-word;
+		margin: 10px 0;
+		font-size: 36px;
+		height: 40px;
+		line-height: 40px;
+	}
+	.author{
+		overflow: hidden;
+		&>img{
+			float: left;
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			margin-right: 20px;
+		}
+		.articleInfo{
+			float: left;
+			min-width: 630px;
+			height: 50px;
+			.authorInfo{
+				margin: 5px 0;
+				font-size: 16px;
+				span:first-child{
+					padding: 0 5px;
+					font-size: 14px;
+					color: #ea6f5a;
+					border: 1px solid #ea6f5a;
+					border-radius: 2px;
+					cursor: pointer;
+				}
+			}
+			.articleData{
+				color: #969696;
+				font-size: 12px;
+			}
+		}
+	}
+	.articleBody{
+		margin: 20px 0;
+		font-size: 16px;
+	}
+	.tags{
+		overflow: hidden;
+		span{
+			float: left;
+			font-size: 14px;
+			height: 30px;
+			line-height: 30px;
+			margin-right: 10px;
+		}
+		ul{
+			float: left;
+			li{
+				float: left;
+				padding: 0 10px;
+				margin-right: 10px;
+				background: #eee;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 2px;
+			}	
+		}
+	}
+	.footHandle{
+		overflow: hidden;
+		margin-top: 10px;
+	}
+	.footHeartStamp{
+		float: left;
+		li{
+			float: left;
+			padding: 10px 20px;
+			border: 1px solid #ea6f5a;
+			border-radius: 19px;
+			margin-right: 10px;
+			cursor: pointer;
+			a{
+				color: #ea6f5a;
+			}
+		}
+	}
+	.footShare{
+		float: right;
+	}
+}

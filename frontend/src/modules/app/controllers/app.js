@@ -29,7 +29,7 @@ define([], function () {
                 }
             })
             .state('user', {
-            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/a',
+            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}',
             	templateUrl: 'src/modules/user/tpls/user.html',
 				controller: 'user.ctrl',
 				resolve: {
@@ -39,7 +39,7 @@ define([], function () {
                 }
             })
             .state('article', {
-            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/a/{postId}',
+            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/a/{articleId}',
             	templateUrl: 'src/modules/article/tpls/article.html',
 				controller: 'article.ctrl',
 				resolve: {

@@ -1,0 +1,103 @@
+%articleInfoHeight{
+	float: left;
+	height: 40px;
+	line-height: 40px;
+}
+%vaMiddle{
+	vertical-align: middle;
+}
+.articlesContent{
+	width: 70%;
+	min-width: 900px;
+	overflow: hidden;
+	margin: 0 auto;
+	.articleLeft{
+		width: 70%;
+		float: left;
+		padding-right: 30px;
+		li{
+			padding: 10px 0 0;
+			overflow: hidden;
+			border-bottom: 1px solid #ddd;
+			a.articleTitle{
+				display: block;
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				font-size: 26px;
+				font-weight: 500;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				&:hover{
+					color: #ea6f5a;
+					text-decoration: underline;
+				}
+			}
+			.articleAbstract{
+				width: 100%;
+				height: 100px;
+				&>a{
+					float: right;
+					height: 100%;
+					margin-right: 10px;
+					img{
+						width: 120px;
+						height: 100%;
+						border-radius: 3px;
+					}
+				}
+				&>div{
+					height: 100%;
+					font-size: 14px;
+					overflow: hidden;
+				}
+			}
+			.articleInfo{
+				width: 100%;
+				height: 40px;
+				.createTime{
+					@extend %articleInfoHeight;
+					img{
+						@extend %vaMiddle;
+					}
+					span{
+						@extend %vaMiddle;
+					}
+				}
+				ul.tags{
+					max-width: 300px;
+					@extend %vaMiddle;
+					@extend %articleInfoHeight;
+					li{
+						float: left;
+						padding: 0 5px;
+						img{
+							@extend %vaMiddle;
+						}
+						span{
+							@extend %vaMiddle;
+						}
+					}
+				}
+				.commentsCount{
+					float: right;
+					@extend %articleInfoHeight;
+				}
+				.viewsCount{
+					float: right;
+					margin-right: 10px;
+					@extend %articleInfoHeight;
+				}
+				.articleInfoIcon{
+					width: 20px;
+					height: 20px;
+				}
+			}
+		}
+	}
+	.articleRight{
+		width: 30%;
+		float: right;
+	}
+}

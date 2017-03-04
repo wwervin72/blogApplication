@@ -2,7 +2,7 @@ define([], function (){
     var deps = [];
     var homeModel = angular.module('home', deps);
     homeModel.controller('home.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', 'http', function($rootScope, $scope, $stateParams, $state, http){
-        $scope.home = $stateParams.home ? $stateParams.home : {register: false,login: true};
+        $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
         $scope.register = {
             username: '',
             password: '',
@@ -14,19 +14,6 @@ define([], function (){
             username: '',
             password: ''
         };
-        $('.tabs li').click(function () {
-            if($(this).index()){
-                $scope.home = {
-                    register: true,
-                    login: false
-                };
-            }else{
-                $scope.home = {
-                    register: false,
-                    login: true
-                };
-            }
-        });
         $scope.login = function () {
             http.request({
                 method: 'POST',
