@@ -12,6 +12,16 @@ let setTags = tags => {
 	return res;
 };
 
+let getTags = tags => {
+	console.log(this)
+	return this.length;
+};
+
+let getHearts = heart => {
+	console.log(this)
+	return this.length;
+}
+
 let setPostTime = () => {
 	let date = new Date();
 	let month = date.getMonth() + 1;
@@ -78,8 +88,7 @@ let PostSchema = new Schema({
 	// 文章标签
 	tags: {
 		type: Array,
-		set: setTags
-		// get: getTags
+		set: setTags,
 	},
 	// 创建时间
 	createAt: {
@@ -93,16 +102,27 @@ let PostSchema = new Schema({
 	},
 	// 推荐数
 	heart: {
-		// type: Number,
-		// default: 0
 		type: Array
 	},
 	// 反对数
 	stamp: {
-		// type: Number,
-		// default: 0
 		type: Array
 	}
 });
+
+PostSchema.path('createAt').get(function (value) {
+  return moment(value).format('YYYY-MM-DD hh:mm:ss');
+});
+
+// PostSchema.path('heart').get(function (value) {
+//   return value.length;
+// });
+
+// PostSchema.path('stamp').get(function (value) {
+//   return value.length;
+// });
+
+PostSchema.set('toJSON', {getters: true, virtuals: false});
+
 
 mongoose.model('Post', PostSchema);

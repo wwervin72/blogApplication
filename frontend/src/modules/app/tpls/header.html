@@ -2,14 +2,14 @@
     <img src="src/static/img/blog.png" title="回到首页" ui-sref="articles"/>
     <div class="userInfo" ng-show="userInfo">
         <div class="avatar">
-            <img src="src/static/img/blog.png" ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}" ui-sref='user({username: userInfo.username})'/>
+            <img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}" ui-sref='user({username: userInfo.username})'/>
             <ul class="userList">
                 <li ui-sref='user({username: userInfo.username})'><s></s>我的主页</li>
                 <li ng-click="loginOut()"><s></s>退出</li>
             </ul>
         </div>
         <div class="createBlog" ui-sref="createArticle">
-            <s></s>写文章
+            <img src="src/static/img/createArticle.png">写文章
         </div>
     </div>
     <div class="noUserInfo" ng-show="!userInfo">

@@ -9,7 +9,7 @@
                     <a ui-sref="user({username:article.author.username})">
                         <img ng-src="{{article.author.avatar}}">
                     </a>
-                    <div ng-bind="article.content"></div>
+                    <div ng-bind-html="article.content"></div>
                 </div>
                 <div class="articleInfo">
                     <div class="createTime">
@@ -32,6 +32,10 @@
                     <div class="viewsCount" ui-sref="/#!/{{article.author.username}}/articles/{{article._id}}">
                         <img src="./src/static/img/views.png" class="articleInfoIcon" alt="阅读"/>
                         <span ng-bind="article.views"></span>
+                    </div>
+                    <!-- 编辑 -->
+                    <div class="updateArticle" ui-sref="updateArticle({username: article.author.username,articleId: article.id})" ng-show="article.author.username===userInfo.username">
+                        <img src="./src/static/img/update.png" class="articleInfoIcon" title="编辑"/>
                     </div>
                 </div>
             </li>

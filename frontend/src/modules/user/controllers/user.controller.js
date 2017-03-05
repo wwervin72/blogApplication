@@ -7,9 +7,6 @@ define([], function () {
                 type: 'GET',
                 url: '/user/posts?username=' + $stateParams.username
             }).then(function (res) {
-                res.data.data.forEach(function (item) {
-                    item.createAt = $rootScope.parseTime(item.createAt);
-                });
                 $scope.articles = res.data.data;
             }, function (res) {
 

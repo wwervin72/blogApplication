@@ -29,6 +29,15 @@ router.get('/user/posts', userCtrl.findUserByName, articleCtrl.getUserPosts);
 router.post('/upload', uploadFile.upload);
 
 // 用户添加文章
-router.post('/user/post', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.findUserByName, articleCtrl.createPost);
+router.post('/user/post', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.createPost);
+
+// 更新文章
+router.put('/update/article', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.update);
+
+//点赞文章
+router.get('/article/heart', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.heart);
+
+//反对文章
+router.get('/article/stamp', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.stamp);
 
 module.exports = router;

@@ -10,7 +10,7 @@
 	width: 70%;
 	min-width: 900px;
 	overflow: hidden;
-	margin: 0 auto;
+	margin: 0 auto 20px;
 	.articleLeft{
 		width: 70%;
 		float: left;
@@ -92,6 +92,12 @@
 				.articleInfoIcon{
 					width: 20px;
 					height: 20px;
+				}
+				.updateArticle{
+					float: right;
+					margin-right: 10px;
+					cursor: pointer;
+					@extend %articleInfoHeight;
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 define([], function (){
     var deps = [];
     var homeModel = angular.module('home', deps);
-    homeModel.controller('home.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', 'http', function($rootScope, $scope, $stateParams, $state, http){
+    homeModel.controller('home.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', 'http', function($rootScope, $scope, $stateParams, $state, $location, http){
         $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
         $scope.register = {
             username: '',
@@ -22,7 +22,7 @@ define([], function (){
             }).then(function (res) {
                 if(res.data.result){
                     $rootScope.userInfo = res.data.info;
-                    $state.go('articles');
+                    $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
                 }         
             }, function (res) {
                 console.log(res);

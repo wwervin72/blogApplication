@@ -62,8 +62,13 @@
         .createBlog{
             float: left;
             @extend %defaultBtn;
-            width: 80px;
+            width: 90px;
             margin-right: 10px;
+            img{
+                width: 16px;
+                height: 20px;
+                margin: 8px -5px 0 8px;
+            }
         }
     }
     .noUserInfo{

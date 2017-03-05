@@ -18,7 +18,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="articleBody" ng-bind="article.content">
+	<div class="articleBody" ng-bind-html="article.content">
 	</div>
 	<div class="articleFoot">
 		<div class="tags">
@@ -29,8 +29,8 @@
 		</div>
 		<div class="footHandle">
 			<ul class="footHeartStamp">
-				<li><a>喜欢(<span ng-bind="article.heart"></span>)</a></li>
-				<li><a>不喜欢(<span ng-bind="article.stamp"></span>)</a></li>
+				<li ng-click="heart()"><a>喜欢(<span ng-bind="article.heart"></span>)</a></li>
+				<li ng-click="stamp()"><a>不喜欢(<span ng-bind="article.stamp"></span>)</a></li>
 			</ul>
 			<div class="footShare">
 				分享
@@ -38,13 +38,18 @@
 		</div>
 	</div>
 	<div class="addComments">
-		<div class="notLogin" ng-show="!userInfo">
-			<img src="" title="">
-			<div class="loginBtn">
-				<a href=""></a>后发表评论
+		<a class="avatar">
+			<img src="http://localhost:3000/upload/defaultAvatar.jpg"/>
+		</a>
+		<div class="commentsArea">
+			<div class="loginTips" ng-show="!userInfo">
+				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
 			</div>
-		</div>
-		<div class="commentsEditor" contenteditable ng-model="newComment.body" ng-show="userInfo">
+			<div class="commentsEditor" ng-show="userInfo">
+				<div class="commentsTextArea" contenteditable ng-model="newComment.body" editor-menu="emotion">
+				</div>
+				<button>发送</button><a href="javascript:;">取消</a>
+			</div>
 		</div>
 	</div>
 </div>

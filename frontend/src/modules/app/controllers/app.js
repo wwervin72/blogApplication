@@ -1,5 +1,5 @@
 define([], function () {
-	var deps = ['oc.lazyLoad', 'ui.router', 'ngCookies', 'httpRequest', 'editor'];
+	var deps = ['oc.lazyLoad', 'ui.router', 'ngCookies', 'ngSanitize', 'httpRequest', 'editor'];
 	var app = angular.module('app', deps);
 	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider) {
         $ocLazyLoadProvider.config({
@@ -59,8 +59,8 @@ define([], function () {
                 }
 			})
 			.state('updateArticle', {
-				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/{ArticleId}/update',
-				template: 'src/modules/updateArticle/updateArticle.html',
+				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/{articleId}/update',
+				templateUrl: 'src/modules/updateArticle/tpls/updateArticle.html',
 				controller: 'updateArticle.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
@@ -97,20 +97,6 @@ define([], function () {
                     delete $rootScope.userInfo;
                 }
             })
-        };
-        $rootScope.parseTime = function (date) {
-            date = new Date(date);
-            let month = date.getMonth() + 1;
-            month = month < 10 ? ('0' + month) : month;
-            let day = date.getDate();
-            day = day < 10 ? ('0' + day) : day;
-            let hours = date.getHours();
-            hours = hours < 10 ? ('0' + hours) : hours;
-            let minutes = date.getMinutes();
-            minutes = minutes < 10 ? ('0' + minutes) : minutes;
-            let seconds = date.getSeconds();
-            seconds = seconds < 10 ? ('0' + seconds) : seconds;
-            return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
         };
     }]);
     return app;

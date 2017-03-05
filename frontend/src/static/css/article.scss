@@ -87,4 +87,57 @@
 	.footShare{
 		float: right;
 	}
+	.addComments{
+		margin-top: 20px;
+		height: 150px;
+		.avatar{
+			float: left;
+			margin-right: 20px;
+			img{
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+			}
+		}
+		.commentsArea{
+			float: left;
+			min-width: 640px;
+			height: 100%;
+			text-align: center;
+			border: 1px solid #ddd;
+			background: #eee;
+			font-size: 14px;
+			.loginTips{
+				margin: 65px 0; 
+				&>a{
+					padding: 10px 20px;
+					color:#ea6f5a;
+					border: 1px solid #ea6f5a;
+					border-radius: 2px;
+					margin-right: 10px;
+				}
+			}
+			.commentsEditor{
+				margin-top: -1px;
+				margin-left: -1px;
+				.commentsTextArea{
+					height: 150px;
+				}
+				&>a{
+					float: right;
+					font-size: 14px;
+					margin: 15px 10px 0 0;
+				}
+				&>button{
+					float: right;
+					padding: 5px 10px;
+					border: none;
+					background: green;
+					border-radius: 2px;
+					color: #fff;
+					margin-top: 10px;
+				}
+			}
+		}
+	}
 }

@@ -125,6 +125,7 @@ module.exports = {
 		tokenManage.expireToken(token);
 		return res.status(200).json({
 			user: {
+				_id: req.user._id,
 				nickname: req.user.nickname,
 				username: req.user.username,
 				avatar: req.user.avatar

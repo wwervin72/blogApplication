@@ -7,6 +7,7 @@ requirejs.config({
 		uiRouter: 'libs/angular-ui-router/release/angular-ui-router.min',
 		ngCookies: 'libs/angular-cookies/angular-cookies.min',
 		oclazyload: 'libs/oclazyload/dist/ocLazyLoad.require.min',
+		sanizite: 'libs/angular-sanitize/angular-sanitize.min',
 		wangEditor: 'libs/wangEditor/src/js/wangEditor',
 		httpRequest: 'src/services/httpService',
 		particle: 'src/services/particleService',
@@ -29,6 +30,9 @@ requirejs.config({
 		oclazyload: {
 			deps: ['angular']
 		},
+		sanizite: {
+			deps: ['angular']
+		},
 		ngCookies: {
 			deps: ['angular']	
 		},
@@ -39,13 +43,16 @@ requirejs.config({
 			exports: 'particle'
 		},
 		app: {
-			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'httpRequest', 'editor']
+			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'sanizite', 'httpRequest', 'editor']
 		},
 		home: {
 			deps: ['particle']
 		},
 		editor: {
 			deps: ['wangEditor']
+		},
+		article: {
+			deps: ['sanizite']
 		}
 	}
 });
@@ -63,8 +70,8 @@ require(['angular', 'jquery', 'app'], (angular, $, app) => {
             method: 'GET',
             url: '/userinfo?token=' + cookies.get('TOKEN')
         }).then(function (res) {
+	        var rootScope = injector.get("$rootScope");
             if(res.data.result){
-            	var rootScope = injector.get("$rootScope");
                 rootScope.userInfo = res.data.user;
             }
             cookies.remove("TOKEN", {path: '/'});
