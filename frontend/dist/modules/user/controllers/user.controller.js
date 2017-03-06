@@ -1,0 +1,1 @@
+define([],function(){var e=[],t=angular.module("user",e);return t.controller("user.ctrl",["$rootScope","$scope","$stateParams","http",function(e,t,n,r){!function(){r.request({type:"GET",url:"/user/posts?username="+n.username}).then(function(e){t.articles=e.data.data},function(e){})}()}]),t});

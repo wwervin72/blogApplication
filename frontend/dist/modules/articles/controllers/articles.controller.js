@@ -1,0 +1,1 @@
+define([],function(){var t=[],e=angular.module("articles",t);return e.controller("articles.ctrl",["$rootScope","$scope","http",function(t,e,r){!function(){r.request({method:"GET",url:"/posts"}).then(function(t){t.data.result&&(e.articles=t.data.data)})}()}]),e});

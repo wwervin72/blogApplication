@@ -4,7 +4,7 @@ define([], function () {
         this.nodes = [];
         this.lines = [];
         this.mousePos = [0, 0];
-        let defaultSetting = {
+        var defaultSetting = {
             width: this.dom.getBoundingClientRect().width,
             height: this.dom.getBoundingClientRect().height,
             backgroundColor: '#000',
@@ -24,7 +24,7 @@ define([], function () {
             return JSON.parse(this.dom.getAttribute('particle-set')) || {};
         },
         createCanvas: function () {
-            let canvas = this.dom.querySelector('canvas'),
+            var canvas = this.dom.querySelector('canvas'),
                 ctx;
             if(!canvas){
                 canvas = document.createElement('canvas');
@@ -42,7 +42,7 @@ define([], function () {
         },
         createNodes: function () {
             this.nodes.length = 0;
-            for(let i = 0; i < this.option.nodeCount; i++){
+            for(var i = 0; i < this.option.nodeCount; i++){
                 this.nodes.push({
                     drivenByMouse: i == 0,
                     x: Math.random() * this.option.width,
@@ -52,15 +52,15 @@ define([], function () {
                     radius: Math.random() > 0.9 ? (2 + Math.random() * 1) : (1 + Math.random() * 10)
                 });
             }
-            let len = this.nodes.length;
-            for(let n = 0; n < len; n++){
-                for(let m = n; m < len; m++){
+            var len = this.nodes.length;
+            for(var n = 0; n < len; n++){
+                for(var m = n; m < len; m++){
                     this.lines.push({from: this.nodes[n], to: this.nodes[m]});
                 }
             }
         },
         step: function () {
-            let w = this.option.width,
+            var w = this.option.width,
                 h = this.option.height;
             this.nodes.forEach(function (item) {
                 if(item.drivenByMouse){
@@ -89,13 +89,13 @@ define([], function () {
             return Math.sqrt(Math.pow((line.from.x - line.to.x), 2) + Math.pow((line.from.y - line.to.y), 2));
         },
         render: function () {
-            let ctx = this.ctx,
+            var ctx = this.ctx,
                 _this = this;
             ctx.fillStyle = _this.option.backgroundColor;
             ctx.fillRect(0, 0, _this.option.width, _this.option.height);
             ctx.globalAlpha = _this.option.globalAlpha;
             _this.lines.forEach(function (item) {
-                let l = _this.lengthOfEdge(item),
+                var l = _this.lengthOfEdge(item),
                     threshold = _this.canvas.width / 8;
                 if(l > threshold){
                     return;
@@ -137,7 +137,7 @@ define([], function () {
     };
 
     function _extend () {
-        let result = {},
+        var result = {},
             isDepthExtend = true,
             prop;
         if(!arguments.length){
