@@ -18,23 +18,23 @@
     </ul>
     <div class="from_content">
         <div ng-show="home.login">
-            <form id="login">
+            <form id="login" name="login_form">
                 <div class="ipt_group">
-                    <input type="text" ng-model="loginUser.username" placeholder="登陆账号"/>
+                    <input type="text" ng-model="loginUser.username" name="username" placeholder="登陆账号" required/>
                     <div class="iptMsg">
-                        <span>请填写登陆账号</span>
+                        <span ng-show="login_form.username.$error.required">请填写登陆账号</span>
                         <span>该账号不存在</span>
                     </div>
                 </div>
                 <div class="ipt_group">
-                    <input type="password" ng-model="loginUser.password" placeholder="密码"/>
+                    <input type="password" ng-model="loginUser.password" placeholder="密码" required/>
                     <div class="iptMsg">
                         <span>请填写密码</span>
                         <span>密码不正确</span>
                     </div>
                 </div>
             </form>
-            <a class="forgetPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
+            <a class="forgetPwd" ui-sref="modifyPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
         </div>
         <div ng-show="home.register">
             <form id="register" name="registerForm" novalidate>

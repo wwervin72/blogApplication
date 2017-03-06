@@ -8,6 +8,16 @@ define([], function (){
                 url: '/posts'
             }).then(function (res) {
                 if(res.data.result){
+                    res.data.data.map(function (item) {
+                        $(item.content).each(function (i, ele) {
+                            if(!i){
+                                item.content = '';
+                            }
+                            if(ele.nodeName !== 'PRE'){
+                                item.content += $(ele).text().trim();
+                            }
+                        })
+                    });
                     $scope.articles = res.data.data;
                 }
             })

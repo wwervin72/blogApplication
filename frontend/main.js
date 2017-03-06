@@ -9,16 +9,17 @@ requirejs.config({
 		oclazyload: 'libs/oclazyload/dist/ocLazyLoad.require.min',
 		sanizite: 'libs/angular-sanitize/angular-sanitize.min',
 		wangEditor: 'libs/wangEditor/src/js/wangEditor',
-		httpRequest: 'src/services/httpService',
-		particle: 'src/services/particleService',
-		editor: 'src/directives/editorDirective',
-		app: 'src/modules/app/controllers/app',
-		home: 'src/modules/home/controllers/home.controller',
-		articles: 'src/modules/articles/controllers/articles.controller',
-		user: 'src/modules/user/controllers/user.controller',
-		article: 'src/modules/article/controllers/article.controller',
-		createArticle: 'src/modules/createArticle/controllers/createArticle.controller',
-		updateArticle: 'src/modules/updateArticle/controllers/updateArticle.controller'
+		httpRequest: 'dist/services/httpService',
+		particle: 'dist/services/particleService',
+		editor: 'dist/directives/editorDirective',
+		app: 'dist/modules/app/controllers/app',
+		home: 'dist/modules/home/controllers/home.controller',
+		articles: 'dist/modules/articles/controllers/articles.controller',
+		user: 'dist/modules/user/controllers/user.controller',
+		article: 'dist/modules/article/controllers/article.controller',
+		createArticle: 'dist/modules/createArticle/controllers/createArticle.controller',
+		updateArticle: 'dist/modules/updateArticle/controllers/updateArticle.controller',
+		modifyPwd: 'dist/modules/user/controllers/modifyPwd.controller'
 	},
 	shim: {
 		angular: {
