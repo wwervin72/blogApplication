@@ -3,7 +3,7 @@ define([], function (){
     var homeModel = angular.module('home', deps);
     homeModel.controller('home.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', 'http', function($rootScope, $scope, $stateParams, $state, $location, http){
         $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
-        $scope.register = {
+        $scope.registerUser = {
             username: '',
             password: '',
             replayPwd: '',
@@ -14,7 +14,49 @@ define([], function (){
             username: '',
             password: ''
         };
+        $scope.accountNotExist = false;
+        $scope.accountExist = false;
+        $scope.loginFailed = false;
+        $(function () {
+            $('.iptMsg').each(function (i, item) {
+                item = $(item);
+                item.css('right', -parseInt(item.css('width')) + 'px');
+            });
+        })
+        $('.from_content').delegate('.iptMsg span', 'click', function () {
+            $(this).parent().prev().focus();
+        });
+        $('.from_content').delegate('input', 'focus', function () {
+            if($(this).attr('ng-model') === 'loginUser.username'){
+                $scope.accountNotExist = false;
+            }
+            $scope.loginFailed = false;
+            $scope.hideMsg($(this).next('.iptMsg'));
+        });
+        $scope.showMsg = function (dom) {
+            dom.css('display', 'block');
+            dom.animate({
+                opacity: 1,
+                right: '10px'
+            }, 300);
+        };
+        $scope.hideMsg = function (dom) {
+            dom.animate({
+                opacity: 0,
+                right: -parseInt(dom.css('width')) + 'px'
+            }, 300)
+        };
+        $scope.hideRegisterMsg = function () {
+            $scope.hideMsg($('#register .iptMsg'));
+        };
+        $scope.hideLoginMsg = function () {
+            $scope.hideMsg($('#login .iptMsg'));
+        }
         $scope.login = function () {
+            $scope.showMsg($('#login .iptMsg'));
+            if($scope.login_form.$invalid){
+                return;
+            }
             http.request({
                 method: 'POST',
                 url: '/login',
@@ -23,11 +65,45 @@ define([], function (){
                 if(res.data.result){
                     $rootScope.userInfo = res.data.info;
                     $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
+                }else{
+                    if(res.data.msg === '用户名不存在'){
+                        $scope.accountNotExist = true;
+                    }
+                    if(res.data.msg === '用户名或者密码不正确'){
+                        $scope.loginFailed = true;
+                    }
                 }         
             }, function (res) {
-                console.log(res);
+               
             });
         };
+        $scope.register = function () {
+            $scope.showMsg($('#register .iptMsg'));
+            if($scope.registerForm.$invalid){
+                return;
+            }
+            http.request({
+                method: 'POST',
+                url: '/register',
+                data: $scope.registerUser
+            }).then(function (res) {
+                if(res.data.result){
+                    // 注册成功，然后登陆
+                    $scope.hideMsg($('#register .iptMsg'));
+                    for(var prop in $scope.registerUser){
+                        $scope.registerUser[prop] = '';
+                    }
+                    $rootScope.userInfo = res.data.info;
+                    $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
+                }else{
+                    // 注册失败
+
+                }
+            }, function (res) {
+                console.log(res)
+            });
+        }
+
         // 背景图
         var particle = $('.bg_particle');
         particle.ready(function () {

@@ -3,13 +3,13 @@
 <div class="home_content">
     <img src="src/static/img/homeLogo.png" title="Blog" ui-sref="articles"/>
     <ul class="tabs">
-        <li ng-click="home={login: true, register: false}">
+        <li ng-click="home={login: true, register: false};hideRegisterMsg()">
             <a ng-class="{active: home.login}">
                 登陆
             </a>
             <s ng-show="home.login"></s>
         </li>
-        <li ng-click="home={login: false, register: true}">
+        <li ng-click="home={login: false, register: true};hideLoginMsg()">
             <a ng-class="{active: home.register}">
                 注册
             </a>
@@ -23,14 +23,14 @@
                     <input type="text" ng-model="loginUser.username" name="username" placeholder="登陆账号" required/>
                     <div class="iptMsg">
                         <span ng-show="login_form.username.$error.required">请填写登陆账号</span>
-                        <span>该账号不存在</span>
+                        <span ng-show="!login_form.username.$error.required && accountNotExist">该账号不存在</span>
+                        <span ng-show="!login_form.username.$error.required && !accountNotExist && loginFailed">账号或者密码不正确</span>
                     </div>
                 </div>
                 <div class="ipt_group">
-                    <input type="password" ng-model="loginUser.password" placeholder="密码" required/>
+                    <input type="password" ng-model="loginUser.password" name="password" placeholder="密码" required/>
                     <div class="iptMsg">
-                        <span>请填写密码</span>
-                        <span>密码不正确</span>
+                        <span ng-show="login_form.password.$error.required">请填写密码</span>
                     </div>
                 </div>
             </form>
@@ -39,39 +39,42 @@
         <div ng-show="home.register">
             <form id="register" name="registerForm" novalidate>
                 <div class="ipt_group">
-                    <input type="text" ng-focus="ff()" name="username" ng-model="register.username" placeholder="注册账号" required/>
-                    <div class="iptMsg" ng-show="!registerForm.username.$focused && registerForm.username.$invalid">
+                    <input type="text" name="username" ng-model="registerUser.username" placeholder="账号" required ng-pattern="/^[a-zA-Z0-9]{3,10}$/"/>
+                    <div class="iptMsg">
                         <span ng-show="registerForm.username.$error.required">
                         请填写注册账号
                         </span>
-                        <span>账号格式不正确</span>
-                        <span>用户名已被注册</span>
+                        <span ng-show="!registerForm.username.$error.required && registerForm.username.$error.pattern">账号为3到10个长度的字母或数字</span>
+                        <span ng-show="!registerForm.username.$error.required && !registerForm.username.$error.pattern && accountExist">用户名已被注册</span>
                     </div>
                 </div>
                 <div class="ipt_group">
-                    <input type="text" id="rePwd" ng-model="register.password" placeholder="密码"/>
+                    <input type="password" name="password" ng-model="registerUser.password" placeholder="密码" ng-pattern="/^[a-zA-Z0-9-_.]{3,12}$/" required/>
                     <div class="iptMsg">
-                        <span>请填写密码</span>
+                        <span ng-show="registerForm.password.$error.required">请填写密码</span>
+                        <span ng-show="!registerForm.password.$error.required && registerForm.password.$error.pattern">密码为3到12个长度的字母数字-_.</span>
                     </div>
                 </div>
                 <div class="ipt_group">
-                    <input type="text" id="replayPwd" ng-model="register.replayPwd" placeholder="重复密码"/>
+                    <input type="password" name="replayPwd" ng-model="registerUser.replayPwd" placeholder="确认密码" required/>
                     <div class="iptMsg">
-                        <span>请填写重复密码</span>
+                        <span ng-show="registerForm.replayPwd.$error.required">请填写重复密码</span>
+                        <span ng-show="!registerForm.replayPwd.$error.required && register.replayPwd!=register.password">确认密码与密码不相同</span>
                     </div>
                 </div>
                 <div class="ipt_group">
-                    <input type="text" id="nickName" ng-model="register.nickName" placeholder="昵称"/>
+                    <input type="text" id="nickName" ng-model="registerUser.nickName" placeholder="昵称"/>
                 </div>
                 <div class="ipt_group">
-                    <input type="text" id="email" ng-model="register.email" placeholder="邮箱"/>
+                    <input type="email" name="email" ng-model="registerUser.email" placeholder="邮箱" required/>
                     <div class="iptMsg">
-                        <span>请填写邮箱</span>
+                        <span ng-show="registerForm.email.$error.required">请填写邮箱</span>
+                        <span ng-show="!registerForm.email.$error.required && registerForm.email.$error.email">邮箱格式不正确</span>
                     </div>
                 </div>
             </form>
         </div>
-        <button ng-show="home.register">注册</button>
+        <button ng-show="home.register" ng-click="register()">注册</button>
         <button ng-show="home.login" ng-click="login()">登陆</button>
     </div>
 </div>

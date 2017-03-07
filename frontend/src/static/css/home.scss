@@ -77,6 +77,7 @@
         .ipt_group{
             position: relative;
             border-bottom: 1px solid #ddd;
+            overflow: hidden;
             &:last-child{
                 border: none;
             }
@@ -107,6 +108,7 @@
                 height: 50px;
                 line-height: 50px;
                 color: $errColor;
+                display: none;
             }
         }
         button{
