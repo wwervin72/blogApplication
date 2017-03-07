@@ -13,8 +13,7 @@
     border: 1px solid #ddd;
 }
 %loginSelect{
-    display: inline-block;
-    width: 50%;
+    float: left;
     height: 36px;
     line-height: 36px;
     text-align: left;
@@ -136,7 +135,7 @@
     }
     .authLogin{
         @extend %loginSelect;
+        float: right;
         color: #999;
-        text-align: right;
     }
 }
