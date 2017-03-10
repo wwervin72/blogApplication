@@ -14,20 +14,35 @@ define([], function (){
             username: '',
             password: ''
         };
-        $scope.login = function () {
-            http.request({
-                method: 'POST',
-                url: '/login',
-                data: $scope.loginUser
-            }).then(function (res) {
-                if(res.data.result){
-                    $rootScope.userInfo = res.data.info;
-                    $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
-                }         
-            }, function (res) {
-                console.log(res);
-            });
+        $scope.showMsg = {
+            login:  false,
+            register: false
         };
+        $scope.login = function () {
+            $scope.showMsg.login = true;
+            // http.request({
+            //     method: 'POST',
+            //     url: '/login',
+            //     data: $scope.loginUser
+            // }).then(function (res) {
+            //     if(res.data.result){
+            //         $rootScope.userInfo = res.data.info;
+            //         $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
+            //     }         
+            // }, function (res) {
+            //     console.log(res);
+            // });
+        };
+        $('.from_content').delegate('#login .iptMsg span, #register .iptMsg span', 'click', function () {
+            $(this).parent().prev().focus();
+        });
+        $('.from_content').delegate('input', 'focus', function () {
+            var iptMsg = $(this).next('.iptMsg');
+            if(iptMsg.length && iptMsg.css('display') === 'block'){
+                iptMsg.css('display', 'none');
+            }
+        });
+
         // 背景图
         var particle = $('.bg_particle');
         particle.ready(function () {
