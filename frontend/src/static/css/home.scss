@@ -13,8 +13,7 @@
     border: 1px solid #ddd;
 }
 %loginSelect{
-    display: inline-block;
-    width: 50%;
+    float: left;
     height: 36px;
     line-height: 36px;
     text-align: left;
@@ -77,6 +76,7 @@
         .ipt_group{
             position: relative;
             border-bottom: 1px solid #ddd;
+            overflow: hidden;
             &:last-child{
                 border: none;
             }
@@ -107,6 +107,7 @@
                 height: 50px;
                 line-height: 50px;
                 color: $errColor;
+                display: none;
             }
         }
         button{
@@ -134,7 +135,7 @@
     }
     .authLogin{
         @extend %loginSelect;
+        float: right;
         color: #999;
-        text-align: right;
     }
 }

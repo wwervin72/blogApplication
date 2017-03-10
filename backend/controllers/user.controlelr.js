@@ -40,7 +40,6 @@ module.exports = {
 				if(err){
 					return next(err);
 				}
-				
 				return res.status(200).json({
 					result: true,
 					msg: '登陆成功',
@@ -55,11 +54,6 @@ module.exports = {
 		})(req, res, next);
 	},
 	register: function(req, res, next){
-		for(let prop in req.body){
-			if(req.body[prop] === ''){
-				delete req.body[prop];
-			}
-		}
 		let user = new User(req.body);
 		user.save((err, user) => {
 			if(err) {
@@ -74,12 +68,17 @@ module.exports = {
 					msg: msg
 				});
 			}
-			res.status(200);
-			return res.json({
+			return res.status(200).json({
 				result: true,
-				msg: '注册成功'
+				msg: '注册成功',
+				token: tokenManage.createNewToken(user),
+				info: {
+					username: user.username,
+					avatar: user.avatar,
+					nickname: user.nickname
+				}
 			});
-		})
+		});
 	},
 	// 检查用户名、邮箱等是否唯一
 	registerCheckUnique: function (req, res, next) {

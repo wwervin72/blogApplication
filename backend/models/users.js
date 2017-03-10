@@ -46,8 +46,8 @@ UserSchema
 	});
 
 UserSchema.path('username').validate((username) => {
-	return /^[a-z]{1}[a-z0-9]{0,5}$/.test(username);
-}, '用户名必须是以字母开头的1到6个长度的小写字母或者数字');
+	return /^[a-zA-Z0-9]{3,10}$/.test(username);
+}, '账号为3到10个长度的字母或数字');
 
 UserSchema.path('hashed_password').validate(function(hashed_password){
 	return /^[a-zA-Z0-9-_.]{3,12}$/.test(this.toObject({virtuals: true}).password);
