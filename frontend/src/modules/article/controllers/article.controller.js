@@ -140,9 +140,10 @@ define([], function () {
 		};
 		// 取消回复
 		$scope.cancelReply = function ($event) {
+			var _this = $($event.target).parent();
 			$scope.replyContent = '';
-			$('.cmtReplyArea').hide();
-			$('.cmtReplyArea .wangEditor-txt').html('<p><br></p>');
+			_this.find('.wangEditor-txt').html('<p><br></p>');
+			_this.hide();
 		};
         $(function () {
 			// 取消评论
