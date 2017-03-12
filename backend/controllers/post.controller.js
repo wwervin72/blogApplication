@@ -111,7 +111,7 @@ module.exports = {
 				return next();
 			}
 			if(result.heart.indexOf(req.user._id) !== -1){
-				return res.status({
+				return res.status(200).json({
 					result: false,
 					msg: '不能重复点赞'
 				});
@@ -124,8 +124,6 @@ module.exports = {
 				if(err){
 					return next(err);
 				}
-				result.heart = result.heart.length;
-				result.stamp = result.stamp.length;
 				return res.status(200).json({
 					result: true,
 					msg: '点赞成功',
@@ -143,7 +141,7 @@ module.exports = {
 				return next();
 			}
 			if(result.stamp.indexOf(req.user._id) !== -1){
-				return res.status({
+				return res.status(200).json({
 					result: false,
 					msg: '不能重复反对'
 				});
@@ -156,8 +154,6 @@ module.exports = {
 				if(err){
 					return next(err);
 				}
-				result.heart = result.heart.length;
-				result.stamp = result.stamp.length;
 				return res.status(200).json({
 					result: true,
 					msg: '反对成功',

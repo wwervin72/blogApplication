@@ -3,6 +3,10 @@ let Schema = mongoose.Schema;
 let article = mongoose.model('Post');
 let moment = require('moment');
 
+let getHearts = heart => heart.length;
+
+let getStamps = stamp => stamp.length;
+
 let CommentsSchema = new Schema({
 	article: {
 		type: Schema.ObjectId,
@@ -29,7 +33,15 @@ let CommentsSchema = new Schema({
 	reply: [{
 		type: Schema.ObjectId,
 		ref: 'Comments'
-	}]
+	}],
+	heart: {
+		type: Array,
+		get: getHearts,
+	},
+	stamp: {
+		type: Array,
+		get: getStamps,
+	}
 });
 
 CommentsSchema.path('createDate').get(function (val) {

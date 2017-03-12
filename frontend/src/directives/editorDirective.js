@@ -11,6 +11,7 @@ define([], function () {
             link: function (scope, ele, attr, ctrl) {
                 //创建编辑器
                 var editor = new wangEditor(ele);
+                scope.editor = editor;
                 var content;
                 wangEditor.config.printLog = false;
                 editor.config.menus = (attr.editorMenu && attr.editorMenu.split(',')) || [

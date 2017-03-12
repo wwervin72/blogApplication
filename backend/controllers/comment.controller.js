@@ -19,13 +19,13 @@ module.exports = {
 			Article.update({_id: comment.article},
 				{$inc: {
 					comments: 1
-				}}, function (err, res) {
+				}}, function (err, result) {
 					if(err){
 						return next(err);
 					}
 					// 找到该条评论信息，并返回
 					Comment.findOne({_id: comment._id})
-							.populate({path: 'author', model: 'User', select: ['nickname', 'avatar', 'username']})
+							.populate({path: 'author', model: 'User', select: ['_id', 'nickname', 'avatar']})
 							.exec(function (err, cmt) {
 								if(err){
 									return next(err);
@@ -44,7 +44,8 @@ module.exports = {
 	},
 	getArticleComments: function (req, res, next) {
 		Comment.find({article: req.query.articleId})
-				.populate({path: 'author', model: 'User', select: ['_id', 'nickname', 'avatar']})
+				.populate({path: 'author', model: 'User', select: ['_id', 'nickname', 'avatar', 'username']})
+				.sort({_id: 1})
 				.exec(function (err, result) {
 					if(err){
 						return next(err);

@@ -12,13 +12,9 @@ let setTags = tags => {
 	return res;
 };
 
-let getHearts = heart => {
-	return heart.length;
-};
+let getHearts = heart => heart.length;
 
-let getStamps = stamp => {
-	return stamp.length;
-};
+let getStamps = stamp => stamp.length;
 
 let PostSchema = new Schema({
 	id: {
@@ -66,18 +62,26 @@ let PostSchema = new Schema({
 	// 推荐数
 	heart: {
 		type: Array,
-		get: getHearts
+		// get: getHearts
 	},
 	// 反对数
 	stamp: {
 		type: Array,
-		get: getStamps
+		// get: getStamps
 	}
 });
 
 PostSchema.path('createAt').get(function (value) {
   return moment(value).format('YYYY-MM-DD hh:mm:ss');
 });
+
+PostSchema.methods = {
+	calcLen: function (val) {
+		val.heart = val.heart.length;
+		val.stamp = val.stamp.length;
+		return val;
+	}
+};
 
 PostSchema.set('toJSON', {getters: true, virtuals: false});
 
