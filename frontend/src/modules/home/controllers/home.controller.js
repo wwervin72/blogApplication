@@ -97,7 +97,7 @@ define([], function (){
                     $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
                 }else{
                     // 注册失败
-
+                    
                 }
             }, function (res) {
                 console.log(res)

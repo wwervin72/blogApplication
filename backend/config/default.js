@@ -8,6 +8,10 @@ module.exports = {
 	tokenSecret: 'ervinBlog',
 	tokenExpireTime: 60 * 30,
 	cookieSecret: 'myBlog',
+	gmail: {
+		user: 'lw.ervin.72',
+		password: 'ervinww664533178'
+	},
 	session: {
 		key: 'myBlog',
 		secret: 'myblog',

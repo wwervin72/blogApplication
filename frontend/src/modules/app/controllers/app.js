@@ -24,7 +24,7 @@ define([], function () {
                 controller: 'articles.ctrl',
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('articles')
+                        return $ocLazyLoad.load('articles');
                     }]
                 }
             })
@@ -34,7 +34,7 @@ define([], function () {
 				controller: 'user.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('user')
+                        return $ocLazyLoad.load('user');
                     }]
                 }
             })
@@ -44,7 +44,7 @@ define([], function () {
 				controller: 'article.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('article')
+                        return $ocLazyLoad.load('article');
                     }]
                 }
             })
@@ -54,7 +54,7 @@ define([], function () {
 				controller: 'createArticle.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('createArticle')
+                        return $ocLazyLoad.load('createArticle');
                     }]
                 }
 			})
@@ -64,7 +64,7 @@ define([], function () {
 				controller: 'updateArticle.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('updateArticle')
+                        return $ocLazyLoad.load('updateArticle');
                     }]
                 }
 			})
@@ -74,7 +74,17 @@ define([], function () {
                 controller: 'modifyPwd.ctrl',
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('modifyPwd')
+                        return $ocLazyLoad.load('modifyPwd');
+                    }]
+                }
+            })
+            .state('findPwd', {
+                url: '/findPwd',
+                templateUrl: 'src/modules/user/tpls/findPwd.html',
+                controller: 'findPwd.ctrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('findPwd');
                     }]
                 }
             })

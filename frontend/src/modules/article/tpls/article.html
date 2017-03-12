@@ -46,10 +46,18 @@
 				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
 			</div>
 			<div class="commentsEditor" ng-show="userInfo">
-				<div class="commentsTextArea" contenteditable ng-model="newComment.body" editor-menu="emotion">
+				<div class="commentsTextArea" contenteditable ng-model="newComment.content" editor-menu="emotion">
 				</div>
-				<button>发送</button><a href="javascript:;">取消</a>
+				<button ng-click="reviewArticle()">发送</button><a href="javascript:;">取消</a>
 			</div>
 		</div>
 	</div>
+	<ul class="comments">
+		<li ng-repeat="comment in comments">
+			<span ng-bind-html="comment.content"></span>
+			<span ng-bind="comment.createDate"></span>
+			<span ng-bind="comment.author.nickname"></span>
+			<span ng-bind="comment.author.avatar"></span>
+		</li>
+	</ul>
 </div>

@@ -28,10 +28,6 @@ module.exports = {
 			if(err){
 				return next(err);
 			}
-			articles.forEach(function (item) {
-				item.heart = item.heart.length;
-				item.stamp = item.stamp.length;
-			});
 			return res.status(200).json({
 				result: true,
 				data: articles
@@ -55,8 +51,6 @@ module.exports = {
 					if(!article){
 						return next();
 					}
-					article.heart = article.heart.length;
-					article.stamp = article.stamp.length;
 					return res.status(200).json({
 						result: true,
 						msg: '文章获取成功',

@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 
 require('./models/users');
 require('./models/posts');
-require('./models/tags');
+require('./models/comments');
 require('./passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session())
