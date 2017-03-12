@@ -95,8 +95,8 @@ define([], function () {
 				if(res.data.result){
 					$scope.article.comments += 1;
 					$scope.comments.push(res.data.data);
-					if($scope.editor){
-						$scope.editor.$txt.html('<p><br></p>');
+					if($('.commentsEditor .wangEditor-txt').length){
+						$('.commentsEditor .wangEditor-txt').html('<p><br></p>');
 					}
 					alert('评论成功');
 				}
@@ -127,11 +127,22 @@ define([], function () {
 		};
 		// 弹出回复输入框
 		$scope.toggleReplay = function ($event) {
-			$($event.target).parent().next('.cmtReplyArea').toggle();
+			var _this = $($event.target).parent().next('.cmtReplyArea');
+			var open = _this.css('display') === 'none' ? true : false;
+			$scope.replyContent = '';
+			$('.cmtReplyArea').hide();
+			$('.cmtReplyArea .wangEditor-txt').html('<p><br></p>');
+			if(open){
+				_this.show();
+			}else{
+				_this.hide();
+			}
 		};
 		// 取消回复
-		$scope.cancelReply = function () {
-			
+		$scope.cancelReply = function ($event) {
+			$scope.replyContent = '';
+			$('.cmtReplyArea').hide();
+			$('.cmtReplyArea .wangEditor-txt').html('<p><br></p>');
 		};
         $(function () {
 			// 取消评论
