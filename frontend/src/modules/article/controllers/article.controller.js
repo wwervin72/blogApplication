@@ -21,13 +21,6 @@ define([], function () {
 							console.log('文章评论加载失败');
 						}
 					});
-					$scope.newComment = {
-						articleId: $scope.article._id,
-						authorId: $rootScope.userInfo._id,
-						content: '',
-						replyParent: [],
-						reply: [],
-					};
 				}
 			});
 		}());
@@ -83,9 +76,17 @@ define([], function () {
 		};
 		// 评论文章(根评论)
 		$scope.reviewArticle = function () {
-			if($scope.newComment.content === ''){
+			$scope.newCommentContent = $scope.newCommentContent.trim();
+			if($scope.newCommentContent === ''){
 				return alert('请输入你的评论');
 			}
+			$scope.newComment = {
+				articleId: $scope.article._id,
+				authorId: $rootScope.userInfo._id,
+				content: $scope.newCommentContent,
+				replyParent: [],
+				reply: [],
+			};
 			http.request({
 				method: 'POST',
 				url: '/article/comment',
@@ -103,27 +104,34 @@ define([], function () {
 			});
 		};
 		//子评论(回复)
-		$scope.reviewReply = function (comment) {
+		$scope.reviewReply = function ($event, comment) {
+			$scope.replyContent = $scope.replyContent.trim();
 			//跳转到输入框, 并获取焦点
-			$('body').scrollTop($('.commentsTextArea').offset().top - ($(window).height() - 160) / 2);
-			if($scope.newComment.content === ''){
+			if($scope.replyContent === ''){
 				return alert('请输入你的评论');
 			}
-			http.request({
-				method: 'POST',
-				url: '/article/comment',
-				data: $.extend(true, {}, {token: $cookies.get('TOKEN'), replyParent: [comment.author._id]}, $scope.newComment)
-			}).then(function (res) {
-				// 回复成功
-				if(res.data.result){
-					$scope.article.comments += 1;
-					$scope.comments.push(res.data.data);
-					if($scope.editor){
-						$scope.editor.$txt.html('<p><br></p>');
-					}
-					alert('回复成功');
-				}
-			});
+			$scope.newComment = {
+				articleId: $scope.article._id,
+				authorId: $rootScope.userInfo._id,
+				content: $scope.replyContent,
+				replyParent: [comment.author.nickname],
+				reply: [],
+			};
+			// http.request({
+			// 	method: 'POST',
+			// 	url: '/article/comment',
+			// 	data: $.extend(true, {}, {token: $cookies.get('TOKEN'), replyParent: [comment.author._id]}, $scope.newComment)
+			// }).then(function (res) {
+			// 	// 回复成功
+			// 	if(res.data.result){
+			// 		$scope.article.comments += 1;
+			// 		$scope.comments.push(res.data.data);
+			// 		if($scope.editor){
+			// 			$scope.editor.$txt.html('<p><br></p>');
+			// 		}
+			// 		alert('回复成功');
+			// 	}
+			// });
 		};
 		// 弹出回复输入框
 		$scope.toggleReplay = function ($event) {
@@ -133,24 +141,34 @@ define([], function () {
 			$('.cmtReplyArea').hide();
 			$('.cmtReplyArea .wangEditor-txt').html('<p><br></p>');
 			if(open){
+				if(!$rootScope.userInfo){
+					$state.go('home', {login: true, register: false});
+					return;
+				}
 				_this.show();
 			}else{
 				_this.hide();
 			}
 		};
+		$scope.getReply = function (editor) {
+			console.log(editor.$txt.html())
+		}
 		// 取消回复
-		$scope.cancelReply = function ($event) {
-			var _this = $($event.target).parent();
-			$scope.replyContent = '';
-			_this.find('.wangEditor-txt').html('<p><br></p>');
-			_this.hide();
-		};
+		// $scope.cancelReply = function ($event) {
+		// 	var _this = $($event.target).parent();
+		// 	$scope.replyContent = '';
+		// 	_this.find('.wangEditor-txt').html('<p><br></p>');
+		// 	_this.hide();
+		// };
         $(function () {
 			// 取消评论
-			$scope.cancelReview = function () {
+			$scope.cancelReview = function ($event) {
 				$scope.editor.$txt.html('<p><br></p>');
 			};
-        })
+			$scope.clearReply = function (editor) {
+				// editor.$txt.html('<p><br></p>');
+			}
+        });
 	}]);
 	return articleModel;
 })

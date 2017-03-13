@@ -1,6 +1,12 @@
 define([], function () {
 	var deps = ['oc.lazyLoad', 'ui.router', 'ngCookies', 'ngSanitize', 'httpRequest', 'editor'];
 	var app = angular.module('app', deps);
+    app.run(['$rootScope', function ($rootScope) {
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.prevState = fromState;
+            $rootScope.prevParams = fromParams;
+        });
+    }]);
 	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider) {
         $ocLazyLoadProvider.config({
             jsLoader: requirejs,

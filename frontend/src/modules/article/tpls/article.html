@@ -46,10 +46,10 @@
 				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
 			</div>
 			<div class="commentsEditor" ng-show="userInfo">
-				<div class="commentsTextArea" contenteditable ng-model="newComment.content" editor-menu="emotion">
+				<div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="emotion">
 				</div>
 				<button ng-click="reviewArticle()">发送</button>
-				<a href="javascript:;" ng-click="cancelReview()">取消</a>
+				<a href="javascript:;" ng-click="cancelReview($event)">取消</a>
 			</div>
 		</div>
 	</div>
@@ -77,7 +77,7 @@
 			<div class="cmtReplyArea">
 				<div contenteditable ng-model="replyContent" editor-menu="emotion">
 				</div>
-				<button ng-click="reviewReply(comment)">发送</button>
+				<button ng-click="reviewReply($event, comment)">发送</button>
 				<a href="javascript:;" ng-click="cancelReply($event)">取消</a>
 			</div>
 		</li>

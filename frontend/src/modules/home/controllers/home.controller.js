@@ -64,7 +64,8 @@ define([], function (){
             }).then(function (res) {
                 if(res.data.result){
                     $rootScope.userInfo = res.data.info;
-                    $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
+                    $state.go($rootScope.prevState.name, $rootScope.prevParams);
+                    // $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
                 }else{
                     if(res.data.msg === '用户名不存在'){
                         $scope.accountNotExist = true;
