@@ -161,5 +161,8 @@ module.exports = {
 				});
 			})
 		});
+	},
+	views: function (req, res, next) {
+		
 	}
 }

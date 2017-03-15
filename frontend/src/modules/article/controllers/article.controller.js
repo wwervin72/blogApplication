@@ -1,7 +1,7 @@
 define([], function () {
 	var deps = [];
 	var articleModel = angular.module('article', deps);
-	articleModel.controller('article.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', '$cookies', 'http', function($rootScope, $scope, $stateParams, $state, $location, $cookies, http){
+	articleModel.controller('article.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', '$cookies', 'http', 'editorService', function($rootScope, $scope, $stateParams, $state, $location, $cookies, http, editorService){
 		// 获取文章信息
 		(function () {
 			http.request({
@@ -17,6 +17,12 @@ define([], function () {
 					}).then(function (response) {
 						if(response.data.result){
 							$scope.comments = response.data.data;
+							$('.comments').ready(function  (argument) {
+								$('.cmtReplyArea > .replyEditor').each(function (i,ele) {
+									ele = $(ele);
+									ele.attr('id', 'replyEditor_' + ele.index());
+								});
+							});
 						}else{
 							console.log('文章评论加载失败');
 						}
@@ -24,6 +30,7 @@ define([], function () {
 				}
 			});
 		}());
+		$scope.commentEditor = editorService.init({element: 'commentEditor', menus: ['emotion']});
 		// 点赞文章
 		$scope.heart = function () {
 			if(!$rootScope.userInfo){
@@ -153,13 +160,6 @@ define([], function () {
 		$scope.getReply = function (editor) {
 			console.log(editor.$txt.html())
 		}
-		// 取消回复
-		// $scope.cancelReply = function ($event) {
-		// 	var _this = $($event.target).parent();
-		// 	$scope.replyContent = '';
-		// 	_this.find('.wangEditor-txt').html('<p><br></p>');
-		// 	_this.hide();
-		// };
         $(function () {
 			// 取消评论
 			$scope.cancelReview = function ($event) {
@@ -167,7 +167,7 @@ define([], function () {
 			};
 			$scope.clearReply = function (editor) {
 				// editor.$txt.html('<p><br></p>');
-			}
+			};
         });
 	}]);
 	return articleModel;
