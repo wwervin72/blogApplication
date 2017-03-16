@@ -8,8 +8,8 @@ module.exports = {
 			article: req.body.articleId,
 			author: req.body.authorId,
 			content: req.body.content.trim(),
-			prev: req.body.replyParent,
-			next: req.body.reply
+			replyParent: req.body.replyParent,
+			reply: req.body.reply
 		});
 		comment.save(function (err) {
 			if(err){

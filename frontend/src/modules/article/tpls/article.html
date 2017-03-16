@@ -42,13 +42,14 @@
 			<img src="http://localhost:3000/upload/defaultAvatar.jpg"/>
 		</a>
 		<div class="commentsArea">
-			<!-- <div class="loginTips" ng-show="!userInfo">
+			<div class="loginTips" ng-show="!userInfo">
 				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
-			</div> -->
+			</div>
 			<div class="commentsEditor" ng-show="userInfo">
-				<!-- <div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="emotion">
-				</div> -->
-				<div id="commentEditor"></div>
+				<!-- <div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="emotion"> -->
+				<!-- <div class="commentsTextArea"></div> -->
+				<!-- </div> -->
+				<div id="commentEditor" class="commentsTextArea"></div>
 				<button ng-click="reviewArticle()">发送</button>
 				<a href="javascript:;" ng-click="cancelReview($event)">取消</a>
 			</div>
@@ -74,14 +75,16 @@
 				<span>点赞</span>
 				<span>反对</span>
 				<span ng-click="toggleReplay($event)">回复</span>
+				<span ng-show="userInfo.username===comment.author.username">删除</span>
 			</div>
 			<div class="cmtReplyArea">
 				<!-- <div contenteditable ng-model="replyContent" editor-menu="emotion">
 				</div> -->
 				<div class="replyEditor"></div>
-				<button ng-click="reviewReply($event, comment)">发送</button>
-				<a href="javascript:;" ng-click="cancelReply($event)">取消</a>
+				<button ng-click="reviewReply($event, $index, comment)">发送</button>
+				<a href="javascript:;" ng-click="cancelReply($event, $index)">取消</a>
 			</div>
 		</li>
 	</ul>
 </div>
+<div id="goTop" class="goTop">返回<br/>顶部</div>

@@ -5,6 +5,7 @@
             <img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}" ui-sref='user({username: userInfo.username})'/>
             <ul class="userList">
                 <li ui-sref='user({username: userInfo.username})'><s></s>我的主页</li>
+                <li><s></s>更换头像</li>
                 <li ui-sref='modifyPwd'><s></s>修改密码</li>
                 <li ng-click="loginOut()"><s></s>退出</li>
             </ul>

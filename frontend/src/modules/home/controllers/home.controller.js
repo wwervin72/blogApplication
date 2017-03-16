@@ -2,6 +2,7 @@ define([], function (){
     var deps = [];
     var homeModel = angular.module('home', deps);
     homeModel.controller('home.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', 'http', function($rootScope, $scope, $stateParams, $state, $location, http){
+        $('#login input[name=username]').focus();
         $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
         $scope.registerUser = {
             username: '',
@@ -64,8 +65,7 @@ define([], function (){
             }).then(function (res) {
                 if(res.data.result){
                     $rootScope.userInfo = res.data.info;
-                    $state.go($rootScope.prevState.name, $rootScope.prevParams);
-                    // $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
+                    $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }else{
                     if(res.data.msg === '用户名不存在'){
                         $scope.accountNotExist = true;
@@ -78,6 +78,16 @@ define([], function (){
                
             });
         };
+        $('#login input').focus(function () {
+            $(document).keydown(function (event) {
+                if(event.keyCode === 13){
+                    $scope.login();
+                }
+            });
+        });
+        $('#login input').blur(function () {
+            $(document).unbind('keydown');
+        });
         $scope.register = function () {
             $scope.showMsg($('#register .iptMsg'));
             if($scope.registerForm.$invalid){

@@ -8,7 +8,7 @@ requirejs.config({
 		ngCookies: 'libs/angular-cookies/angular-cookies.min',
 		oclazyload: 'libs/oclazyload/dist/ocLazyLoad.require.min',
 		sanizite: 'libs/angular-sanitize/angular-sanitize.min',
-		wangEditor: 'libs/wangEditor/src/js/wangEditor',
+		wangEditor: 'libs/wangEditor/dist/js/wangEditor.min',
 		httpRequest: 'dist/services/httpService',
 		particle: 'dist/services/particleService',
 		editor: 'dist/directives/editorDirective',

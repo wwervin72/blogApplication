@@ -46,8 +46,7 @@ gulp.task('image', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*']));
 
-gulp.task('serve', () => {
-    runSequence('clean', 'html', 'style', 'script', 'image');
+gulp.task('watch', () => {
 	browserSync.init({
 		port: 80,
 		server: {
@@ -63,4 +62,10 @@ gulp.task('serve', () => {
         ]).on('change', browserSync.reload);
 });
 
-gulp.task('default', ['serve']);
+gulp.task('build', () => {
+    runSequence('clean', 'html', 'style', 'script', 'image');
+});
+
+gulp.task('default', ['watch']);
+
+gulp.task('build', ['build']);

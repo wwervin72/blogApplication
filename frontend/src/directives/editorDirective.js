@@ -85,6 +85,7 @@ define([], function () {
                 editor.onchange = function () {
                     scope.$apply(function () {
                         ctrl.$setViewValue(editor.$txt.html());
+                        // scope[attr.ngModel] = editor.$txt.html();
                     });
                 };
                 editor.create();
@@ -173,7 +174,7 @@ define([], function () {
             var editor = new wangEditor(option.element);
             var prop;
             for(prop in option){
-                wangEditor.config[prop] = option[prop];
+                editor.config[prop] = option[prop];
             }
             editor.create();
             return editor;
