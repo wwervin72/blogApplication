@@ -1,4 +1,4 @@
 **/node_modules
 frontend/libs
 frontend/dist/*
-backend/config/production.js
+backend/config/production.*
