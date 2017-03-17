@@ -4,13 +4,9 @@
   "description": "blog application backend",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
-    "start": "nodemon index.js"
-=======
     "server": "nodemon index.js",
     "start pro": "NODE_ENV=production nodemon index.js",
     "start dev": "NODE_ENV=development nodemon index.js"
->>>>>>> 92ddcd41a5c8a82cdbdbcd779f2852a5e5e0f0bf
   },
   "author": "ervin",
   "license": "ISC",
