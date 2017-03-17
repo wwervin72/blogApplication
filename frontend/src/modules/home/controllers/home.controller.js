@@ -120,6 +120,9 @@ define([], function (){
         particle.ready(function () {
             var particleWeb = new Particle(particle[0]);
         });
+        $('body').resize(function () {
+            console.log(123)
+        })
     }]);
     return homeModel;
 });
