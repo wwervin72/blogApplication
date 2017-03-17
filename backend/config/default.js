@@ -8,9 +8,6 @@ module.exports = {
 	tokenSecret: 'ervinBlog',
 	tokenExpireTime: 60 * 30,
 	cookieSecret: 'myBlog',
-	email: {
-
-	},
 	session: {
 		key: 'myBlog',
 		secret: 'myblog',

@@ -1,6 +1,5 @@
 let nodemailer = require('nodemailer');
 let config = require('config-lite');
-console.log(config)
 module.exports = function (config) {
 	// let mailTransport = nodemailer.createTransport('smtps://' + config.gmail.user + '%40gmail.com:' + config.gmail.password + '@smtp.gmail.com');
 	let mailTransport = nodemailer.createTransport({
