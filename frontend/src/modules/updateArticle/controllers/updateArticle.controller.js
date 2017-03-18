@@ -14,7 +14,7 @@ define([], function () {
         $scope.updateArticle = function () {
             http.request({
                 method: 'PUT',
-                url: '/update/article',
+                url: '/user/article',
                 data: {
                     token: $cookies.get('TOKEN'),
                     articleId: $stateParams.articleId,

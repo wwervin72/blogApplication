@@ -5,7 +5,7 @@ define([], function () {
         $scope.createArticle = function () {
         	http.request({
         		method: 'POST',
-        		url: '/user/post',
+        		url: '/user/article',
         		data: {
         			token: $cookies.get('TOKEN'),
         			title: $scope.newArticle.title,

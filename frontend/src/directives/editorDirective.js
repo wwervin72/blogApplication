@@ -85,7 +85,6 @@ define([], function () {
                 editor.onchange = function () {
                     scope.$apply(function () {
                         ctrl.$setViewValue(editor.$txt.html());
-                        // scope[attr.ngModel] = editor.$txt.html();
                     });
                 };
                 editor.create();

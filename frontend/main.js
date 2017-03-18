@@ -19,7 +19,7 @@ requirejs.config({
 		article: 'dist/modules/article/controllers/article.controller',
 		createArticle: 'dist/modules/createArticle/controllers/createArticle.controller',
 		updateArticle: 'dist/modules/updateArticle/controllers/updateArticle.controller',
-		modifyPwd: 'dist/modules/user/controllers/modifyPwd.controller',
+		settings: 'dist/modules/user/controllers/settings.controller',
 		findPwd: 'dist/modules/user/controllers/findPwd.controller'
 	},
 	shim: {

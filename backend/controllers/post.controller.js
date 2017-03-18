@@ -91,10 +91,7 @@ module.exports = {
 						createAt: Date.now()
 					}}, function (err) {
 						if(err){
-							return res.status(200).json({
-								result: false,
-								msg: '修改失败'
-							});
+							return next(err);
 						}
 						return res.status(200).json({
 							result: true,
@@ -162,7 +159,12 @@ module.exports = {
 			})
 		});
 	},
+	// 修改文章的阅读数
 	views: function (req, res, next) {
 		
+	},
+	// 删除文章
+	deleteArticle: (req, res, next) => {
+
 	}
 }

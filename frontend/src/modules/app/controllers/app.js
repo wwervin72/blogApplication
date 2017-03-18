@@ -6,6 +6,12 @@ define([], function () {
             $rootScope.prevState = fromState;
             $rootScope.prevParams = fromParams;
         });
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            // 跳转到登陆页面，并记录页面的状态
+            if(toState.name === 'home'){
+                $rootScope.prevScrollTop = $('body').scrollTop();
+            }
+        });
     }]);
 	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider) {
         $ocLazyLoadProvider.config({
@@ -74,13 +80,13 @@ define([], function () {
                     }]
                 }
 			})
-            .state('modifyPwd', {
-                url: '/modifyPwd',
-                templateUrl: 'src/modules/user/tpls/modifyPwd.html',
-                controller: 'modifyPwd.ctrl',
+            .state('settings', {
+                url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/settings',
+                templateUrl: 'src/modules/user/tpls/settings.html',
+                controller: 'settings.ctrl',
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('modifyPwd');
+                        return $ocLazyLoad.load('settings');
                     }]
                 }
             })

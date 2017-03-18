@@ -48,7 +48,8 @@ module.exports = {
 					info: {
 						username: user.username,
 						avatar: user.avatar,
-						nickname: user.nickname
+						nickname: user.nickname,
+						_id: user._id
 					}
 				});
 			});

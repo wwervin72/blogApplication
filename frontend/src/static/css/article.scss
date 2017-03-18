@@ -120,9 +120,9 @@
 			.commentsEditor{
 				margin-top: -1px;
 				margin-left: -1px;
-				// .commentsTextArea{
-				// 	height: 150px;
-				// }
+				.commentsTextArea{
+					height: 150px;
+				}
 				#commentEditor{
 					height: 150px;
 				}
@@ -152,7 +152,6 @@
 			}
 			padding: 10px 0;
 			margin-top: 20px;
-			overflow: hidden;
 			.cmtTop{
 				overflow: hidden;
 				img{
@@ -167,36 +166,51 @@
 					font-size: 12px;
 					color: #999;
 					.cmtAuthorNickname{
-						display: block;
 						font-size: 16px;
 						font-weight: 500;
 						color: #333;
 					}
 					&>span:last-child{
-						margin-left: 10px;
+						margin-left: 5px;
 					}
 				}
 			}
 			.cmtContent{
-				padding: 15px 10px;
+				padding: 10px;
+				margin: 5px;
+				border: 1px dashed #ddd;
 				font-size: 16px;
+				background: #eee;
 				p{
-					padding: 0;
+					padding: 10px 0;
+					margin: 0;
+					font-size: 16px;
 				}
 			}
 			.cmtFoot{
-				span{
+				height: 30px;
+			    line-height: 30px;
+				&>span{
 					margin-right: 10px;
 					cursor: pointer;
 					color: #999;
+					&.right{
+						float: right;
+					}
 				}
 			}
-			.cmtReplyArea{
+			.cmtReplyArea, .updateReplyArea{
 				display: none;
-				margin: 10px 0;
+				height: 190px;
+				margin: 10px 0 0;
 				border-left: 3px solid #ddd;
 				padding-left: 20px;
-				overflow: hidden;
+				&>div{
+					height: 150px;
+					.wangEditor-txt{
+						height: 105px;
+					}
+				}
 				button{
 					float: right;
 					border: none;
@@ -206,7 +220,7 @@
 					padding: 5px 10px;
 					margin-top: 10px;
 				}
-				a{
+				&>a{
 					float: right;
 					padding: 5px 10px;
 					color: #999;

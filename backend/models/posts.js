@@ -61,27 +61,19 @@ let PostSchema = new Schema({
 	},
 	// 推荐数
 	heart: {
-		type: Array,
-		// get: getHearts
+		type: Array
 	},
 	// 反对数
 	stamp: {
-		type: Array,
-		// get: getStamps
+		type: Array
 	}
 });
 
-PostSchema.path('createAt').get(function (value) {
-  return moment(value).format('YYYY-MM-DD hh:mm:ss');
-});
+PostSchema.path('title').validate(title => title.length, '文章标题不能为空');
+PostSchema.path('content').validate(content => content.length, '文章内容不能为空');
+PostSchema.path('author').validate(author => author.length, '文章作者不能为空');
 
-PostSchema.methods = {
-	calcLen: function (val) {
-		val.heart = val.heart.length;
-		val.stamp = val.stamp.length;
-		return val;
-	}
-};
+PostSchema.path('createAt').get(value => moment(value).format('YYYY-MM-DD hh:mm:ss'));
 
 PostSchema.set('toJSON', {getters: true, virtuals: false});
 

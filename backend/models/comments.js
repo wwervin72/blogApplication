@@ -13,13 +13,18 @@ let CommentsSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Post'
 	},
+	authorNickname: {
+		type: String,
+		trim : true
+	},
 	author: {
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
 	content: {
 		type: String,
-		default: ''
+		default: '',
+		trim : true
 	},
 	createDate: {
 		type: Date,
@@ -28,12 +33,12 @@ let CommentsSchema = new Schema({
 	// 父评论，一般是回复的上一个人，如果为空数组，则是文章的根评论
 	replyParent: [{
 		type: Schema.ObjectId,
-		ref: 'Comments'
+		ref: 'Comment'
 	}],
 	// 子评论，一般是回复的评论
 	reply: [{
 		type: Schema.ObjectId,
-		ref: 'Comments'
+		ref: 'Comment'
 	}],
 	heart: {
 		type: Array,
@@ -45,26 +50,14 @@ let CommentsSchema = new Schema({
 	}
 });
 
-CommentsSchema.path('createDate').get(function (val) {
-	return moment(val).format('YYYY-MM-DD hh:mm:ss');
-});
+// 格式验证
+CommentsSchema.path('article').validate(article => article.length, '评论文章不能为空');
+CommentsSchema.path('content').validate(content => content.length, '评论内容不能为空');
+CommentsSchema.path('author').validate(author => author.length, '评论作者不能为空');
+CommentsSchema.path('authorNickname').validate(authorNickname => authorNickname.length, '评论作者昵称不能为空');
 
-CommentsSchema.post('find', function (result, next) {
-	result.forEach(function (ele, i) {
-		if(ele.replyParent.length){
-			User.find({_id: {$in: ele.replyParent}}, function (err, list) {
-				if(err){
-					return next(err);
-				}
-				console.log(list);
-				ele.replyParent = list;
-				if(i === result.length - 1){
-					next();
-				}
-			});
-		}
-	})
-})
+// 格式化时间
+CommentsSchema.path('createDate').get(val => moment(val).format('YYYY-MM-DD hh:mm:ss'));
 
 CommentsSchema.set('toJSON', {getters: true, virtuals: false});
 

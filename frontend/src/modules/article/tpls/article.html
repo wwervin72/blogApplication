@@ -29,8 +29,8 @@
 		</div>
 		<div class="footHandle">
 			<ul class="footHeartStamp">
-				<li ng-click="heart()"><a>推荐(<span ng-bind="article.heart.length"></span>)</a></li>
-				<li ng-click="stamp()"><a>反对(<span ng-bind="article.stamp.length"></span>)</a></li>
+				<li ng-click="heartArticle()"><a>推荐(<span ng-bind="article.heart.length"></span>)</a></li>
+				<li ng-click="stampArticle()"><a>反对(<span ng-bind="article.stamp.length"></span>)</a></li>
 			</ul>
 			<div class="footShare">
 				分享
@@ -46,11 +46,9 @@
 				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
 			</div>
 			<div class="commentsEditor" ng-show="userInfo">
-				<!-- <div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="emotion"> -->
-				<!-- <div class="commentsTextArea"></div> -->
-				<!-- </div> -->
-				<div id="commentEditor" class="commentsTextArea"></div>
-				<button ng-click="reviewArticle()">发送</button>
+				<div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="emotion">
+				</div>
+				<button ng-click="reviewArticle($event)">发送</button>
 				<a href="javascript:;" ng-click="cancelReview($event)">取消</a>
 			</div>
 		</div>
@@ -60,31 +58,41 @@
 			<div class="cmtTop">
 				<a ui-sref="user({username:comment.author.username})"><img src="{{comment.author.avatar}}" title="{{comment.author.nickname}}" class="cmtAvatar"></a>
 				<div class="cmtAuthorInfo">
-					<a class="cmtAuthorNickname" ui-sref="user({username:comment.author.username})" ng-bind="comment.author.nickname"></a>
+					<a class="cmtAuthorNickname" ui-sref="user({username:comment.author.username})" ng-bind="comment.author.nickname"></a><br/>
 					<span ng-bind="$index+1"></span>楼
+					<span ng-show="comment.author._id===article.author._id">[楼主]</span>
 					<span ng-bind="comment.createDate"></span>
 				</div>
 			</div>	
 			<div class="cmtContent">
 				<ul class="replyPersion" ng-show="comment.replyParent.length">
-					<li ng-repeat="reply in comment.replyParent" ng-bind=""></li>
+					<li ng-repeat="replyCmt in comment.replyParent">
+						@ <span ng-bind="replyCmt.authorNickname"></span>
+					</li>
 				</ul>
 				<div ng-bind-html="comment.content"></div>
 			</div>
 			<div class="cmtFoot">
-				<span>点赞</span>
-				<span>反对</span>
+				<span ng-click="heartComment(comment,$index)">赞<span ng-show="comment.heart.length">(&nbsp;<span ng-bind="comment.heart.length"></span>&nbsp;)</span></span>
+				<span ng-click="stampComment(comment,$index)">踩<span ng-show="comment.stamp.length">(&nbsp;<span ng-bind="comment.stamp.length"></span>&nbsp;)</span></span>
 				<span ng-click="toggleReplay($event)">回复</span>
-				<span ng-show="userInfo.username===comment.author.username">删除</span>
+				<span ng-show="userInfo.username===comment.author.username" ng-click="deleteComment(comment, $index)" class="right">删除</span>
+				<span ng-show="userInfo.username===comment.author.username" ng-click="updateCommentToggle($event, $index)" class="right">修改</span>
 			</div>
 			<div class="cmtReplyArea">
-				<!-- <div contenteditable ng-model="replyContent" editor-menu="emotion">
-				</div> -->
-				<div class="replyEditor"></div>
-				<button ng-click="reviewReply($event, $index, comment)">发送</button>
-				<a href="javascript:;" ng-click="cancelReply($event, $index)">取消</a>
+				<div contenteditable ng-model="replyContent" editor-menu="emotion">
+				</div>
+				<button ng-click="reviewReply($event)">发送</button>
+				<a href="javascript:;" ng-click="cancelReply($event)">取消</a>
+			</div>
+			<div class="updateReplyArea">
+				<div contenteditable ng-model="updateReplyContent" editor-menu="emotion">
+				</div>
+				<button ng-click="updateComment($event, $index)">发送</button>
+				<a href="javascript:;" ng-click="cancelUpdateComment($event)">取消</a>
 			</div>
 		</li>
 	</ul>
 </div>
 <div id="goTop" class="goTop">返回<br/>顶部</div>
+<div ng-include="'src/modules/app/tpls/foot.html'"></div>
