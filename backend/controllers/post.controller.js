@@ -1,12 +1,14 @@
 let mongoose = require('mongoose');
 let User = mongoose.model('User');
 let Post = mongoose.model('Post');
+let Comment = mongoose.model('Comment');
 let moment = require('moment');
 
 module.exports = {
 	createPost: function (req, res, next) {
 		let post = new Post({
 			title: req.body.title,
+			abstract: req.body.abstract,
 			content: req.body.content,
 			author: req.user._id,
 			tags: req.body.tags
@@ -35,28 +37,32 @@ module.exports = {
 		});
 	},
 	findArticleById: function (req, res, next) {
-		User.findOne({username: req.query.username}, function (err, user) {
+		Post.findOne({id: req.query.articleId})
+			.populate({path: 'author', model: 'User', select: ['_id','nickname', 'avatar', 'username']})
+			.exec(function (err, article) {
 			if(err){
 				return next(err);
-			} 
-			if(!user){
+			}
+			if(article.author.username !== req.query.username){
 				return next();
 			}
-			Post.findOne({id: req.query.articleId, author: user._id})
-				.populate({path: 'author', model: 'User', select: ['nickname', 'avatar', 'username']})
-				.exec(function (err, article) {
-					if(err){
-						return next(err);
-					} 
-					if(!article){
-						return next();
-					}
-					return res.status(200).json({
-						result: true,
-						msg: '文章获取成功',
-						data: article.toJSON()
-					});
-				});
+			Post.update({id: req.query.articleId}, 
+						{$inc: {
+							views: 1
+						}}, function (error, result) {
+							if(error){
+								return next(err);
+							}
+							if(!result.nModified){
+								return next();
+							}
+							article.views += 1;
+							return res.status(200).json({
+									result: true,
+									msg: '文章获取成功',
+									data: article
+								});
+						})
 		});
 	},
 	getUserPosts: function (req, res, next) {
@@ -159,12 +165,34 @@ module.exports = {
 			})
 		});
 	},
-	// 修改文章的阅读数
-	views: function (req, res, next) {
-		
-	},
 	// 删除文章
 	deleteArticle: (req, res, next) => {
+		if(req.user._id === req.body.authorId){
+			// 删除文章下的评论
+			Comment.remove({articleId: req.body.articleId}, function (err, result) {
+				if(err){
+					return next(err);
+				}
+				// 删除文章
+				Post.remove({_id: req.body.articleId}, function (error, resultP) {
+					if(error){
+						return next(error);
+					}
+					if(!resultP.result.n){
+						return next();
+					}
+					return res.status(200).json({
+						result: true,
+						msg: '删除成功'
+					});
+				})	
 
+			})
+		}else{
+			return res.status(200).json({
+				result: false,
+				msg: '只能删除自己的文章'
+			});
+		}
 	}
 }

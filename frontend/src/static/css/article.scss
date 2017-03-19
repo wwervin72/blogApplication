@@ -84,8 +84,10 @@
 			}
 		}
 	}
-	.footShare{
+	.footShare, .deleteArticle, .modifyArticle{
 		float: right;
+		cursor: pointer;
+		margin-right: 10px;
 	}
 	.addComments{
 		margin-top: 20px;
@@ -194,6 +196,7 @@
 					margin-right: 10px;
 					cursor: pointer;
 					color: #999;
+					font-size: 14px;
 					&.right{
 						float: right;
 					}

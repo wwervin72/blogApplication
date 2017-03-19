@@ -136,7 +136,8 @@ module.exports = {
 				}
 				return res.status(200).json({
 					result: true,
-					msg: '点赞成功'
+					msg: '点赞成功',
+					data: result
 				});
 			});
 		});
@@ -158,7 +159,7 @@ module.exports = {
 			if(result.stamp.indexOf(req.user._id) !== -1){
 				return res.status(200).json({
 					result: false,
-					msg: '不能重复点赞'
+					msg: '不能重复反对'
 				});
 			}
 			if(result.heart.indexOf(req.user._id) !== -1){
@@ -171,7 +172,8 @@ module.exports = {
 				}
 				return res.status(200).json({
 					result: true,
-					msg: '点赞成功'
+					msg: '反对成功',
+					data: result
 				});
 			});
 		});

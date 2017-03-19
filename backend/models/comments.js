@@ -4,10 +4,6 @@ let article = mongoose.model('Post');
 let User = mongoose.model('User');
 let moment = require('moment');
 
-let getHearts = heart => heart.length;
-
-let getStamps = stamp => stamp.length;
-
 let CommentsSchema = new Schema({
 	article: {
 		type: Schema.ObjectId,
@@ -41,12 +37,10 @@ let CommentsSchema = new Schema({
 		ref: 'Comment'
 	}],
 	heart: {
-		type: Array,
-		get: getHearts,
+		type: Array
 	},
 	stamp: {
-		type: Array,
-		get: getStamps,
+		type: Array
 	}
 });
 

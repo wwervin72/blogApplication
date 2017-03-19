@@ -71,7 +71,7 @@ define([], function () {
                 }
 			})
 			.state('updateArticle', {
-				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/{articleId/update',
+				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/{articleId}/update',
 				templateUrl: 'src/modules/updateArticle/tpls/updateArticle.html',
 				controller: 'updateArticle.ctrl',
 				resolve: {

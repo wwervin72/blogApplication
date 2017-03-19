@@ -32,9 +32,9 @@
 				<li ng-click="heartArticle()"><a>推荐(<span ng-bind="article.heart.length"></span>)</a></li>
 				<li ng-click="stampArticle()"><a>反对(<span ng-bind="article.stamp.length"></span>)</a></li>
 			</ul>
-			<div class="footShare">
-				分享
-			</div>
+			<div class="footShare">分享</div>
+			<div class="modifyArticle" ng-show="userInfo._id===article.author._id" ui-sref="updateArticle({username: article.author.username,articleId: article.id})">编辑</div>
+			<div class="deleteArticle" ng-show="userInfo._id===article.author._id" ng-click="deleteArticle()">删除</div>
 		</div>
 	</div>
 	<div class="addComments">
@@ -73,8 +73,14 @@
 				<div ng-bind-html="comment.content"></div>
 			</div>
 			<div class="cmtFoot">
-				<span ng-click="heartComment(comment,$index)">赞<span ng-show="comment.heart.length">(&nbsp;<span ng-bind="comment.heart.length"></span>&nbsp;)</span></span>
-				<span ng-click="stampComment(comment,$index)">踩<span ng-show="comment.stamp.length">(&nbsp;<span ng-bind="comment.stamp.length"></span>&nbsp;)</span></span>
+				<span ng-click="heartComment(comment,$index)">
+					<span ng-show="!comment.heart.length">赞</span>
+					<span ng-show="comment.heart.length">{{comment.heart.length}}人赞</span>
+				</span>
+				<span ng-click="stampComment(comment,$index)">
+					<span ng-show="!comment.stamp.length">踩</span>
+					<span ng-show="comment.stamp.length">{{comment.stamp.length}}人踩</span>
+				</span>
 				<span ng-click="toggleReplay($event)">回复</span>
 				<span ng-show="userInfo.username===comment.author.username" ng-click="deleteComment(comment, $index)" class="right">删除</span>
 				<span ng-show="userInfo.username===comment.author.username" ng-click="updateCommentToggle($event, $index)" class="right">修改</span>
@@ -82,7 +88,7 @@
 			<div class="cmtReplyArea">
 				<div contenteditable ng-model="replyContent" editor-menu="emotion">
 				</div>
-				<button ng-click="reviewReply($event)">发送</button>
+				<button ng-click="reviewReply($event, comment)">发送</button>
 				<a href="javascript:;" ng-click="cancelReply($event)">取消</a>
 			</div>
 			<div class="updateReplyArea">

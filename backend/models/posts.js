@@ -16,6 +16,8 @@ let getHearts = heart => heart.length;
 
 let getStamps = stamp => stamp.length;
 
+let setAbstract = abstract => abstract.replace(new RegExp("&nbsp;"), '');
+
 let PostSchema = new Schema({
 	id: {
 		type: String,
@@ -26,6 +28,12 @@ let PostSchema = new Schema({
 	title: {
 		type: String,
 		default: '',
+		trim: true
+	},
+	abstract: {
+		type: String,
+		default: '',
+		set: setAbstract,
 		trim: true
 	},
 	// 文章内容
@@ -70,7 +78,9 @@ let PostSchema = new Schema({
 });
 
 PostSchema.path('title').validate(title => title.length, '文章标题不能为空');
+PostSchema.path('abstract').validate(abstract => abstract.length, '文章摘要不能为空');
 PostSchema.path('content').validate(content => content.length, '文章内容不能为空');
+PostSchema.path('tags').validate(tags => tags.length, '文章标签不能为空');
 PostSchema.path('author').validate(author => author.length, '文章作者不能为空');
 
 PostSchema.path('createAt').get(value => moment(value).format('YYYY-MM-DD hh:mm:ss'));

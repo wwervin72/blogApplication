@@ -101,8 +101,30 @@ define([], function () {
 				}
 			});
 		};
+		// 删除文章
+		$scope.deleteArticle = function () {
+			var val = confirm('确认删除?');
+			if(val){
+				http.request({
+					method: 'DELETE',
+					url: '/user/article',
+					data: {
+						token: $cookies.get('TOKEN'),
+						articleId: $scope.article._id,
+						authorId: $scope.article.author._id
+					}
+				}).then(function (res) {	
+					if(res.data.result){
+						alert('删除成功');
+						$state.go('articles');
+					}else{
+						alert('删除失败');
+					}
+				})
+			}
+		};
 		//子评论(回复)
-		$scope.reviewReply = function ($event) {
+		$scope.reviewReply = function ($event, comment) {
 			var editor = $($event.target).parent().find('.wangEditor-txt');
 			var replyContent = editor.html().trim().replace(/^<p><br><\/p>$/, '');
 			if(replyContent === ''){
@@ -192,7 +214,8 @@ define([], function () {
 					url: '/comment/heart?token='+$cookies.get('TOKEN')+'&commentId='+comment._id+'&authorId='+comment.author._id
 				}).then(function (res) {
 					if(res.data.result){
-						$scope.comments[$index].heart.push($rootScope.userInfo._id);
+						$scope.comments[$index].heart = res.data.data.heart;
+						$scope.comments[$index].stamp = res.data.data.stamp;
 						alert('点赞成功');
 					}else{
 						alert('点赞失败');
@@ -214,7 +237,8 @@ define([], function () {
 					url: '/comment/stamp?token='+$cookies.get('TOKEN')+'&commentId='+comment._id+'&authorId='+comment.author._id
 				}).then(function (res) {
 					if(res.data.result){
-						$scope.comments[$index].stamp.push($rootScope.userInfo._id);
+						$scope.comments[$index].heart = res.data.data.heart;
+						$scope.comments[$index].stamp = res.data.data.stamp;
 						alert('反对成功');
 					}else{
 						alert('反对失败');
