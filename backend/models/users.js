@@ -22,6 +22,11 @@ let UserSchema = new Schema({
 		type: String,
 		default: createNickname()
 	},
+	sex: {
+		type: 'string', 
+		default: 'secret',
+		enum: ['male', 'female', 'secret']
+	},
 	bio: {
 		type: String,
 		default: '这家伙很懒，什么都没留下',

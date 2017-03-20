@@ -18,7 +18,7 @@ router.get('/userinfo', tokenManage.verifyRedis, tokenManage.verifyToken, userCt
 router.post('/pwd', userCtrl.findPwdSendMail);
 
 //邮件验证邮箱, 请求修改密码
-router.get('/validatEmail', userCtrl.modifyPwd);
+router.get('/validatEmail', userCtrl.findPwd);
 
 // 获取验证码
 router.get('/captcha', userCtrl.createCaptcha);
@@ -37,6 +37,19 @@ router.get('/user/posts', userCtrl.findUserByName, articleCtrl.getUserPosts);
 
 // 修改用户头像
 router.post('/user/avatar', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.modifyAvatar);
+
+//用户基础设置
+router.put('/user/basesettings', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.basesettings);
+
+//用户个人资料设置
+router.put('/user/persionalInfo', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.persionalInfo);
+
+//用户修改密码
+router.put('/user/pwd', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.modifyPwd);
+
+//用户删除账号
+router.delete('/user/count', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.basesettings);
+
 
 //上传文件
 router.post('/upload', userCtrl.uploadFile);

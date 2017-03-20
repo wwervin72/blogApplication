@@ -51,7 +51,10 @@ module.exports = {
 						avatar: user.avatar,
 						nickname: user.nickname,
 						email: user.email,
-						_id: user._id
+						_id: user._id,
+						bio: user.bio,
+						url: user.url,
+						sex: user.sex
 					}
 				});
 			});
@@ -132,7 +135,10 @@ module.exports = {
 				nickname: req.user.nickname,
 				username: req.user.username,
 				avatar: req.user.avatar,
-				email: req.user.email
+				email: req.user.email,
+				bio: req.user.bio,
+				url: req.user.url,
+				sex: req.user.sex
 			},
 			token: tokenManage.createNewToken(req.user),
 			result: true
@@ -172,7 +178,7 @@ module.exports = {
 				});
 			});
 	},
-	modifyPwd: function (req, res, next) {
+	findPwd: function (req, res, next) {
 		var salt = Math.round(new Date().getTime() * Math.random()) + '';
 		User.update({username: req.query.username || req.body.username, email: req.query.email || req.body.username},
 					{$set: {
@@ -222,5 +228,59 @@ module.exports = {
 			return res.status(200).end('http://' + server + '/' + uploadFolderName + '/' + fileName);
 		}
 		uploadfile.upload(req, res, next, callback);
+	},
+	basesettings: function (req, res, next) {
+		User.findOne({email: req.body.email}, function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(user && user._id != req.user._id){
+				return res.status(200).json({
+					result: false,
+					msg: '该邮箱已被占用'
+				});
+			}
+			user.nickname = req.body.nickname;
+			user.email = req.body.email;
+			user.save(function (err, result) {
+				if(err){
+					return next(err);
+				}
+				return res.status(200).json({
+					result: true, 
+					msg: '设置成功',
+					token: tokenManage.createNewToken(result)
+				});
+			});
+		})
+	},
+	persionalInfo: function (req, res, next) {
+		User.findOne({_id: req.user._id}, function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(!user){
+				return next();
+			}
+			user.sex = req.body.sex;
+			user.bio = req.body.bio;
+			user.url = req.body.url;
+			user.save(function (err, result) {
+				if(err){
+					return next(err);
+				}
+				return res.status(200).json({
+					result: true, 
+					msg: '设置成功',
+					token: tokenManage.createNewToken(result)
+				});
+			});
+		});
+	},
+	modifyPwd: function (req, res, next) {
+
+	},
+	deleteCount: function (req, res, next) {
+
 	}
 };
