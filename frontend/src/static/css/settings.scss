@@ -1,0 +1,83 @@
+.setting_wrap{
+	position: relative;
+	width: 70%;
+	margin: 30px auto;
+	min-width: 900px;
+	max-width: 1200px; 
+	&::before, &::after{
+		content: "";
+		display: table;
+	}
+	.setting_list{
+		position: fixed;
+		width: 200px;
+		a{
+			display: block;
+			width: 100%;
+			height: 46px;
+			line-height: 46px;
+			text-align: center;
+			border-radius: 3px;
+		}
+		.active{
+			background: #eee;
+		}
+	}
+	.setting_cnt{
+		float: right;
+		width: 100%;
+		padding-left: 250px;
+		&>div{
+			display: none;
+			&.baseInfo{
+				display: block;
+			}
+		}
+		table{
+			width: 100%;
+			tr{
+				td:first-child{
+					width: 20%;
+				}
+			}
+			td:not(.sex){
+				padding: 10px 0;
+				color: #969696;
+				font-size: 15px;
+				input{
+					width: 250px;
+					height: 36px;
+					line-height: 36px;
+					padding-left: 10px;
+					border: none;
+					border:1px solid #ddd;
+					border-radius: 3px;
+					background: hsla(0,0%,71%,.1);
+				}
+				button{
+					padding: 5px 10px;
+					border: none;
+					border: 1px solid rgba(236,97,73,0.7);
+					border-radius: 3px;
+					background-color: transparent;
+					color: #ea6f5a;
+					&:hover{
+						background-color: rgba(236,97,73,0.1);
+					}
+				}
+				textarea{
+					width: 100%;
+					height: 100px;
+					border:1px solid #ddd;
+					border-radius: 3px;
+					background: hsla(0,0%,71%,.1);
+					resize: none;
+					padding: 8px 10px;
+				}
+			}
+			.avatar{
+				border-radius: 50%;
+			}
+		}
+	}
+}

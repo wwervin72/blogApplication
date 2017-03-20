@@ -74,6 +74,17 @@ UserSchema.methods = {
 	}
 };
 
+UserSchema.statics = {
+	encryptoPassword: function(password, salt) {
+		if(!password){
+			return '';	
+		}
+		return crypto.createHmac('sha1', salt)
+			.update(password)
+			.digest('hex');
+	}
+};
+
 mongoose.model('User', UserSchema);
 
 // 利用随机数生成一个5-10长度的昵称

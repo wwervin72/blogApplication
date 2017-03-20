@@ -12,40 +12,11 @@ let setTags = tags => {
 	return res;
 };
 
-let getTags = tags => {
-	console.log(this)
-	return this.length;
-};
+let getHearts = heart => heart.length;
 
-let getHearts = heart => {
-	console.log(this)
-	return this.length;
-}
+let getStamps = stamp => stamp.length;
 
-let setPostTime = () => {
-	let date = new Date();
-	let month = date.getMonth() + 1;
-	month = month < 10 ? ('0' + month) : month;
-
-	let day = date.getDate();
-	day = day < 10 ? ('0' + day) : day;
-
-	let hours = date.getHours();
-	hours = hours < 10 ? ('0' + hours) : hours;
-
-	let minutes = date.getMinutes();
-	minutes = minutes < 10 ? ('0' + minutes) : minutes;
-
-	let seconds = date.getSeconds();
-	seconds = seconds < 10 ? ('0' + seconds) : seconds;
-
-	return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-};
-
-let getPostCreateTime = time => {
-	console.log(time)
-	return time;  
-}
+let setAbstract = abstract => abstract.replace(new RegExp("&nbsp;"), '');
 
 let PostSchema = new Schema({
 	id: {
@@ -57,6 +28,12 @@ let PostSchema = new Schema({
 	title: {
 		type: String,
 		default: '',
+		trim: true
+	},
+	abstract: {
+		type: String,
+		default: '',
+		set: setAbstract,
 		trim: true
 	},
 	// 文章内容
@@ -71,20 +48,10 @@ let PostSchema = new Schema({
 		ref: 'User'
 	},
 	// 文章评论
-	comments: [{
-		content: {
-			type: String,
-			default: ''
-		},
-		author: {
-			type: Schema.ObjectId,
-			ref: 'User'
-		},
-		createAt: {
-			type: Date,
-			default: Date.now
-		}
-	}],
+	comments: {
+		type: Number,
+		default: 0,
+	},
 	// 文章标签
 	tags: {
 		type: Array,
@@ -110,17 +77,13 @@ let PostSchema = new Schema({
 	}
 });
 
-PostSchema.path('createAt').get(function (value) {
-  return moment(value).format('YYYY-MM-DD hh:mm:ss');
-});
+PostSchema.path('title').validate(title => title.length, '文章标题不能为空');
+PostSchema.path('abstract').validate(abstract => abstract.length, '文章摘要不能为空');
+PostSchema.path('content').validate(content => content.length, '文章内容不能为空');
+PostSchema.path('tags').validate(tags => tags.length, '文章标签不能为空');
+PostSchema.path('author').validate(author => author.length, '文章作者不能为空');
 
-// PostSchema.path('heart').get(function (value) {
-//   return value.length;
-// });
-
-// PostSchema.path('stamp').get(function (value) {
-//   return value.length;
-// });
+PostSchema.path('createAt').get(value => moment(value).format('YYYY-MM-DD hh:mm:ss'));
 
 PostSchema.set('toJSON', {getters: true, virtuals: false});
 

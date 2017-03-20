@@ -8,7 +8,7 @@ requirejs.config({
 		ngCookies: 'libs/angular-cookies/angular-cookies.min',
 		oclazyload: 'libs/oclazyload/dist/ocLazyLoad.require.min',
 		sanizite: 'libs/angular-sanitize/angular-sanitize.min',
-		wangEditor: 'libs/wangEditor/src/js/wangEditor',
+		wangEditor: 'libs/wangEditor/dist/js/wangEditor.min',
 		httpRequest: 'dist/services/httpService',
 		particle: 'dist/services/particleService',
 		editor: 'dist/directives/editorDirective',
@@ -19,7 +19,8 @@ requirejs.config({
 		article: 'dist/modules/article/controllers/article.controller',
 		createArticle: 'dist/modules/createArticle/controllers/createArticle.controller',
 		updateArticle: 'dist/modules/updateArticle/controllers/updateArticle.controller',
-		modifyPwd: 'dist/modules/user/controllers/modifyPwd.controller'
+		settings: 'dist/modules/user/controllers/settings.controller',
+		findPwd: 'dist/modules/user/controllers/findPwd.controller'
 	},
 	shim: {
 		angular: {

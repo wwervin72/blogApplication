@@ -2,6 +2,7 @@ define([], function (){
     var deps = [];
     var homeModel = angular.module('home', deps);
     homeModel.controller('home.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', 'http', function($rootScope, $scope, $stateParams, $state, $location, http){
+        $('#login input[name=username]').focus();
         $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
         $scope.registerUser = {
             username: '',
@@ -64,7 +65,7 @@ define([], function (){
             }).then(function (res) {
                 if(res.data.result){
                     $rootScope.userInfo = res.data.info;
-                    $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
+                    $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }else{
                     if(res.data.msg === '用户名不存在'){
                         $scope.accountNotExist = true;
@@ -77,6 +78,16 @@ define([], function (){
                
             });
         };
+        $('#login input').focus(function () {
+            $(document).keydown(function (event) {
+                if(event.keyCode === 13){
+                    $scope.login();
+                }
+            });
+        });
+        $('#login input').blur(function () {
+            $(document).unbind('keydown');
+        });
         $scope.register = function () {
             $scope.showMsg($('#register .iptMsg'));
             if($scope.registerForm.$invalid){
@@ -97,7 +108,7 @@ define([], function (){
                     $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
                 }else{
                     // 注册失败
-
+                    
                 }
             }, function (res) {
                 console.log(res)
@@ -109,6 +120,9 @@ define([], function (){
         particle.ready(function () {
             var particleWeb = new Particle(particle[0]);
         });
+        $('body').resize(function () {
+            console.log(123)
+        })
     }]);
     return homeModel;
 });

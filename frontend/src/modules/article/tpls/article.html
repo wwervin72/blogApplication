@@ -12,9 +12,9 @@
 			<div class="articleData">
 				<span ng-bind="article.createAt"></span>&nbsp;&nbsp;
 				阅读(<span ng-bind="article.views"></span>)&nbsp;&nbsp;
-				评论(<span ng-bind="article.comments.length"></span>)&nbsp;&nbsp;
-				推荐(<span ng-bind="article.heart"></span>)&nbsp;&nbsp;
-				反对(<span ng-bind="article.stamp"></span>)
+				评论(<span ng-bind="article.comments"></span>)&nbsp;&nbsp;
+				推荐(<span ng-bind="article.heart.length"></span>)&nbsp;&nbsp;
+				反对(<span ng-bind="article.stamp.length"></span>)
 			</div>
 		</div>
 	</div>
@@ -29,12 +29,12 @@
 		</div>
 		<div class="footHandle">
 			<ul class="footHeartStamp">
-				<li ng-click="heart()"><a>喜欢(<span ng-bind="article.heart"></span>)</a></li>
-				<li ng-click="stamp()"><a>不喜欢(<span ng-bind="article.stamp"></span>)</a></li>
+				<li ng-click="heartArticle()"><a>推荐(<span ng-bind="article.heart.length"></span>)</a></li>
+				<li ng-click="stampArticle()"><a>反对(<span ng-bind="article.stamp.length"></span>)</a></li>
 			</ul>
-			<div class="footShare">
-				分享
-			</div>
+			<div class="footShare">分享</div>
+			<div class="modifyArticle" ng-show="userInfo._id===article.author._id" ui-sref="updateArticle({username: article.author.username,articleId: article.id})">编辑</div>
+			<div class="deleteArticle" ng-show="userInfo._id===article.author._id" ng-click="deleteArticle()">删除</div>
 		</div>
 	</div>
 	<div class="addComments">
@@ -46,10 +46,59 @@
 				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
 			</div>
 			<div class="commentsEditor" ng-show="userInfo">
-				<div class="commentsTextArea" contenteditable ng-model="newComment.body" editor-menu="emotion">
+				<div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="emotion">
 				</div>
-				<button>发送</button><a href="javascript:;">取消</a>
+				<button ng-click="reviewArticle($event)">发送</button>
+				<a href="javascript:;" ng-click="cancelReview($event)">取消</a>
 			</div>
 		</div>
 	</div>
+	<ul class="comments">
+		<li ng-repeat="comment in comments">
+			<div class="cmtTop">
+				<a ui-sref="user({username:comment.author.username})"><img src="{{comment.author.avatar}}" title="{{comment.author.nickname}}" class="cmtAvatar"></a>
+				<div class="cmtAuthorInfo">
+					<a class="cmtAuthorNickname" ui-sref="user({username:comment.author.username})" ng-bind="comment.author.nickname"></a><br/>
+					<span ng-bind="$index+1"></span>楼
+					<span ng-show="comment.author._id===article.author._id">[楼主]</span>
+					<span ng-bind="comment.createDate"></span>
+				</div>
+			</div>	
+			<div class="cmtContent">
+				<ul class="replyPersion" ng-show="comment.replyParent.length">
+					<li ng-repeat="replyCmt in comment.replyParent">
+						@ <span ng-bind="replyCmt.authorNickname"></span>
+					</li>
+				</ul>
+				<div ng-bind-html="comment.content"></div>
+			</div>
+			<div class="cmtFoot">
+				<span ng-click="heartComment(comment,$index)">
+					<span ng-show="!comment.heart.length">赞</span>
+					<span ng-show="comment.heart.length">{{comment.heart.length}}人赞</span>
+				</span>
+				<span ng-click="stampComment(comment,$index)">
+					<span ng-show="!comment.stamp.length">踩</span>
+					<span ng-show="comment.stamp.length">{{comment.stamp.length}}人踩</span>
+				</span>
+				<span ng-click="toggleReplay($event)">回复</span>
+				<span ng-show="userInfo.username===comment.author.username" ng-click="deleteComment(comment, $index)" class="right">删除</span>
+				<span ng-show="userInfo.username===comment.author.username" ng-click="updateCommentToggle($event, $index)" class="right">修改</span>
+			</div>
+			<div class="cmtReplyArea">
+				<div contenteditable ng-model="replyContent" editor-menu="emotion">
+				</div>
+				<button ng-click="reviewReply($event, comment)">发送</button>
+				<a href="javascript:;" ng-click="cancelReply($event)">取消</a>
+			</div>
+			<div class="updateReplyArea">
+				<div contenteditable ng-model="updateReplyContent" editor-menu="emotion">
+				</div>
+				<button ng-click="updateComment($event, $index)">发送</button>
+				<a href="javascript:;" ng-click="cancelUpdateComment($event)">取消</a>
+			</div>
+		</li>
+	</ul>
 </div>
+<div id="goTop" class="goTop">返回<br/>顶部</div>
+<div ng-include="'src/modules/app/tpls/foot.html'"></div>

@@ -1,6 +1,18 @@
 define([], function () {
 	var deps = ['oc.lazyLoad', 'ui.router', 'ngCookies', 'ngSanitize', 'httpRequest', 'editor'];
 	var app = angular.module('app', deps);
+    app.run(['$rootScope', function ($rootScope) {
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.prevState = fromState;
+            $rootScope.prevParams = fromParams;
+        });
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            // 跳转到登陆页面，并记录页面的状态
+            if(toState.name === 'home'){
+                $rootScope.prevScrollTop = $('body').scrollTop();
+            }
+        });
+    }]);
 	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider) {
         $ocLazyLoadProvider.config({
             jsLoader: requirejs,
@@ -24,7 +36,7 @@ define([], function () {
                 controller: 'articles.ctrl',
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('articles')
+                        return $ocLazyLoad.load('articles');
                     }]
                 }
             })
@@ -34,7 +46,7 @@ define([], function () {
 				controller: 'user.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('user')
+                        return $ocLazyLoad.load('user');
                     }]
                 }
             })
@@ -44,7 +56,7 @@ define([], function () {
 				controller: 'article.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('article')
+                        return $ocLazyLoad.load('article');
                     }]
                 }
             })
@@ -54,27 +66,37 @@ define([], function () {
 				controller: 'createArticle.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('createArticle')
+                        return $ocLazyLoad.load('createArticle');
                     }]
                 }
 			})
 			.state('updateArticle', {
-				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/{articleId/update',
+				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/{articleId}/update',
 				templateUrl: 'src/modules/updateArticle/tpls/updateArticle.html',
 				controller: 'updateArticle.ctrl',
 				resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('updateArticle')
+                        return $ocLazyLoad.load('updateArticle');
                     }]
                 }
 			})
-            .state('modifyPwd', {
-                url: '/modifyPwd',
-                templateUrl: 'src/modules/user/tpls/modifyPwd.html',
-                controller: 'modifyPwd.ctrl',
+            .state('settings', {
+                url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/settings',
+                templateUrl: 'src/modules/user/tpls/settings.html',
+                controller: 'settings.ctrl',
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
-                        return $ocLazyLoad.load('modifyPwd')
+                        return $ocLazyLoad.load('settings');
+                    }]
+                }
+            })
+            .state('findPwd', {
+                url: '/findPwd',
+                templateUrl: 'src/modules/user/tpls/findPwd.html',
+                controller: 'findPwd.ctrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('findPwd');
                     }]
                 }
             })
