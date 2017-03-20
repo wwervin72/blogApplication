@@ -35,8 +35,11 @@ router.get('/comments', commentCtrl.getArticleComments);
 //获取用户的文章
 router.get('/user/posts', userCtrl.findUserByName, articleCtrl.getUserPosts);
 
+// 修改用户头像
+router.post('/user/avatar', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.modifyAvatar);
+
 //上传文件
-router.post('/upload', uploadFile.upload);
+router.post('/upload', userCtrl.uploadFile);
 
 // 用户添加文章
 router.post('/user/article', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.createPost);

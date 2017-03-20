@@ -2,3 +2,4 @@
 frontend/libs
 frontend/dist/*
 backend/config/production.js
+backend/public/upload/*

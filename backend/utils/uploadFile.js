@@ -6,7 +6,7 @@ let uploadFolderName = 'upload';
 let uploadFolderPath = path.join(__dirname + '/../public', uploadFolderName);
 
 module.exports = {
-	upload: function (req, res, next) {
+	upload: function (req, res, next, cb) {
 		let form = new formidable.IncomingForm(), 
 					prop, file, tempFilePath, fileNewPath, type, fileName, extName;
 			form.uploadDir = "./temp";
@@ -42,7 +42,7 @@ module.exports = {
 					if(err){
 						return next(err);
 					}
-					res.status(200).end('http://' + server + '/' + uploadFolderName + '/' + fileName);
+					cb && cb(server, uploadFolderName, fileName);
 				});
 			}
 		});

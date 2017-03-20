@@ -7,13 +7,30 @@ define([], function () {
                 method: config.method || 'GET',
                 url: baseUrl + config.url || '',
                 headers: {
-                    'Content-Type': 'application/json' || config['Content-Type']
+                    'Content-Type': config['Content-Type'] || 'application/json'
                 },
-                data: config.data || {}
+                data: config.data || {},
+            });
+        }
+        function uploadFile (config) {
+            return $http({
+                method: 'POST',
+                url: baseUrl + config.url || '',
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: function () {
+                    var formData = new FormData();
+                    angular.forEach(config.files, function (value, key) {
+                        formData.append(key, value);
+                    });
+                    return formData;
+                }
             });
         }
         return {
-            request: request
+            request: request,
+            uploadFile: uploadFile
         };
     }]);
 

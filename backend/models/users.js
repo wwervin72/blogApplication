@@ -22,6 +22,16 @@ let UserSchema = new Schema({
 		type: String,
 		default: createNickname()
 	},
+	bio: {
+		type: String,
+		default: '这家伙很懒，什么都没留下',
+		trim: true
+	},
+	url: {
+		type: String,
+		default: '这家伙很懒，什么都没留下',
+		trim: true
+	},
 	avatar: {
 		type: String,
 		default: 'http://localhost:3000/upload/defaultAvatar.jpg'

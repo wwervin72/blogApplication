@@ -74,8 +74,15 @@
 					resize: none;
 					padding: 8px 10px;
 				}
+				.avatarFile{
+					width: 0;
+					height: 0;
+					transform: scale(0);
+				}
 			}
 			.avatar{
+				width: 100px;
+				height: 100px;
 				border-radius: 50%;
 			}
 		}

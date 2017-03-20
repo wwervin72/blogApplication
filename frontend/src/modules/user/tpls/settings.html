@@ -13,10 +13,11 @@
 				<tbody>
 					<tr>
 						<td>
-							<img class="avatar" src="http://localhost:3000/upload/defaultAvatar.jpg" title=""/>
+							<img class="avatar" ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}"/>
 						</td>
 						<td>
-							<button>修改头像</button>
+							<input type="file" class="avatarFile"/>
+							<button ng-click="modifyAvatar()">修改头像</button>
 						</td>
 					</tr>
 					<tr>
@@ -24,7 +25,7 @@
 							昵称
 						</td>
 						<td>
-							<input type="text"/>
+							<input type="text" ng-model="userInfo.nickname"/>
 						</td>
 					</tr>
 					<tr>
@@ -32,7 +33,7 @@
 							电子邮箱
 						</td>
 						<td>
-							<input type="email" placeholder="请输入你的常用邮箱" />
+							<input type="email" placeholder="请输入你的常用邮箱" ng-model="userInfo.email" />
 						</td>
 					</tr>
 					<tr>

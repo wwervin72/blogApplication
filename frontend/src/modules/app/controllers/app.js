@@ -87,6 +87,14 @@ define([], function () {
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
                         return $ocLazyLoad.load('settings');
+                    }],
+                    checkLogin: ['$rootScope', '$state', function ($rootScope, $state) {
+                        if(!$rootScope.userInfo){
+                            $state.go('home', {home:{login: true, register: false}});
+                            return;
+                        }else{
+                            return true;
+                        }
                     }]
                 }
             })

@@ -5,6 +5,7 @@ let jwt = require('jsonwebtoken');
 let config = require('config-lite');
 let tokenManage = require('../utils/tokenManage');
 let mailer = require('../utils/email')(config);
+let uploadfile = require('../utils/uploadFile');
 module.exports = {
 	findUserByName: function (req, res, next) {
 		User.findOne({username: req.query.username || req.user.username}, function (err, user) {
@@ -49,6 +50,7 @@ module.exports = {
 						username: user.username,
 						avatar: user.avatar,
 						nickname: user.nickname,
+						email: user.email,
 						_id: user._id
 					}
 				});
@@ -129,7 +131,8 @@ module.exports = {
 				_id: req.user._id,
 				nickname: req.user.nickname,
 				username: req.user.username,
-				avatar: req.user.avatar
+				avatar: req.user.avatar,
+				email: req.user.email
 			},
 			token: tokenManage.createNewToken(req.user),
 			result: true
@@ -191,5 +194,33 @@ module.exports = {
 							msg: '密码修改成功'
 						});
 					});
+	},
+	modifyAvatar: function (req, res, next) {
+		function avatar (server, uploadFolderName, fileName) {
+			let avatarUrl = 'http://' + server + '/' + uploadFolderName + '/' + fileName;
+			User.update({_id: req.user._id}, 
+						{$set: {
+							avatar: avatarUrl
+						}}, function (err, result) {
+							if(err){
+								return next(err);
+							}
+							if(!result.nModified){
+								return next();
+							}
+							return res.status(200).json({
+								result: true,
+								msg: '修改成功',
+								data: avatarUrl
+							});
+						});
+		}
+		uploadfile.upload(req, res, next, avatar);
+	},
+	uploadFile: function (req, res, next) {
+		function callback (server, uploadFolderName, fileName) {
+			return res.status(200).end('http://' + server + '/' + uploadFolderName + '/' + fileName);
+		}
+		uploadfile.upload(req, res, next, callback);
 	}
 };
