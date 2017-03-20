@@ -21,7 +21,7 @@
             <form id="login" name="login_form">
                 <div class="ipt_group">
                     <input type="text" ng-model="loginUser.username" name="username" placeholder="登陆账号" required/>
-                    <div class="iptMsg" ng-show="showMsg.login">
+                    <div class="iptMsg">
                         <span ng-show="login_form.username.$error.required">请填写登陆账号</span>
                         <span ng-show="!login_form.username.$error.required && accountNotExist">该账号不存在</span>
                     <span ng-show="!login_form.username.$error.required && !accountNotExist && loginFailed">账号或者密码不正确</span>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </form>
-            <a class="forgetPwd" ui-sref="modifyPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
+            <a class="forgetPwd" ui-sref="findPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
         </div>
         <div ng-show="home.register">
             <form id="register" name="registerForm" novalidate>
@@ -47,21 +47,6 @@
                         <span ng-show="!registerForm.username.$error.required && registerForm.username.$error.pattern">账号为3到10个长度的字母或数字</span>
                         <span ng-show="!registerForm.username.$error.required && !registerForm.username.$error.pattern && accountExist">用户名已被注册</span>
                     </div>
-                </div>
-                <div class="ipt_group">
-                    <input type="text" id="rePwd" ng-model="register.password" placeholder="密码"/>
-                    <div class="iptMsg" ng-show="showMsg.register">
-                        <span>请填写密码</span>
-                    </div>
-                </div>
-                <div class="ipt_group">
-                    <input type="text" id="replayPwd" ng-model="register.replayPwd" placeholder="重复密码"/>
-                    <div class="iptMsg" ng-show="showMsg.register">
-                        <span>请填写重复密码</span>
-                    </div>
-                </div>
-                <div class="ipt_group" ng-show="showMsg.register">
-                    <input type="text" id="nickName" ng-model="register.nickName" placeholder="昵称"/>
                 </div>
                 <div class="ipt_group">
                     <input type="password" name="password" ng-model="registerUser.password" placeholder="密码" ng-pattern="/^[a-zA-Z0-9-_.]{3,12}$/" required/>
