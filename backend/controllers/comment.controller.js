@@ -38,7 +38,8 @@ module.exports = {
 								return res.status(200).json({
 									result: true,
 									msg: '评论成功',
-									data: cmt
+									data: cmt,
+									token: tokenManage.createNewToken(req.user)
 								});
 					});
 				})
@@ -77,7 +78,8 @@ module.exports = {
 							}
 							return res.status(200).json({
 								result: true,
-								msg: '修改成功'
+								msg: '修改成功',
+								token: tokenManage.createNewToken(req.user)
 							});
 						});
 	},
@@ -96,7 +98,8 @@ module.exports = {
 						}
 						return res.status(200).json({
 							result: true,
-							msg: '删除成功'
+							msg: '删除成功',
+							token: tokenManage.createNewToken(req.user)
 						});
 					});
 		}else{
@@ -137,7 +140,8 @@ module.exports = {
 				return res.status(200).json({
 					result: true,
 					msg: '点赞成功',
-					data: result
+					data: result,
+					token: tokenManage.createNewToken(req.user)
 				});
 			});
 		});
@@ -173,7 +177,8 @@ module.exports = {
 				return res.status(200).json({
 					result: true,
 					msg: '反对成功',
-					data: result
+					data: result,
+					token: tokenManage.createNewToken(req.user)
 				});
 			});
 		});

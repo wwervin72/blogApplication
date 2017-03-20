@@ -29,12 +29,12 @@ let UserSchema = new Schema({
 	},
 	bio: {
 		type: String,
-		default: '这家伙很懒，什么都没留下',
+		default: '这家伙很懒，什么都没留下...',
 		trim: true
 	},
 	url: {
 		type: String,
-		default: '这家伙很懒，什么都没留下',
+		default: '这家伙很懒，什么都没留下...',
 		trim: true
 	},
 	avatar: {

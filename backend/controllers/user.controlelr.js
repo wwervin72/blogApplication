@@ -217,7 +217,8 @@ module.exports = {
 							return res.status(200).json({
 								result: true,
 								msg: '修改成功',
-								data: avatarUrl
+								data: avatarUrl,
+								token: tokenManage.createNewToken(req.user)
 							});
 						});
 		}

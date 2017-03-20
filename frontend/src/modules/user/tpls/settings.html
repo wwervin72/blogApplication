@@ -50,13 +50,13 @@
 						<td>性别</td>
 						<td class="sex">
 							<label>
-								<input type="radio" name="sex" value="male"/>男
+								<input type="radio" name="sex" value="male" ng-model="settingInfo.sex"/>男
 							</label>
 							<label>
-								<input type="radio" name="sex" value="female"/>女
+								<input type="radio" name="sex" value="female" ng-model="settingInfo.sex"/>女
 							</label>
 							<label>
-								<input type="radio" name="sex" value="secret" checked="true"/>保密
+								<input type="radio" name="sex" value="secret" ng-model="settingInfo.sex"/>保密
 							</label>
 						</td>
 					</tr>

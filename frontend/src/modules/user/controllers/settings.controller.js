@@ -2,6 +2,10 @@ define([], function () {
 	var deps = [];
 	var settingsModel = angular.module('settings', deps);
 	settingsModel.controller('settings.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
+		if(!$rootScope.userInfo){
+			$state.go('home', {home: {login: true, register: false}});
+			return;
+		}
 		$scope.modifyAvatar = function () {
 			$('.avatarFile').click();
 		};
