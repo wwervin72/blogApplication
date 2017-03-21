@@ -279,7 +279,31 @@ module.exports = {
 		});
 	},
 	modifyPwd: function (req, res, next) {
-
+		User.findOne({_id: req.user._id}, function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(!user){
+				return next();
+			}
+			if(user.encryptoPassword(req.body.oldPwd) !== user.hashed_password){
+				return res.status(200).json({
+					result: false,
+					msg: '原密码不正确'
+				});
+			}
+			user.salt = Math.round(new Date().getTime() * Math.random()) + '';
+			user.hashed_password = user.encryptoPassword(req.body.newPwd);
+			user.save(function (err) {
+				if(err){
+					return next(err);
+				}
+				return res.status(200).json({
+					result: true,
+					msg: '修改成功'
+				})
+			})
+		})
 	},
 	deleteCount: function (req, res, next) {
 

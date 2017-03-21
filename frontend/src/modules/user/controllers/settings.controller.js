@@ -117,15 +117,22 @@ define([], function () {
 			}
 			http.request({
 				method: 'PUT',
-				url: '/url/pwd',
+				url: '/user/pwd',
 				data: {
 					token: $cookies.get('TOKEN'),
+					oldPwd: $scope.settingInfo.oldPwd,
 					newPwd: $scope.settingInfo.newPwd
 				}
 			}).then(function (res) {
 				if(res.data.result){
-					alert('密码修改成功');
+					alert('密码修改成功, 你需要从新登陆');
+					delete $rootScope.userInfo;
+					$state.go('home', {home: {login: true, register: false}});
 				}else{
+					if(res.data.msg === '原密码不正确'){
+						alert('原密码不正确');
+						return;
+					}
 					alert('密码修改失败');
 				}
 			})

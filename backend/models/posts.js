@@ -42,6 +42,11 @@ let PostSchema = new Schema({
 		default: '', 
 		trim: true
 	},
+	avatar: {
+		type: String,
+		default: 'http://localhost:3000/upload/defaultArticleAvatar.jpg',
+		trim: true
+	},
 	// 文章作者
 	author: {
 		type: Schema.ObjectId,

@@ -7,16 +7,6 @@ define([], function () {
                 type: 'GET',
                 url: '/user/posts?username=' + $stateParams.username
             }).then(function (res) {
-                res.data.data.map(function (item) {
-                    $(item.content).each(function (i, ele) {
-                        if(!i){
-                            item.content = '';
-                        }
-                        if(ele.nodeName !== 'PRE'){
-                            item.content += $(ele).text().trim();
-                        }
-                    })
-                });
                 $scope.articles = res.data.data;
             }, function (res) {
 

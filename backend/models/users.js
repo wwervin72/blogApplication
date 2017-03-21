@@ -39,7 +39,7 @@ let UserSchema = new Schema({
 	},
 	avatar: {
 		type: String,
-		default: 'http://localhost:3000/upload/defaultAvatar.jpg'
+		default: 'http://localhost:3000/upload/defaultUserAvatar.png'
 	},
 	hashed_password: String,
 	salt: String,
