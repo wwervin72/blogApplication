@@ -70,10 +70,6 @@ define([], function () {
 				alert('请做出修改之后再进行保存');
 				return;
 			}
-			// if(){
-			// 	alert('个人网站地址格式不正确');
-			// 	return;
-			// }
 			http.request({
 				method: 'PUT',
 				url: '/user/persionalInfo',

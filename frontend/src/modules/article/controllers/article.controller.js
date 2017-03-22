@@ -1,7 +1,8 @@
 define([], function () {
 	var deps = [];
 	var articleModel = angular.module('article', deps);
-	articleModel.controller('article.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', '$cookies', 'http', 'editorService', function($rootScope, $scope, $stateParams, $state, $location, $cookies, http, editorService){
+	articleModel.controller('article.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', '$cookies', 'http', function($rootScope, $scope, $stateParams, $state, $location, $cookies, http){
+		$scope.editorMenus = ['emotion'];
 		// 获取文章信息
 		(function () {
 			http.request({

@@ -39,14 +39,14 @@
 	</div>
 	<div class="addComments">
 		<a class="avatar">
-			<img src="http://localhost:3000/upload/defaultAvatar.jpg"/>
+			<img src="http://localhost:3000/asset/defaultUserAvatar.png"/>
 		</a>
 		<div class="commentsArea">
 			<div class="loginTips" ng-show="!userInfo">
 				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
 			</div>
 			<div class="commentsEditor" ng-show="userInfo">
-				<div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="emotion">
+				<div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="editorMenus">
 				</div>
 				<button ng-click="reviewArticle($event)">发送</button>
 				<a href="javascript:;" ng-click="cancelReview($event)">取消</a>

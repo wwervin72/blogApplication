@@ -3,6 +3,39 @@ define([], function () {
     var createArticleModel = angular.module('createArticle', deps);
     createArticleModel.controller('createArticle.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
         $scope.newArticle = {};
+        $scope.editorMenus = [
+                    'source',
+                    '|',
+                    'bold',
+                    'underline',
+                    'italic',
+                    'strikethrough',
+                    'eraser',
+                    'forecolor',
+                    'bgcolor',
+                    '|',
+                    'quote',
+                    'fontfamily',
+                    'fontsize',
+                    'head',
+                    'unorderlist',
+                    'orderlist',
+                    'alignleft',
+                    'aligncenter',
+                    'alignright',
+                    '|',
+                    'link',
+                    'unlink',
+                    'table',
+                    'emotion',
+                    '|',
+                    'img',
+                    'insertcode',
+                    '|',
+                    'undo',
+                    'redo',
+                    'fullscreen'
+                ];
         $scope.createArticle = function ($event) {
             if(!$scope.newArticle.title || $scope.newArticle.title.trim() === ''){
                 return alert('请输入文章标题');
@@ -36,7 +69,10 @@ define([], function () {
         			$state.go('user', {username: $rootScope.userInfo.username});
         		}
         	});
-        }
+        };
+        $scope.preview = function ($event) {
+
+        };
     }]);
     return createArticleModel;
 });
