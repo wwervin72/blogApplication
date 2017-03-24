@@ -293,6 +293,13 @@ define([], function () {
 		$scope.cancelUpdateComment = function ($event) {
 			$($event.target).parent().hide();
 		};
+		// $scope.showFace = 
+		$('.face-icon').click(function (e) {
+			var event = e || window.event;
+			var target = event.target || event.srcElement;
+			target = $(target);
+			target.next('.face-list').toggle();
+		});
 		$(document).scroll(function () {
 			if($('body').scrollTop() >= $(window).height()){
 				$('#goTop').show();

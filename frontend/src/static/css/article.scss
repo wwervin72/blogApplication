@@ -1,7 +1,7 @@
 .articleContent{
 	width: 50%;
 	min-width: 700px;
-	margin: 20px auto;
+	margin: 20px auto 50px;
 	.articleTitle{
 		word-break: break-word;
 		margin: 10px 0 20px 0;
@@ -109,8 +109,8 @@
 			min-width: 640px;
 			height: 100%;
 			text-align: center;
-			border: 1px solid #ddd;
-			background: #eee;
+			// border: 1px solid #ddd;
+			// background: #eee;
 			font-size: 14px;
 			.loginTips{
 				margin: 65px 0; 
@@ -128,26 +128,87 @@
 			.commentsEditor{
 				margin-top: -1px;
 				margin-left: -1px;
-				.commentsTextArea{
-					height: 150px;
+				height: 150px;
+				// .commentsTextArea{
+				// 	height: 150px;
+				// }
+				// #commentEditor{
+				// 	height: 150px;
+				// }
+				textarea{
+					width: 100%;
+					height: 110px;
+					resize: none;
+					border-radius: 3px;
+					background-color: hsla(0,0%,71%,.1);
+					padding: 10px 15px;
+					border: 1px solid #dcdcdc;
 				}
-				#commentEditor{
-					height: 150px;
+				.commentsHandle{
+					height: 40px;
+					.handle-left{
+						float: left;
+						width: 60%;
+						.face{
+							float: left;
+							overflow: hidden;
+							position: relative;
+						}
+						.face-icon{
+							display: block;
+							width: 20px;
+							height: 20px;
+							background: url('../img/face.png')0 0;
+							background-size: 100%;
+							cursor: pointer;
+						}
+						.face-list{
+							display: none;
+							position: absolute;
+							top: 10px;
+							left: 0;
+							&::before{
+								
+							}
+						}
+						.public-notice{
+							float: left;
+							margin-left: 20px;
+							color: #969696;
+						}
+					}
+					.handle-right{
+						float: right;
+						a{
+							float: right;
+							font-size: 14px;
+							margin: 15px 10px 0 0;
+						}
+						button{
+							float: right;
+							padding: 5px 15px;
+							border: none;
+							background: #ea6f5a;
+							border-radius: 2px;
+							color: #fff;
+							margin-top: 10px;
+						}
+					}
 				}
-				&>a{
-					float: right;
-					font-size: 14px;
-					margin: 15px 10px 0 0;
-				}
-				&>button{
-					float: right;
-					padding: 5px 10px;
-					border: none;
-					background: #ea6f5a;
-					border-radius: 2px;
-					color: #fff;
-					margin-top: 10px;
-				}
+				// &>a{
+				// 	float: right;
+				// 	font-size: 14px;
+				// 	margin: 15px 10px 0 0;
+				// }
+				// &>button{
+				// 	float: right;
+				// 	padding: 5px 10px;
+				// 	border: none;
+				// 	background: #ea6f5a;
+				// 	border-radius: 2px;
+				// 	color: #fff;
+				// 	margin-top: 10px;
+				// }
 			}
 		}
 	}
