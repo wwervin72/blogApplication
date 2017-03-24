@@ -3,6 +3,7 @@ let User = mongoose.model('User');
 let Post = mongoose.model('Post');
 let Comment = mongoose.model('Comment');
 let moment = require('moment');
+let tokenManage = require('../utils/tokenManage');
 
 module.exports = {
 	createPost: function (req, res, next) {

@@ -300,8 +300,19 @@ define([], function () {
 				$('#goTop').hide();
 			}
 		});
-		$('#goTop').click(function () {
-			$('body').scrollTop(0);
+		$('#goTop').click(function (e) {
+			$('body').animate({
+				scrollTop: 0
+			}, 500);
+			$('#goTop').animate({
+				bottom: '400px',
+				opacity: 0
+			}, 500, function () {
+				$('#goTop').css({
+					bottom: 0,
+					opacity: 1
+				});
+			});
 		});
 	}]);
 	return articleModel;

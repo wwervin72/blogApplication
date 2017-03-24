@@ -44,7 +44,7 @@ let PostSchema = new Schema({
 	},
 	avatar: {
 		type: String,
-		default: 'http://localhost:3000/upload/defaultArticleAvatar.jpg',
+		default: 'http://localhost:3000/asset/defaultArticleAvatar.jpg',
 		trim: true
 	},
 	// 文章作者

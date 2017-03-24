@@ -22,7 +22,7 @@ gulp.task('html', () => {
 
 gulp.task('script', (cb) => {
     pump([
-            gulp.src(['src/modules/**/controllers/*.js', 'src/services/*.js', 'src/directives/*.js'], {base: 'src'}),
+            gulp.src(['src/modules/**/**/*.js', 'src/services/*.js', 'src/directives/*.js'], {base: 'src'}),
             jshint(),
             uglify(),
             gulp.dest('dist')
