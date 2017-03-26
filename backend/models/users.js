@@ -41,6 +41,14 @@ let UserSchema = new Schema({
 		type: String,
 		default: 'http://localhost:3000/asset/defaultUserAvatar.png'
 	},
+	authcode: {
+		type: String,
+		default: ''
+	},
+	lastsendauthcodetime: {
+		type: String,
+		default: ''
+	},
 	hashed_password: String,
 	salt: String,
 	email: String,
@@ -109,7 +117,7 @@ function createNickname () {
 	let nickNameLen = Math.floor(Math.random() * (10 - 5 + 1) + 5);
 	let nickName = [];
 	while (nickNameLen) {
-		nickName.push(str.substr(Math.floor(Math.random() * 62), 1));
+		nickName[nickName.length] = str.substr(Math.floor(Math.random() * 62), 1);
 		nickNameLen--;
 	}
 	return nickName.join('');

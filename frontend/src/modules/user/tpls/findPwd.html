@@ -1,4 +1,27 @@
 <div ng-include="'src/modules/app/tpls/header.html'"></div>
-<h1>找回密码</h1>
-<button ng-click="findPwd()">click me</button>
+<div class="form-wrap">
+	<div class="main">
+		<form class="findPwd">
+			<h1>用邮箱重置密码</h1>
+			<div class="ipt-group">
+				<input type="text" placeholder="请输入注册账号" ng-model="resetPwdInfo.username">
+			</div>
+			<div class="ipt-group">
+				<input type="text" placeholder="请输入注册账号绑定的邮箱" ng-model="resetPwdInfo.email">
+			</div>
+			<div class="ipt-group sendAuthCode">
+				<input type="text" placeholder="请输入邮箱验证码" ng-model="resetPwdInfo.authCode">
+				<button ng-click="sendAuthCode()">发送验证码</button>
+			</div>
+			<div class="ipt-group">
+				<input type="password" placeholder="请输入新密码" ng-model="resetPwdInfo.newPwd">
+			</div>
+			<div class="ipt-group">
+				<input type="password" placeholder="请再输入一次新密码" ng-model="resetPwdInfo.repeatPwd">
+			</div>
+			<button ng-click="resetPwd()">重置密码</button>
+			<a href="javascript:;" ui-sref="home({home:{login:true,register:false}})">返回登录注册</a>
+		</form>
+	</div>
+</div>
 <div ng-include="'src/modules/app/tpls/foot.html'"></div>

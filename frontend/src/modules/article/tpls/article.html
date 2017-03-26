@@ -41,29 +41,80 @@
 		<a class="avatar">
 			<img src="http://localhost:3000/asset/defaultUserAvatar.png"/>
 		</a>
-		<div class="commentsArea">
+		<div class="commentsArea" ng-class="{true: 'unLogin'}[!userInfo]">
 			<div class="loginTips" ng-show="!userInfo">
 				<a ui-sref="home({home: {register: false, login: true}})">登陆</a>后发表评论
 			</div>
-			<!-- <div class="commentsEditor" ng-show="userInfo">
-				<div class="commentsTextArea" contenteditable ng-model="newCommentContent" editor-menu="editorMenus">
-				</div>
-				<button ng-click="reviewArticle($event)">发送</button>
-				<a href="javascript:;" ng-click="cancelReview($event)">取消</a>
-			</div> -->
 			<form class="commentsEditor" ng-show="userInfo">
-				<textarea placeholder="写下你的评论..."></textarea>
+				<textarea placeholder="请填写你的评论..."></textarea>
 				<div class="commentsHandle">
 					<div class="handle-left">
-						<div class="face">
-							<span class="face-icon" ng-click="showFace($event)"></span>
-							<div class="face-list">
-								<ul class="face-class-list">
-									<li></li>
+						<div class="emoji">
+							<span class="emoji-icon" ng-click="showemoji($event)"></span>
+							<div class="emoji-list">
+								<ul class="emoji-class-list">
+									<li>笑脸</li>
 								</ul>
-								<div class="face-img-content">
-									<ul class="face-img">
-										<li><img src="http://assets.jianshu.io/assets/emojis/smile.png" alt=""></li>
+								<div class="emoji-img-content">
+									<ul class="emoji-img">
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+									</ul>
+									<ul class="emoji-img">
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+									</ul>
+									<ul class="emoji-img">
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+									</ul>
+									<ul class="emoji-img">
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+									</ul>
+									<ul class="emoji-img">
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
 									</ul>
 								</div>
 							</div>
@@ -71,8 +122,8 @@
 						<span class="public-notice">Ctrl+Enter 发表</span>
 					</div>
 					<div class="handle-right">
-						<button>发送</button>
-						<a href="javascript:;">取消</a>
+						<button ng-click="reviewArticle($event)">发送</button>
+						<a href="javascript:;" ng-click="cancelReview($event)">取消</a>
 					</div>
 				</div>
 			</form>
@@ -111,26 +162,174 @@
 				<span ng-show="userInfo.username===comment.author.username" ng-click="updateCommentToggle($event, $index)" class="right">修改</span>
 			</div>
 			<div class="cmtReplyArea">
-				<!-- <div contenteditable ng-model="replyContent" editor-menu="emotion">
-				</div>
-				<button ng-click="reviewReply($event, comment)">发送</button>
-				<a href="javascript:;" ng-click="cancelReply($event)">取消</a> -->
-
+				<form class="commentsEditor">
+					<textarea placeholder="写下你的评论..."></textarea>
+					<div class="commentsHandle">
+						<div class="handle-left">
+							<div class="emoji">
+								<span class="emoji-icon" ng-click="showemoji($event)"></span>
+								<div class="emoji-list">
+									<ul class="emoji-class-list">
+										<li>笑脸</li>
+									</ul>
+									<div class="emoji-img-content">
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<span class="public-notice">Ctrl+Enter 发表</span>
+						</div>
+						<div class="handle-right">
+							<button ng-click="reviewArticle($event)">发送</button>
+							<a href="javascript:;" ng-click="cancelReply($event)">取消</a>
+						</div>
+					</div>
+				</form>
 			</div>
 			<div class="updateReplyArea">
-				<div contenteditable ng-model="updateReplyContent" editor-menu="emotion">
-				</div>
-				<button ng-click="updateComment($event, $index)">发送</button>
-				<a href="javascript:;" ng-click="cancelUpdateComment($event)">取消</a>
+				<form class="commentsEditor">
+					<textarea placeholder="写下你的评论..."></textarea>
+					<div class="commentsHandle">
+						<div class="handle-left">
+							<div class="emoji">
+								<span class="emoji-icon" ng-click="showemoji($event)"></span>
+								<div class="emoji-list">
+									<ul class="emoji-class-list">
+										<li>笑脸</li>
+									</ul>
+									<div class="emoji-img-content">
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+										<ul class="emoji-img">
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+											<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<span class="public-notice">Ctrl+Enter 发表</span>
+						</div>
+						<div class="handle-right">
+							<button ng-click="updateComment($event, $index)">发送</button>
+							<a href="javascript:;" ng-click="cancelUpdateComment($event, $index)">取消</a>
+						</div>
+					</div>
+				</form>
 			</div>
 		</li>
 	</ul>
 </div>
-<svg id="goTop" class="goTop" width="90px" height="215px"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <g class="Rocket" fill="#ea6f5a" sketch:type="MSShapeGroup">
-        <path d="M44.0003013,0.0880283831 C44.0003013,0.0880283831 45.102029,23.3228374 45.102029,31.0790263 C48.9980517,39.1382267 59.9264928,79.7139811 59.9264928,122.1498 C59.9264928,164.585618 49.7972525,181.633082 49.7972525,181.633082 L38.5386646,181.633082 C38.5386646,181.633082 28.7602457,164.13207 28.7602457,122.1498 C28.7602457,80.1675292 37.1295644,49.7255376 43.1103263,31.0790263 C43.1103263,23.1987901 44.0003013,0.0880283831 44.0003013,0.0880283831 Z" id="Path-24"></path>
-        <path d="M23.4158729,121.146437 L21.3671536,155.45974 L44.5220103,153.656531 C44.5220103,153.656531 44.2823147,157.794026 44.2823147,162.852186 C14.8566067,157.794026 11.186227,193.492524 4.3468254,212.131928 L0.287505545,213.236079 L19.4147003,121.269193 L23.4158729,121.146437 Z" id="Path-25"></path>
-        <path d="M67.0805353,121.146437 L65.031816,155.45974 L88.1866726,153.656531 C88.1866726,153.656531 87.946977,157.794026 87.946977,162.852186 C58.5212691,157.794026 54.8508893,193.492524 48.0114877,212.131928 L43.9521679,213.236079 L63.0793626,121.269193 L67.0805353,121.146437 Z" id="Path-25" transform="translate(66.069420, 167.191258) scale(-1, 1) translate(-66.069420, -167.191258) "></path>
-    </g>
-</svg>
 <div ng-include="'src/modules/app/tpls/foot.html'"></div>

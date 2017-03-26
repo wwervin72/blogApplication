@@ -12,6 +12,19 @@ requirejs.config({
 		httpRequest: 'dist/services/httpService',
 		particle: 'dist/services/particleService',
 		editor: 'dist/directives/editorDirective',
+		markdown: 'dist/services/markdown.service',
+		// markdown
+		marked: 'libs/editor.md/lib/marked.min',
+		prettify: 'libs/editor.md/lib/prettify.min',
+		raphael: 'libs/editor.md/lib/raphael.min',
+		underscore: 'libs/editor.md/lib/underscore.min',
+		flowchart: 'libs/editor.md/lib/flowchart.min',
+		jqueryflowchart: 'libs/editor.md/lib/jquery.flowchart.min',
+		sequenceDiagram: 'libs/editor.md/lib/sequence-diagram.min',
+		katex: 'http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min',
+		editormd: 'libs/editor.md/editormd.amd',
+		waitSeconds: 30,
+
 		app: 'dist/modules/app/controllers/app',
 		home: 'dist/modules/home/controllers/home.controller',
 		articles: 'dist/modules/articles/controllers/articles.controller',
@@ -44,6 +57,12 @@ requirejs.config({
 		particle: {
 			exports: 'particle'
 		},
+		// editormd: {
+		// 	exports: 'editormd'
+		// },
+		// markdown: {
+		// 	deps: ['editormd']
+		// },
 		app: {
 			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'sanizite', 'httpRequest', 'editor']
 		},

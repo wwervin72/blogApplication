@@ -108,3 +108,17 @@
         }
     }
 }
+.goTop{
+    position: fixed;
+    right: 20px;
+    bottom: 0;
+    text-align: center;
+    cursor: pointer;
+    transform: scale(.3);
+    display: none;
+    &:hover{
+        .Rocket{
+            fill: #f00;
+        }
+    }
+}

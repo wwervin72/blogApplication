@@ -47,6 +47,7 @@ gulp.task('image', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*']));
 
 gulp.task('watch', () => {
+    runSequence('clean', 'html', 'style', 'script', 'image');
 	browserSync.init({
 		port: 80,
 		server: {
@@ -60,10 +61,6 @@ gulp.task('watch', () => {
     gulp.watch([
         'src/*',
         ]).on('change', browserSync.reload);
-});
-
-gulp.task('build', () => {
-    runSequence('clean', 'html', 'style', 'script', 'image');
 });
 
 gulp.task('default', ['watch']);

@@ -15,10 +15,10 @@ router.get('/', (req, res, next) => {
 router.get('/userinfo', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.getInfo);
 
 //用户找回密码, 发送邮件
-router.post('/pwd', userCtrl.findPwdSendMail);
+router.get('/pwd/authCode', userCtrl.sendAuthCode);
 
-//邮件验证邮箱, 请求修改密码
-router.get('/validatEmail', userCtrl.findPwd);
+//重置密码
+router.put('/pwd', userCtrl.findPwd);
 
 // 获取验证码
 router.get('/captcha', userCtrl.createCaptcha);

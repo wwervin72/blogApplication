@@ -150,56 +150,96 @@ module.exports = {
 			msg: '没有验证码'
 		})
 	},
-	findPwdSendMail: function (req, res, next) {
-		User.findOne({email: req.body.email, username: req.body.username})
-			.exec(function (err, user) {
-				if(err){
-					return next(err);
-				}
-				if(!user){
-					return next();
-				}
-				mailer.send({
-					to: req.body.email,
-					subject: '找回密码',
-					html: '<p>你的账号<strong style="font-weight:bold;color:#f00;">'+req.body.username+'</strong>正在找回密码, 新密码为: <span style="color:#f00;text-decoration:underline;">'+req.body.newPwd+'</span>, <a style="font-weight: bold;" href="http://localhost:3000/validatEmail?username='+req.body.username+'&email='+req.body.email+'&newPwd='+req.body.newPwd+'">点击此处找回密码</a></p>',
-					generateTextFromHtml: true
-				}, function (err, info) {
-					if(err){
-						return res.status(200).json({
-							result: false,
-							msg: '邮件发送失败'
-						});
-					}
-					return res.status(200).json({
-						result: true,
-						msg: '邮件发送成功'
-					});
-				});
-			});
-	},
-	findPwd: function (req, res, next) {
-		var salt = Math.round(new Date().getTime() * Math.random()) + '';
-		User.update({username: req.query.username || req.body.username, email: req.query.email || req.body.username},
+	// 发送邮件（验证码）
+	sendAuthCode: function (req, res, next) {
+		let authCode = (function () {
+			let str = 'abcdefghijklmnopqrstuvwxyz1234567890';
+			let authCode = [];
+			let codeLen = 6;
+			while (codeLen) {
+				authCode[authCode.length] = str.substr(Math.floor(Math.random() * 36), 1);
+				codeLen--;
+			}
+			return authCode.join('');
+		}());
+
+		let html = '<p>你的账号<strong style="font-weight:bold;color:#f00;">，<strong style="color:#f00;text-decoration:underline;">';
+			html += req.query.username;
+			html += '</strong>正在进行重置密码操作，验证码为<span style="color: #f00;">';
+			html += authCode;
+			html += '</span>，30分钟内有效，若非本人操作，请尽快修改密码。</p>';
+		User.update({username: req.query.username, email: req.query.email},
 					{$set: {
-						password: req.query.newPwd || req.body.newPwd,
-						salt: salt,
-						hashed_password: User.encryptoPassword(req.query.newPwd || req.body.newPwd, salt)
+						authcode: authCode,
+						lastsendauthcodetime: Date.now()
 					}}, function (err, result) {
 						if(err){
 							return next(err);
 						}
-						if(!result.ok){
+						if(!result.nModified){
 							return res.status(200).json({
 								result: false,
-								msg: '密码修改失败'
-							});
+								msg: '用户名或者邮箱不正确'
+							})
 						}
-						return res.status(200).json({
-							result: true,
-							msg: '密码修改成功'
+						mailer.send({
+							to: req.query.email,
+							subject: '找回密码',
+							html: html,
+							generateTextFromHtml: true
+						}, function (err, info) {
+							if(err){
+								return res.status(200).json({
+									result: false,
+									msg: '邮件发送失败'
+								});
+							}
+							return res.status(200).json({
+								result: true,
+								msg: '邮件发送成功，30分钟内有效，请尽快完成操作。'
+							});
 						});
-					});
+					})
+	},
+	//重置密码
+	findPwd: function (req, res, next) {
+		User.findOne({username: req.body.username, email: req.body.email},function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(!user){
+				return res.status(200).json({
+					result: false,
+					msg: '用户名或者邮箱不正确'
+				});
+			}
+			if(user.authcode !== req.body.authCode){
+				return res.status(200).json({
+					result: false,
+					msg: '验证码不正确'
+				});
+			}
+			if(user.lastsendauthcodetime + 1800000 < Date.now()){
+				return res.status(200).json({
+					result: false,
+					msg: '验证码已超时，请从新获取。'
+				});
+			}
+			let salt = Math.round(new Date().getTime() * Math.random()) + '';
+			user.password = req.body.newPwd;
+			user.salt = salt;
+			user.hashed_password = User.encryptoPassword(req.body.newPwd, salt);
+			user.authcode = '';
+			user.save(function (err) {
+				if(err){
+					return next(err);
+				}
+				return res.status(200).json({
+					result: true,
+					msg: '密码重置成功'
+				});
+			})
+		});
 	},
 	modifyAvatar: function (req, res, next) {
 		function avatar (server, uploadFolderName, fileName) {

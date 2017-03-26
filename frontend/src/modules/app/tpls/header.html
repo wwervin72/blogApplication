@@ -9,12 +9,19 @@
                 <li ng-click="loginOut()"><s></s>退出</li>
             </ul>
         </div>
-        <div class="createBlog" ui-sref="createArticle">
+        <a class="createBlog" ui-sref="createArticle">
             <img src="src/static/img/createArticle.png">写文章
-        </div>
+        </a>
     </div>
     <div class="noUserInfo" ng-show="!userInfo">
         <div class="login" ui-sref="home({home: {register: false, login: true}})">登陆</div>
         <div class="register" ui-sref="home({home: {register: true, login: false}})">加入Blog</div>
     </div>
 </div>
+<svg id="goTop" class="goTop" width="90px" height="215px" title="回到顶部" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <g class="Rocket" fill="#ea6f5a" sketch:type="MSShapeGroup">
+        <path d="M44.0003013,0.0880283831 C44.0003013,0.0880283831 45.102029,23.3228374 45.102029,31.0790263 C48.9980517,39.1382267 59.9264928,79.7139811 59.9264928,122.1498 C59.9264928,164.585618 49.7972525,181.633082 49.7972525,181.633082 L38.5386646,181.633082 C38.5386646,181.633082 28.7602457,164.13207 28.7602457,122.1498 C28.7602457,80.1675292 37.1295644,49.7255376 43.1103263,31.0790263 C43.1103263,23.1987901 44.0003013,0.0880283831 44.0003013,0.0880283831 Z" id="Path-24"></path>
+        <path d="M23.4158729,121.146437 L21.3671536,155.45974 L44.5220103,153.656531 C44.5220103,153.656531 44.2823147,157.794026 44.2823147,162.852186 C14.8566067,157.794026 11.186227,193.492524 4.3468254,212.131928 L0.287505545,213.236079 L19.4147003,121.269193 L23.4158729,121.146437 Z" id="Path-25"></path>
+        <path d="M67.0805353,121.146437 L65.031816,155.45974 L88.1866726,153.656531 C88.1866726,153.656531 87.946977,157.794026 87.946977,162.852186 C58.5212691,157.794026 54.8508893,193.492524 48.0114877,212.131928 L43.9521679,213.236079 L63.0793626,121.269193 L67.0805353,121.146437 Z" id="Path-25" transform="translate(66.069420, 167.191258) scale(-1, 1) translate(-66.069420, -167.191258) "></path>
+    </g>
+</svg>

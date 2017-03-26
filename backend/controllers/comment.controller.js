@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 let Comment = mongoose.model('Comment');
 let Article = mongoose.model('Post');
+let tokenManage = require('../utils/tokenManage');
 
 module.exports = {
 	createComment: function (req, res, next) {
@@ -96,11 +97,19 @@ module.exports = {
 								msg: '删除失败'
 							});
 						}
-						return res.status(200).json({
-							result: true,
-							msg: '删除成功',
-							token: tokenManage.createNewToken(req.user)
-						});
+						Article.update({_id: req.body.articleId},
+										{$inc: {
+											comments: -1
+										}}, function (err, result) {
+											if(err){
+												return next(err);
+											}
+											return res.status(200).json({
+												result: true,
+												msg: '删除成功',
+												token: tokenManage.createNewToken(req.user)
+											});
+										})
 					});
 		}else{
 			return res.status(200).json({

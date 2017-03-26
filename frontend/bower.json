@@ -31,6 +31,7 @@
     "layer": "^3.0.1",
     "wangEditor": "^2.1.23",
     "oclazyload": "^1.1.0",
-    "angular-sanitize": "^1.6.2"
+    "angular-sanitize": "^1.6.2",
+    "editor.md": "^1.5.0"
   }
 }

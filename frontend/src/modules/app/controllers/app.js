@@ -138,6 +138,28 @@ define([], function () {
                 }
             })
         };
+        // 显示或者隐藏回到顶部
+        $(document).scroll(function () {
+            if($('body').scrollTop() >= $(window).height()){
+                $('#goTop').show();
+            }else{
+                $('#goTop').hide();
+            }
+        });
+        $('#goTop').click(function (e) {
+            $('body').animate({
+                scrollTop: 0
+            }, 500);
+            $('#goTop').animate({
+                bottom: '400px',
+                opacity: 0
+            }, 500, function () {
+                $('#goTop').css({
+                    bottom: 0,
+                    opacity: 1
+                });
+            });
+        });
     }]);
     return app;
 })

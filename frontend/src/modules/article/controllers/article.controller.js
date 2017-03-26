@@ -73,13 +73,14 @@ define([], function () {
 				});
 			}
 		};
-		// 评论文章(根评论)
+		// 评论文章
 		$scope.reviewArticle = function ($event) {
-			var editor = $($event.target).parent().find('.wangEditor-txt');
-			var commentContent = editor.html().trim().replace(/^<p><br><\/p>$/, '');
+			var commentContent = $($event.target).parents('.commentsHandle').prev('textarea').val();
 			if(commentContent === ''){
 				return alert('请输入你的评论');
 			}
+			var reg = /:(\w+):/ig;
+			commentContent = commentContent.replace(reg, '<img src="src/static/img/emojis/$1.png" title="$1">');
 			var newComment = {
 				articleId: $scope.article._id,
 				authorId: $rootScope.userInfo._id,
@@ -96,8 +97,8 @@ define([], function () {
 				// 评论成功
 				if(res.data.result){
 					$scope.article.comments += 1;
-					$scope.comments.push(res.data.data);
-					editor.html('<p><br></p>');
+					$scope.comments[$scope.comments.length] = res.data.data;
+					$($event.target).parents('.commentsHandle').prev('textarea').val('');
 					alert('评论成功');
 				}
 			});
@@ -155,29 +156,16 @@ define([], function () {
 		};
 		// 取消回复
 		$scope.cancelReply = function ($event, $index) {
-			$($event.target).parent().find('.wangEditor-txt').html('<p><br></p>');
-			$($event.target).parent().hide();
+			$($event.target).parents('.cmtReplyArea').find('textarea').val('');
+			$($event.target).parents('.cmtReplyArea').hide();
+		};
+		// 取消更新评论
+		$scope.cancelUpdateComment = function ($event) {
+			$($event.target).parents('.updateReplyArea').hide();
 		};
 		// 取消评论
 		$scope.cancelReview = function ($event) {
-			$($event.target).parent().find('.wangEditor-txt').html('<p><br></p>');
-		};
-		// 弹出回复输入框
-		$scope.toggleReplay = function ($event) {
-			var _this = $($event.target).parent().next('.cmtReplyArea');
-			var open = _this.css('display') === 'none' ? true : false;
-			$('.cmtReplyArea').hide();
-			$('.cmtReplyArea .wangEditor-txt').html('<p><br></p>');
-			if(open){
-				if(!$rootScope.userInfo){
-					$state.go('home', {login: true, register: false});
-					return;
-				}
-				_this.siblings('.updateReplyArea').hide();
-				_this.show();
-			}else{
-				_this.hide();
-			}
+			$($event.target).parents('.commentsEditor').find('textarea').val('');
 		};
 		// 删除评论
 		$scope.deleteComment = function (comment, $index){
@@ -189,12 +177,14 @@ define([], function () {
 					data: {
 						token: $cookies.get('TOKEN'),
 						commentId: comment._id,
-						authorId: comment.author._id
+						authorId: comment.author._id,
+						articleId: comment.article
 					}
 				}).then(function (res) {
 					if(res.data.result){
 						alert('删除成功');
 						$scope.comments.splice($index, 1);
+						$scope.article.comments -= 1;
 					}else{
 						alert('删除失败');
 					}
@@ -247,79 +237,93 @@ define([], function () {
 				});
 			}
 		};
+		// 弹出回复输入框
+		$scope.toggleReplay = function ($event) {
+			if(!$rootScope.userInfo){
+				$state.go('home', {home:{login: true, register: false}});
+				return;
+			}
+			var target = $($event.target).parent().siblings('.cmtReplyArea');
+			if(target.css('display') === 'none'){
+				$('.cmtReplyArea').hide();
+				$('.updateReplyArea').hide();
+				target.show();
+			}else{
+				target.hide();
+			}
+		};
 		// 弹出修改评论菜单
 		$scope.updateCommentToggle = function ($event, $index) {
-			var editorP = $($event.target).parent().siblings('.cmtReplyArea');
-			var updateEditorP = editorP.siblings('.updateReplyArea');
-			var updateEditor = updateEditorP.find('.wangEditor-txt');
-			var toggle = updateEditorP.css('display') === 'none' ? true : false;
-			if(updateEditor.html().trim().replace(/^<p><br><\/p>$/, '') === ''){
-				updateEditor.html($scope.comments[$index].content);
-			}
-			if(toggle){
+			var reg = /<img\s*src="src\/static\/img\/emojis\/(\w+).png"\s*title="(\w+)">/ig;
+			var target = $($event.target).parent().siblings('.updateReplyArea');
+			var textarea = target.find('textarea');
+			if(target.css('display') === 'none'){
+				$('.cmtReplyArea').hide();
 				$('.updateReplyArea').hide();
-				editorP.hide();
-				updateEditorP.show();
+				target.show();
 			}else{
-				updateEditorP.hide();
+				target.hide();
 			}
+			textarea.val($scope.comments[$index].content.replace(reg, ':$1: '));
 		};
 		// 修改评论
 		$scope.updateComment = function ($event, $index) {
-			var editor = $($event.target).parent().find('.wangEditor-txt');
-			var newComment = editor.html().trim().replace(/^<p><br><\/p>$/, '');
-			if(newComment === ''){
-				return alert('请输入评论内容');
+			var commentContent = $($event.target).parents('.commentsHandle').prev('textarea').val();
+			if(commentContent === ''){
+				return alert('请输入你的评论');
 			}
+			var reg = /:(\w+):/ig;
+			commentContent = commentContent.replace(reg, '<img src="src/static/img/emojis/$1.png" title="$1">');
 			http.request({
 				method: 'put',
 				url: '/article/comment',
 				data: {
 					token: $cookies.get('TOKEN'),
 					commentId: $scope.comments[$index]._id,
-					newComment: newComment,
+					newComment: commentContent,
 				}
 			}).then(function (res) {
 				if(res.data.result){
-					$scope.comments[$index].content = newComment;
-					$($event.target).parent().hide();
+					$scope.comments[$index].content = commentContent;
+					$($event.target).parents('.updateReplyArea').hide();
 					alert('修改成功');
 				}else{
 					alert('修改失败');
 				}
 			})
 		};
-		// 取消更新评论
-		$scope.cancelUpdateComment = function ($event) {
-			$($event.target).parent().hide();
+		// 表情选择框开关
+		$scope.showemoji = function ($event) {
+			var target = $($event.target);
+			target.next('.emoji-list').toggle();
 		};
-		// $scope.showFace = 
-		$('.face-icon').click(function (e) {
+		// ctrl enter评论事件
+		$(document).keydown(function (e) {
 			var event = e || window.event;
-			var target = event.target || event.srcElement;
-			target = $(target);
-			target.next('.face-list').toggle();
-		});
-		$(document).scroll(function () {
-			if($('body').scrollTop() >= $(window).height()){
-				$('#goTop').show();
-			}else{
-				$('#goTop').hide();
+			var textarea = $('textarea:focus');
+			if(textarea.length && event.ctrlKey && event.keyCode === 13){
+				var btn = textarea.find('+.commentsHandle .handle-right button');
+				btn.click();
 			}
 		});
-		$('#goTop').click(function (e) {
-			$('body').animate({
-				scrollTop: 0
-			}, 500);
-			$('#goTop').animate({
-				bottom: '400px',
-				opacity: 0
-			}, 500, function () {
-				$('#goTop').css({
-					bottom: 0,
-					opacity: 1
-				});
-			});
+		// 点击body中其他地方关闭表情选择框
+		$('body').click(function (e) {
+			var event = e || window.event;
+			var target = event.target || event.srcElement;
+			if(!$(target).parents('.emoji').length){
+				$('.emoji-list').hide();
+			}
+		});
+		// 选择表情
+		$('body').delegate('.emoji-img li', 'click', function (e) {
+			var event = e || window.event;
+			var target = $(event.target || event.srcElement);
+			if(target[0].nodeName === 'LI'){
+				target = target.find('img');
+			}
+			var textarea = target.parents('.commentsHandle').prev();
+			textarea.val(textarea.val() + ':'+target.attr('title')+': ');
+			target.parents('.emoji-list').hide(); 
 		});
 	}]);
 	return articleModel;
