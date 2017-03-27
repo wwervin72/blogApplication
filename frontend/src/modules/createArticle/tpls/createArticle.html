@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="../../../../libs/editor.md/lib/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="../../../../libs/editor.md/css/editormd.min.css">
+<!-- <link rel="stylesheet" href="libs/editor.md/css/editormd.min.css"/> -->
 <div ng-include="'src/modules/app/tpls/header.html'"></div>
-<form class="form-horizontal createArticleForm" novalidate>
+<!-- <form class="form-horizontal createArticleForm" novalidate>
     <div class="form-group">
         <label for="title" class="control-label col-sm-1">
             标题: 
@@ -15,7 +16,7 @@
             内容: 
         </label>
         <div class="col-sm-10">
-            <!-- <div class="editor" contenteditable ng-model="newArticle.content" editor-menus="source,|,bold,underline,italic,strikethrough,eraser,forecolor,bgcolor,|,quote,fontfamily,fontsize,head,unorderlist,orderlist,alignleft,aligncenter,alignright,|,link,unlink,table,emotion,|,img,insertcode,|,undo,redo,fullscreen"></div> -->
+            <div class="editor" contenteditable ng-model="newArticle.content" editor-menus="source,|,bold,underline,italic,strikethrough,eraser,forecolor,bgcolor,|,quote,fontfamily,fontsize,head,unorderlist,orderlist,alignleft,aligncenter,alignright,|,link,unlink,table,emotion,|,img,insertcode,|,undo,redo,fullscreen"></div>
         </div>
     </div>
     <div class="form-group">
@@ -32,6 +33,8 @@
             <div class="btn btn-default noRadius" ng-click="preview($event)">预览</div>
         </div>
     </div>
-</form>
-<div id="test-editormd" style="width: 1000px;height: 600px;"></div>
+</form> -->
+    <!-- <textarea style="display:none;">###Hello world!</textarea> -->
+<div id="editormd">
+</div>
 <div ng-include="'src/modules/app/tpls/foot.html'"></div>
