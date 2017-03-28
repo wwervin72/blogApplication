@@ -1,5 +1,12 @@
 requirejs.config({
 	baseUrl: './',
+	packages: [
+		{
+			name: 'editormd',
+			location: '/libs/editor.md',
+			main: 'editormd.amd'
+		}
+	],
 	paths: {
 		angular: 'libs/angular/angular.min',
 		jquery: 'libs/jquery/dist/jquery.min',
@@ -22,10 +29,8 @@ requirejs.config({
 		jqueryflowchart: 'libs/editor.md/lib/jquery.flowchart.min',
 		sequenceDiagram: 'libs/editor.md/lib/sequence-diagram.min',
 		katex: 'http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min',
-		editormd: 'libs/editor.md/editormd.amd.min',
+		// editormd: 'libs/editor.md/editormd.amd.min',
 		waitSeconds: 30,
-		// editormd: 'libs/editor.md/src/editormd.min',
-		// editormdConfit: 'src/services/editormd.config',
 
 		app: 'dist/modules/app/controllers/app',
 		home: 'dist/modules/home/controllers/home.controller',

@@ -2,10 +2,7 @@ define(['markdown'], function (markdown) {
     var deps = [];
     var createArticleModel = angular.module('createArticle', deps);
     createArticleModel.controller('createArticle.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
-        // markdown({area: 'editormd'})
-        // markdown.then(function (res) {
-        //     res({area: 'editormd'})
-        // })
+        markdown({area: 'test-editormd'})
         $scope.newArticle = {};
         $scope.createArticle = function ($event) {
             if(!$scope.newArticle.title || $scope.newArticle.title.trim() === ''){
