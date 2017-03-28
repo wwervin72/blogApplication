@@ -76,11 +76,9 @@
         margin-top: 20px;
         .ipt_group{
             position: relative;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
+            margin-top: -2px;
             overflow: hidden;
-            &:last-child{
-                border: none;
-            }
             input{
                 width: 350px;
                 height: 36px;
@@ -111,7 +109,7 @@
                 display: none;
             }
         }
-        button{
+        input[type=submit]{
             width: 100%;
             height: 46px;
             line-height: 46px;
@@ -124,12 +122,12 @@
             letter-spacing: 2px;
         }
     }
-    #register{
-        @extend %border;
-    }
-    #login{
-        @extend %border;
-    }
+    // #register{
+    //     @extend %border;
+    // }
+    // #login{
+    //     @extend %border;
+    // }
     .forgetPwd{
         color: $color;
         @extend %loginSelect;

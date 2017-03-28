@@ -15,7 +15,6 @@ define([], function (){
             username: '',
             password: ''
         };
-        $scope.accountNotExist = false;
         $scope.accountExist = false;
         $scope.loginFailed = false;
         $(function () {
@@ -24,13 +23,10 @@ define([], function (){
                 item.css('right', -parseInt(item.css('width')) + 'px');
             });
         })
-        $('.from_content').delegate('.iptMsg span', 'click', function () {
+        $('.from_content').on('.iptMsg span', 'click', function () {
             $(this).parent().prev().focus();
         });
-        $('.from_content').delegate('input', 'focus', function () {
-            if($(this).attr('ng-model') === 'loginUser.username'){
-                $scope.accountNotExist = false;
-            }
+        $('.from_content').on('input', 'focus', function () {
             $scope.loginFailed = false;
             $scope.hideMsg($(this).next('.iptMsg'));
         });
@@ -67,27 +63,12 @@ define([], function (){
                     $rootScope.userInfo = res.data.info;
                     $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }else{
-                    if(res.data.msg === '用户名不存在'){
-                        $scope.accountNotExist = true;
-                    }
-                    if(res.data.msg === '用户名或者密码不正确'){
-                        $scope.loginFailed = true;
-                    }
+                    $scope.loginFailed = true;
                 }         
             }, function (res) {
                
             });
         };
-        $('#login input').focus(function () {
-            $(document).keydown(function (event) {
-                if(event.keyCode === 13){
-                    $scope.login();
-                }
-            });
-        });
-        $('#login input').blur(function () {
-            $(document).unbind('keydown');
-        });
         $scope.register = function () {
             $scope.showMsg($('#register .iptMsg'));
             if($scope.registerForm.$invalid){
@@ -120,9 +101,6 @@ define([], function (){
         particle.ready(function () {
             var particleWeb = new Particle(particle[0]);
         });
-        $('body').resize(function () {
-            console.log(123)
-        })
     }]);
     return homeModel;
 });

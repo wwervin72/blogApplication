@@ -18,13 +18,12 @@
     </ul>
     <div class="from_content">
         <div ng-show="home.login">
-            <form id="login" name="login_form">
+            <form id="login" name="login_form" ng-submit="login()" novalidate>
                 <div class="ipt_group">
                     <input type="text" ng-model="loginUser.username" name="username" placeholder="登陆账号" required/>
                     <div class="iptMsg">
                         <span ng-show="login_form.username.$error.required">请填写登陆账号</span>
-                        <span ng-show="!login_form.username.$error.required && accountNotExist">该账号不存在</span>
-                    <span ng-show="!login_form.username.$error.required && !accountNotExist && loginFailed">账号或者密码不正确</span>
+                        <span ng-show="!login_form.username.$error.required && !accountNotExist && loginFailed">账号或者密码不正确</span>
                     </div>
                 </div>
                 <div class="ipt_group">
@@ -33,11 +32,12 @@
                         <span ng-show="login_form.password.$error.required">请填写密码</span>
                     </div>
                 </div>
+                <a class="forgetPwd" ui-sref="findPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
+                <input type="submit" value="登陆">
             </form>
-            <a class="forgetPwd" ui-sref="findPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
         </div>
         <div ng-show="home.register">
-            <form id="register" name="registerForm" novalidate>
+            <form id="register" name="registerForm" novalidate ng-submit="register()">
                 <div class="ipt_group">
                     <input type="text" name="username" ng-model="registerUser.username" placeholder="账号" required ng-pattern="/^[a-zA-Z0-9]{3,10}$/"/>
                     <div class="iptMsg">
@@ -72,9 +72,8 @@
                         <span ng-show="!registerForm.email.$error.required && registerForm.email.$error.email">邮箱格式不正确</span>
                     </div>
                 </div>
+                <input type="submit" value="注册">
             </form>
         </div>
-        <button ng-show="home.register" ng-click="register()">注册</button>
-        <button ng-show="home.login" ng-click="login()">登陆</button>
     </div>
 </div>
