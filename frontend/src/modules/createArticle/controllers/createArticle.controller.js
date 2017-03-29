@@ -43,7 +43,8 @@ define(['markdownService'], function (markdownService) {
         $(function (argument) {
             var editor = markdownService({ele: $('#editor')[0]});  
             editor.codemirror.on("change", function(){
-                console.log(editor.value());
+            console.log(editor.options.previewRender(editor.value()))
+                // console.log(customMarkdownParser(editor.value()));
             });
             $('.editor_wrap').height($(window).height() - 160 + 'px');
             $('body').resize(function () {
