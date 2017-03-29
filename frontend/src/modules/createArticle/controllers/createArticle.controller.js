@@ -1,8 +1,7 @@
-define(['markdown'], function (markdown) {
+define(['markdownService'], function (markdownService) {
     var deps = [];
     var createArticleModel = angular.module('createArticle', deps);
     createArticleModel.controller('createArticle.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
-        markdown({area: 'test-editormd'})
         $scope.newArticle = {};
         $scope.createArticle = function ($event) {
             if(!$scope.newArticle.title || $scope.newArticle.title.trim() === ''){
@@ -41,6 +40,16 @@ define(['markdown'], function (markdown) {
         $scope.preview = function ($event) {
 
         };
+        $(function (argument) {
+            var editor = markdownService({ele: $('#editor')[0]});  
+            editor.codemirror.on("change", function(){
+                console.log(editor.value());
+            });
+            $('.editor_wrap').height($(window).height() - 160 + 'px');
+            $('body').resize(function () {
+                $('.editor_wrap').height($(window).height() - 160 + 'px');
+            });
+        })
     }]);
     return createArticleModel;
 });

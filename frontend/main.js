@@ -1,12 +1,12 @@
 requirejs.config({
 	baseUrl: './',
-	packages: [
-		{
-			name: 'editormd',
-			location: '/libs/editor.md',
-			main: 'editormd.amd'
-		}
-	],
+	// packages: [
+	// 	{
+	// 		name: 'simplemde',
+	// 		location: 'libs/simplemde/src/js/',
+	// 		main: 'simplemde'
+	// 	}
+	// ],
 	paths: {
 		angular: 'libs/angular/angular.min',
 		jquery: 'libs/jquery/dist/jquery.min',
@@ -15,22 +15,24 @@ requirejs.config({
 		ngCookies: 'libs/angular-cookies/angular-cookies.min',
 		oclazyload: 'libs/oclazyload/dist/ocLazyLoad.require.min',
 		sanizite: 'libs/angular-sanitize/angular-sanitize.min',
-		wangEditor: 'libs/wangEditor/dist/js/wangEditor.min',
+		highlight: 'libs/highlight/src/highlight',
+		simplemde: 'libs/simplemde/dist/simplemde.min',
+		// wangEditor: 'libs/wangEditor/dist/js/wangEditor.min',
 		httpRequest: 'dist/services/httpService',
 		particle: 'dist/services/particleService',
-		editor: 'dist/directives/editorDirective',
-		markdown: 'dist/services/markdown.service',
+		// editor: 'dist/directives/editorDirective',
+		markdownService: 'dist/services/markdown.service',
 		// markdown
-		marked: 'libs/editor.md/lib/marked.min',
-		prettify: 'libs/editor.md/lib/prettify.min',
-		raphael: 'libs/editor.md/lib/raphael.min',
-		underscore: 'libs/editor.md/lib/underscore.min',
-		flowchart: 'libs/editor.md/lib/flowchart.min',
-		jqueryflowchart: 'libs/editor.md/lib/jquery.flowchart.min',
-		sequenceDiagram: 'libs/editor.md/lib/sequence-diagram.min',
-		katex: 'http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min',
+		// marked: 'libs/editor.md/lib/marked.min',
+		// prettify: 'libs/editor.md/lib/prettify.min',
+		// raphael: 'libs/editor.md/lib/raphael.min',
+		// underscore: 'libs/editor.md/lib/underscore.min',
+		// flowchart: 'libs/editor.md/lib/flowchart.min',
+		// jqueryflowchart: 'libs/editor.md/lib/jquery.flowchart.min',
+		// sequenceDiagram: 'libs/editor.md/lib/sequence-diagram.min',
+		// katex: 'http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min',
 		// editormd: 'libs/editor.md/editormd.amd.min',
-		waitSeconds: 30,
+		// waitSeconds: 30,
 
 		app: 'dist/modules/app/controllers/app',
 		home: 'dist/modules/home/controllers/home.controller',
@@ -65,14 +67,14 @@ requirejs.config({
 			exports: 'particle'
 		},
 		app: {
-			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'sanizite', 'httpRequest', 'editor']
+			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'sanizite', 'httpRequest']
 		},
 		home: {
 			deps: ['particle']
 		},
-		editor: {
-			deps: ['wangEditor']
-		},
+		// editor: {
+		// 	deps: ['wangEditor']
+		// },
 		article: {
 			deps: ['sanizite']
 		}

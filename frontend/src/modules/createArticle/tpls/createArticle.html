@@ -1,5 +1,10 @@
-<link rel="stylesheet" href="../../../../libs/editor.md/lib/codemirror/codemirror.min.css">
-<link rel="stylesheet" href="../../../../libs/editor.md/css/editormd.min.css">
+<!-- <link rel="stylesheet" href="../../../../libs/editor.md/lib/codemirror/codemirror.min.css"> -->
+<!-- <link rel="stylesheet" href="../../../../libs/editor.md/css/editormd.min.css"> -->
+<link rel="stylesheet" href="../../../../libs/simplemde/dist/simplemde.min.css"/>
 <div ng-include="'src/modules/app/tpls/header.html'"></div>
-<div id="test-editormd"></div>
+<div class="create_article">
+	<input type="text" class="titleIpt" placeholder="无标题文章...">
+	<input type="text" class="tagsIpt" placeholder="无标签文章...">
+	<div class="editor_wrap"><textarea id="editor"></textarea></div>
+</div>
 <div ng-include="'src/modules/app/tpls/foot.html'"></div>
