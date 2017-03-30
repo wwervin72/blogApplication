@@ -11,6 +11,7 @@ requirejs.config({
 		simplemde: 'libs/simplemde/dist/simplemde.min',
 		httpRequest: 'dist/services/httpService',
 		particle: 'dist/services/particleService',
+		marked: 'libs/marked/marked.min',
 		markdownService: 'dist/services/markdown.service',
 
 		app: 'dist/modules/app/controllers/app',
@@ -44,6 +45,9 @@ requirejs.config({
 		},
 		particle: {
 			exports: 'particle'
+		},
+		marked: {
+			exports: 'marked'
 		},
 		app: {
 			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'sanizite', 'httpRequest']

@@ -78,11 +78,7 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
                 'horizontal-rule',
                 'publish'
             ],
-            hideIcons: ['guide'],
-            previewRender: function (plainText) {
-                return plainText;
-                // return customMarkdownParser(plainText);
-            }
+            hideIcons: ['guide']
         });
         var ele = $(editor.element);
         ele.siblings('.editor-statusbar').remove();
@@ -97,6 +93,7 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
             })
             item.removeAttr('title')
         });
+        console.log(editor)
         return editor;
     }
     return markdown;

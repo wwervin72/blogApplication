@@ -1,4 +1,4 @@
-define(['markdownService'], function (markdownService) {
+define(['markdownService','marked'], function (markdownService,marked) {
     var deps = [];
     var createArticleModel = angular.module('createArticle', deps);
     createArticleModel.controller('createArticle.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
@@ -42,9 +42,10 @@ define(['markdownService'], function (markdownService) {
         };
         $(function (argument) {
             var editor = markdownService({ele: $('#editor')[0]});  
+            var cnt;
             editor.codemirror.on("change", function(){
-            console.log(editor.options.previewRender(editor.value()))
-                // console.log(customMarkdownParser(editor.value()));
+                cnt = marked(editor.value());
+                console.log(marked.Renderer(cnt))
             });
             $('.editor_wrap').height($(window).height() - 160 + 'px');
             $('body').resize(function () {
