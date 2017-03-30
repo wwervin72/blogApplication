@@ -52,70 +52,21 @@
 						<div class="emoji">
 							<span class="emoji-icon" ng-click="showemoji($event)"></span>
 							<div class="emoji-list">
-								<ul class="emoji-class-list">
-									<li>笑脸</li>
-								</ul>
+								<div class="emoji-class-list">
+									<span class="active"></span>
+									<span></span>
+								</div>
 								<div class="emoji-img-content">
-									<ul class="emoji-img">
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
+									<div class="active">
+										<ul class="emoji-img" ng-repeat="emoji in emojiArr.first">
+											<li ng-repeat="i in emoji"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
+										</ul>
+									</div>
+									<div>
+									<ul class="emoji-img" ng-repeat="emoji in emojiArr.second">
+										<li ng-repeat="i in emoji"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
 									</ul>
-									<ul class="emoji-img">
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-									</ul>
-									<ul class="emoji-img">
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-									</ul>
-									<ul class="emoji-img">
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-									</ul>
-									<ul class="emoji-img">
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-										<li><img src="src/static/img/emojis/blush.png" title="blush"></li>
-									</ul>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -63,7 +63,6 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
             }
         ]
         var editor = new simplemde({
-            lang: 'zh-cn',
             element: config.ele,
             autofocus: true,
             placeholder: '来写点什么吧...',
@@ -91,9 +90,8 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
                     item.tooltip()
                 }
             })
-            item.removeAttr('title')
+            item.removeAttr('title');
         });
-        console.log(editor)
         return editor;
     }
     return markdown;

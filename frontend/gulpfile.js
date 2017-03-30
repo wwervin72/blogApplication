@@ -38,7 +38,7 @@ gulp.task('style', () => {
 });
 
 gulp.task('image', () => {
-    return gulp.src('src/static/img/*', {base: 'src'})
+    return gulp.src('src/static/img/**/*', {base: 'src'})
             .pipe(plumber())
             .pipe(imagemin())
             .pipe(gulp.dest('dist'));

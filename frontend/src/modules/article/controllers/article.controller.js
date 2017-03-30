@@ -315,7 +315,7 @@ define([], function () {
 			}
 		});
 		// 选择表情
-		$('body').delegate('.emoji-img li', 'click', function (e) {
+		$('body').on('.emoji-img li', 'click', function (e) {
 			var event = e || window.event;
 			var target = $(event.target || event.srcElement);
 			if(target[0].nodeName === 'LI'){
@@ -325,6 +325,15 @@ define([], function () {
 			textarea.val(textarea.val() + ':'+target.attr('title')+': ');
 			target.parents('.emoji-list').hide(); 
 		});
+		$('.articleContent').on('.emoji-class-list > span', 'click', function (e) {
+			var event = e || window.event;
+			var target = $(event.target || event.srcElement);
+			$('.emoji-class-list > span').removeClass('active');
+			target.parent().find('+.emoji-img-content>div').removeClass('active');
+			target.addClass('active');
+			target.parent().find('+.emoji-img-content>div').eq(target.index()).addClass('active');
+
+		})
 	}]);
 	return articleModel;
 })

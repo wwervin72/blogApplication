@@ -55,9 +55,6 @@ requirejs.config({
 		home: {
 			deps: ['particle']
 		},
-		// editor: {
-		// 	deps: ['wangEditor']
-		// },
 		article: {
 			deps: ['sanizite']
 		}
