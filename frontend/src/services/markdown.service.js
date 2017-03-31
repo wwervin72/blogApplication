@@ -67,6 +67,9 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
             autofocus: true,
             placeholder: '来写点什么吧...',
             tabSize: 4,
+            blockStyles: {
+                italic: '_'
+            },
             showIcons: [
                 'code', 
                 'table', 

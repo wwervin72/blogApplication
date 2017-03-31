@@ -12,6 +12,7 @@ requirejs.config({
 		httpRequest: 'dist/services/httpService',
 		particle: 'dist/services/particleService',
 		marked: 'libs/marked/marked.min',
+		toMarked: 'libs/to-markdown/dist/to-markdown',
 		markdownService: 'dist/services/markdown.service',
 
 		app: 'dist/modules/app/controllers/app',

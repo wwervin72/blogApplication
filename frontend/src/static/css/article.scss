@@ -196,27 +196,6 @@
 				margin: 10px 0 0;
 				border-left: 3px solid #ddd;
 				padding-left: 20px;
-				// &>div{
-				// 	height: 150px;
-				// 	.wangEditor-txt{
-				// 		height: 105px;
-				// 	}
-				// }
-				// button{
-				// 	float: right;
-				// 	border: none;
-				// 	background-color: #ea6f5a;
-				// 	color: #fff;
-				// 	font-size: 14px;
-				// 	padding: 5px 10px;
-				// 	margin-top: 10px;
-				// }
-				// &>a{
-				// 	float: right;
-				// 	padding: 5px 10px;
-				// 	color: #999;
-				// 	margin-top: 10px;
-				// }
 			}
 		}
 	}
@@ -274,6 +253,7 @@
 				box-shadow: 0 5px 25px rgba(0,0,0,.1);
 				-webkit-box-shadow: 0 5px 25px rgba(0,0,0,.3);
 				background-color: #fff;
+				text-align: center;
 				.emoji-class-list{
 					margin-bottom: 0;
 					padding: 20px 0 10px;

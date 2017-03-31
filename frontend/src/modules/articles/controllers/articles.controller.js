@@ -22,6 +22,13 @@ define([], function (){
                 }
             })
         }());
+        $(document).scroll(function (e) {
+            var event = e || window.event;
+            console.log($('body').scrollBottom())
+            // if(){
+
+            // }
+        });
     }]);
     return articlesModel;
 });

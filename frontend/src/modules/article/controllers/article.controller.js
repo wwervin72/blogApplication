@@ -328,15 +328,6 @@ define([], function () {
 			target.addClass('active');
 			target.parent().find('+.emoji-img-content>div').eq(target.index()).addClass('active');
 		}
-		// $('.articleContent').on('.emoji-class-list > span', 'click', function (e) {
-		// 	var event = e || window.event;
-		// 	var target = $(event.target || event.srcElement);
-		// 	$('.emoji-class-list > span').removeClass('active');
-		// 	target.parent().find('+.emoji-img-content>div').removeClass('active');
-		// 	target.addClass('active');
-		// 	target.parent().find('+.emoji-img-content>div').eq(target.index()).addClass('active');
-
-		// })
 	}]);
 	return articleModel;
 })
