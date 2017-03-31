@@ -9,10 +9,6 @@ let CommentsSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Post'
 	},
-	authorNickname: {
-		type: String,
-		trim : true
-	},
 	author: {
 		type: Schema.ObjectId,
 		ref: 'User'
@@ -31,6 +27,10 @@ let CommentsSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'Comment'
 	}],
+	replyUser: [{
+		type: Schema.ObjectId,
+		ref: 'User'
+	}],
 	// 子评论，一般是回复的评论
 	reply: [{
 		type: Schema.ObjectId,
@@ -48,7 +48,6 @@ let CommentsSchema = new Schema({
 CommentsSchema.path('article').validate(article => article.length, '评论文章不能为空');
 CommentsSchema.path('content').validate(content => content.length, '评论内容不能为空');
 CommentsSchema.path('author').validate(author => author.length, '评论作者不能为空');
-CommentsSchema.path('authorNickname').validate(authorNickname => authorNickname.length, '评论作者昵称不能为空');
 
 // 格式化时间
 CommentsSchema.path('createDate').get(val => moment(val).format('YYYY-MM-DD hh:mm:ss'));

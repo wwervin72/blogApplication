@@ -124,20 +124,20 @@ define([], function () {
 					}
 				})
 			}
-		};
+		};     
 		//子评论(回复)
 		$scope.reviewReply = function ($event, comment) {
-			var editor = $($event.target).parent().find('.wangEditor-txt');
-			var replyContent = editor.html().trim().replace(/^<p><br><\/p>$/, '');
-			if(replyContent === ''){
-				return alert('请输入回复内容');
+			var commentContent = $($event.target).parents('.commentsHandle').prev('textarea').val();
+			if(commentContent === ''){
+				return alert('请输入你的评论');
 			}
+			commentContent = commentContent.replace(/:(\w+):/ig, '<img src="src/static/img/emojis/$1.png" title="$1">');
 			var newReply = {
 				articleId: $scope.article._id,
 				authorId: $rootScope.userInfo._id,
-				content: replyContent,
-				authorNickname: $rootScope.userInfo.nickname,
+				content: commentContent,
 				replyParent: [comment._id],
+				replyUser: [comment.author._id],
 				reply: [],
 			};
 			http.request({
@@ -149,7 +149,7 @@ define([], function () {
 				if(res.data.result){
 					$scope.article.comments += 1;
 					$scope.comments.push(res.data.data);
-					editor.html('<p><br></p>');
+					$($event.target).parents('.commentsHandle').prev('textarea').val('');
 					alert('回复成功');
 				}
 			});
@@ -315,25 +315,28 @@ define([], function () {
 			}
 		});
 		// 选择表情
-		$('body').on('.emoji-img li', 'click', function (e) {
-			var event = e || window.event;
-			var target = $(event.target || event.srcElement);
-			if(target[0].nodeName === 'LI'){
-				target = target.find('img');
-			}
+		$scope.selectEmoji = function ($event) {
+			var target = $($event.target);
 			var textarea = target.parents('.commentsHandle').prev();
-			textarea.val(textarea.val() + ':'+target.attr('title')+': ');
+			textarea.val(textarea.val() + ':' + (target.attr('title') || target.children().attr('title')) + ': ');
 			target.parents('.emoji-list').hide(); 
-		});
-		$('.articleContent').on('.emoji-class-list > span', 'click', function (e) {
-			var event = e || window.event;
-			var target = $(event.target || event.srcElement);
+		}
+		$scope.emojiTabsToggle = function ($event) {
+			var target = $($event.target);
 			$('.emoji-class-list > span').removeClass('active');
 			target.parent().find('+.emoji-img-content>div').removeClass('active');
 			target.addClass('active');
 			target.parent().find('+.emoji-img-content>div').eq(target.index()).addClass('active');
+		}
+		// $('.articleContent').on('.emoji-class-list > span', 'click', function (e) {
+		// 	var event = e || window.event;
+		// 	var target = $(event.target || event.srcElement);
+		// 	$('.emoji-class-list > span').removeClass('active');
+		// 	target.parent().find('+.emoji-img-content>div').removeClass('active');
+		// 	target.addClass('active');
+		// 	target.parent().find('+.emoji-img-content>div').eq(target.index()).addClass('active');
 
-		})
+		// })
 	}]);
 	return articleModel;
 })
