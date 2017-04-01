@@ -88,18 +88,18 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
                 'publish'
             ],
             hideIcons: ['guide'],
-            toolbar: [
-                {
-                    name: 'image',
-                    action: function (e) {
-                        var url = 'http://localhost:3000';
-                        console.log(simplemde.drawImage)
-                        simplemde.drawImage(e, url) 
-                    },
-                    className: 'fa fa-picture-o',
-                    title: '插入图片'
-                }
-            ]
+            // toolbar: [
+            //     {
+            //         name: 'image',
+            //         action: function (e) {
+            //             var url = 'http://localhost:3000';
+            //             console.log(simplemde.drawImage)
+            //             simplemde.drawImage(e, url) 
+            //         },
+            //         className: 'fa fa-picture-o',
+            //         title: '插入图片'
+            //     }
+            // ]
         });
         var ele = $(editor.element);
         ele.siblings('.editor-statusbar').remove();
