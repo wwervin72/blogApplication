@@ -1,4 +1,4 @@
-define(['markdownService','marked'], function (markdownService,marked) {
+define(['markdownService','marked','toMarked'], function (markdownService,marked,toMarked) {
     var deps = [];
     var createArticleModel = angular.module('createArticle', deps);
     createArticleModel.controller('createArticle.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
@@ -45,7 +45,7 @@ define(['markdownService','marked'], function (markdownService,marked) {
             var cnt;
             editor.codemirror.on("change", function(){
                 cnt = marked(editor.value());
-                console.log(cnt)
+                console.log(toMarked(cnt, {gfm: true}));
             });
             $('.editor_wrap').height($(window).height() - 160 + 'px');
             $('body').resize(function () {
