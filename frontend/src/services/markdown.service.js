@@ -62,6 +62,13 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
                 nT: '全屏 (F11)'
             }
         ]
+        // function fn (e, url) {
+        //     var t = e.codemirror,
+        //     n = l(t),
+        //     r = e.options,
+        //     i = "http://";
+        //     return r.promptURLs && (i = prompt(r.promptTexts.image), !i) ? !1 : void E(t, n.image, r.insertTexts.image, i)
+        // }
         var editor = new simplemde({
             element: config.ele,
             autofocus: true,
@@ -77,7 +84,19 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
                 'horizontal-rule',
                 'publish'
             ],
-            hideIcons: ['guide']
+            hideIcons: ['guide'],
+            toolbar: [
+                {
+                    name: 'image',
+                    action: function (e) {
+                        var url = 'http://localhost:3000';
+                        console.log(simplemde.drawImage)
+                        simplemde.drawImage(e, url) 
+                    },
+                    className: 'fa fa-picture-o',
+                    title: '插入图片'
+                }
+            ]
         });
         var ele = $(editor.element);
         ele.siblings('.editor-statusbar').remove();

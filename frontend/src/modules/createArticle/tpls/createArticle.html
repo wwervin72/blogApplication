@@ -2,7 +2,7 @@
 <div ng-include="'src/modules/app/tpls/header.html'"></div>
 <div class="create_article">
 	<input type="text" class="titleIpt" placeholder="文章标题..." ng-model="newArticle.title">
-	<input type="text" class="tagsIpt" placeholder="文章标签..." ng-model="newArticle.tags">
+	<input type="text" class="tagsIpt" placeholder="文章标签，标签之间以','分割" ng-model="newArticle.tags">
 	<div class="editor_wrap"><textarea id="editor"></textarea></div>
 </div>
 <div ng-include="'src/modules/app/tpls/foot.html'"></div>

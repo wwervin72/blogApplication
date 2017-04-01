@@ -1,10 +1,14 @@
 define([], function () {
 	var deps = ['oc.lazyLoad', 'ui.router', 'ngCookies', 'ngSanitize', 'httpRequest'];
 	var app = angular.module('app', deps);
-    app.run(['$rootScope', function ($rootScope) {
+    app.run(['$rootScope','$state', function ($rootScope,$state) {
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.prevState = fromState;
             $rootScope.prevParams = fromParams;
+            var needLogin = ['createArticle'];
+            if(!$rootScope.userInfo && needLogin.indexOf(toState.name) !== -1){
+                $state.go('home', {home: {login: true, register: false}});
+            }
         });
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             // 跳转到登陆页面，并记录页面的状态
@@ -64,9 +68,22 @@ define([], function () {
 				url: '/createArticle',
 				templateUrl: 'src/modules/createArticle/tpls/createArticle.html',
 				controller: 'createArticle.ctrl',
-				resolve: {
+                resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
                         return $ocLazyLoad.load('createArticle');
+                    }],
+                    checkLogin: ['$rootScope', '$location',function ($rootScope, $location) {
+                        // return new Promise(function (resolve, reject) {
+                        //     if($rootScope.userInfo){
+                        //         resolve(true);
+                        //         return;
+                        //     }else{
+                        //         // $location.path('/', {home: {login: true, register: false}});
+                        //         return;
+                        //         // $state.go('home', {home: {login: true, register: false}});
+                        //         // reject(error);
+                        //     }
+                        // })
                     }]
                 }
 			})
@@ -87,14 +104,6 @@ define([], function () {
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
                         return $ocLazyLoad.load('settings');
-                    }],
-                    checkLogin: ['$rootScope', '$state', function ($rootScope, $state) {
-                        if(!$rootScope.userInfo){
-                            $state.go('home', {home:{login: true, register: false}});
-                            return;
-                        }else{
-                            return true;
-                        }
                     }]
                 }
             })

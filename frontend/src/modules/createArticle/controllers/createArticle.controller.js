@@ -45,6 +45,7 @@ define(['markdownService','marked'], function (markdownService,marked) {
             var cnt;
             editor.codemirror.on("change", function(){
                 cnt = marked(editor.value());
+                console.log(cnt)
             });
             $('.editor_wrap').height($(window).height() - 160 + 'px');
             $('body').resize(function () {
