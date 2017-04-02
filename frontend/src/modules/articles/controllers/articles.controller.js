@@ -1,4 +1,4 @@
-define([], function (){
+define(['marked'], function (marked){
     var deps = [];
     var articlesModel = angular.module('articles', deps);
     articlesModel.controller('articles.ctrl', ['$rootScope', '$scope', '$state', 'http', function($rootScope, $scope, $state, http){

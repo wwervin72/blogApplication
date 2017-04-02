@@ -13,7 +13,8 @@ module.exports = {
 			abstract: req.body.abstract,
 			content: req.body.content,
 			author: req.user._id,
-			tags: req.body.tags
+			tags: req.body.tags,
+			avatar: req.body.avatar
 		});
 		post.save(function (err, post) {
 			if(err){

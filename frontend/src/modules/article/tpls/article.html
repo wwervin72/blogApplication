@@ -59,12 +59,12 @@
 								<div class="emoji-img-content">
 									<div class="active">
 										<ul class="emoji-img" ng-repeat="emoji in emojiArr.first">
-											<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
+											<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img ng-src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
 										</ul>
 									</div>
 									<div>
 									<ul class="emoji-img" ng-repeat="emoji in emojiArr.second">
-										<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
+										<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img ng-src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
 									</ul>
 									</div>
 								</div>
@@ -83,7 +83,7 @@
 	<ul class="comments">
 		<li ng-repeat="comment in comments">
 			<div class="cmtTop">
-				<a ui-sref="user({username:comment.author.username})"><img src="{{comment.author.avatar}}" title="{{comment.author.nickname}}" class="cmtAvatar"></a>
+				<a ui-sref="user({username:comment.author.username})"><img ng-src="{{comment.author.avatar}}" title="{{comment.author.nickname}}" class="cmtAvatar"></a>
 				<div class="cmtAuthorInfo">
 					<a class="cmtAuthorNickname" ui-sref="user({username:comment.author.username})" ng-bind="comment.author.nickname"></a><br/>
 					<span ng-bind="$index+1"></span>楼
@@ -127,12 +127,12 @@
 									<div class="emoji-img-content">
 										<div class="active">
 											<ul class="emoji-img" ng-repeat="emoji in emojiArr.first">
-												<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
+												<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img ng-src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
 											</ul>
 										</div>
 										<div>
 										<ul class="emoji-img" ng-repeat="emoji in emojiArr.second">
-											<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
+											<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img ng-src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
 										</ul>
 										</div>
 									</div>
@@ -162,12 +162,12 @@
 									<div class="emoji-img-content">
 										<div class="active">
 											<ul class="emoji-img" ng-repeat="emoji in emojiArr.first">
-												<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
+												<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img ng-src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
 											</ul>
 										</div>
 										<div>
 										<ul class="emoji-img" ng-repeat="emoji in emojiArr.second">
-											<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
+											<li ng-repeat="i in emoji" ng-click="selectEmoji($event)"><img ng-src="dist/static/img/emojis/{{i}}" title="{{i.split('.')[0]}}"></li>
 										</ul>
 										</div>
 									</div>

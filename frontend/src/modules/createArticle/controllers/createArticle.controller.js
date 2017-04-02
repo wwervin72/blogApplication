@@ -50,6 +50,8 @@ define(['markdownService','marked'], function (markdownService,marked) {
                 }
                 var len = Math.floor(Math.random() * 100 + 50);
                 var abstract = getAbstract(content, len);
+                var avatar = marked(content).match(/<img\s+src=.*>/);
+                avatar = avatar ? $(avatar[0]).attr('src') : 'http://localhost:3000/asset/defaultArticleAvatar.jpg';
             	http.request({
             		method: 'POST',
             		url: '/user/article',
@@ -58,7 +60,8 @@ define(['markdownService','marked'], function (markdownService,marked) {
             			title: $scope.newArticle.title,
             			content: content,
                         abstract: abstract,
-            			tags: $scope.newArticle.tags
+            			tags: $scope.newArticle.tags,
+                        avatar: avatar
             		}
             	}).then(function (res) {
             		if(res.data.result){

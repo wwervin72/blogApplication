@@ -1,38 +1,7 @@
-define(['markdownService','marked','toMarked'], function (markdownService,marked,toMarked) {
+define(['markdownService','marked'], function (markdownService,marked) {
     var deps = [];
     var updateArticleModel = angular.module('updateArticle', deps);
     updateArticleModel.controller('updateArticle.ctrl', ['$rootScope', '$scope', '$stateParams', '$cookies', '$state', 'http', function($rootScope, $scope, $stateParams, $cookies, $state, http){
-        // $scope.updateArticle = function () {
-        //     if(!$rootScope.userInfo){
-        //         $state.go('home', {home:{login: true, register: false}});
-        //         return;
-        //     }
-        //     if(!$scope.article.title || $scope.article.title.trim() === ''){
-        //         return alert('请输入文章标题');
-        //     }
-        //     if(!$scope.article.content || $scope.article.content.trim() === ''){
-        //         return alert('请输入文章内容');
-        //     }
-        //     if(!$scope.article.tags || $scope.article.tags.trim() === ''){
-        //         return alert('请输入文章标签');
-        //     }
-        //     http.request({
-        //         method: 'PUT',
-        //         url: '/user/article',
-        //         data: {
-        //             token: $cookies.get('TOKEN'),
-        //             articleId: $stateParams.articleId,
-        //             title: $scope.article.title,
-        //             content: $scope.article.content,
-        //             tags: $scope.article.tags
-        //         }
-        //     }).then(function (res) {
-        //         if(res.data.result){
-        //             // 修改成功,跳转到
-        //             $state.go('article', {username: $stateParams.username, articleId: $stateParams.articleId});
-        //         }
-        //     })
-        // };
         $(function () {
             // 初始化编辑器
             var editor = markdownService({
@@ -90,6 +59,8 @@ define(['markdownService','marked','toMarked'], function (markdownService,marked
                 }
                 var len = Math.floor(Math.random() * 100 + 50);
                 var abstract = getAbstract(content, len);
+                var avatar = marked(content).match(/<img\s+src=.*>/);
+                avatar = avatar ? $(avatar[0]).attr('src') : 'http://localhost:3000/asset/defaultArticleAvatar.jpg';
                 http.request({
                     method: 'POST',
                     url: '/user/article',
@@ -98,7 +69,8 @@ define(['markdownService','marked','toMarked'], function (markdownService,marked
                         title: $scope.article.title,
                         content: content,
                         abstract: abstract,
-                        tags: $scope.article.tags
+                        tags: $scope.article.tags,
+                        avatar: avatar
                     }
                 }).then(function (res) {
                     if(res.data.result){

@@ -151,7 +151,6 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
         });
         var ele = $(editor.element);
         ele.siblings('.editor-statusbar').remove();
-        // ele.find('+.editor-toolbar').append($('<a tabindex="-1" class="fa fa-arrows-alt no-disable no-mobile" data-original-title="发布文章">发布文章</a>'));
         // toolbar tips
         ele.find('+.editor-toolbar > a').each(function (index, item) {
             item = $(item);
