@@ -13,6 +13,7 @@ requirejs.config({
 		particle: 'dist/services/particleService',
 		marked: 'libs/marked/marked.min',
 		toMarked: 'libs/to-markdown/dist/to-markdown',
+		sweetalert: 'libs/sweetalert/dist/sweetalert.min',
 		markdownService: 'dist/services/markdown.service',
 
 		app: 'dist/modules/app/controllers/app',

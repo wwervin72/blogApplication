@@ -37,6 +37,7 @@
     "highlight": "^9.10.0",
     "marked": "^0.3.6",
     "to-markdown": "^3.0.4",
-    "summernote": "^0.8.2"
+    "summernote": "^0.8.2",
+    "sweetalert": "^1.1.3"
   }
 }

@@ -1,4 +1,4 @@
-define([], function () {
+define(['marked'], function (marked) {
 	var deps = [];
 	var articleModel = angular.module('article', deps);
 	articleModel.controller('article.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', '$cookies', 'http', function($rootScope, $scope, $stateParams, $state, $location, $cookies, http){
@@ -10,6 +10,7 @@ define([], function () {
 				method: 'GET',
 			}).then(function(res) {
 				if(res.data.result){
+                    res.data.data.content = marked(res.data.data.content);
 					$scope.article = res.data.data;
 					//获取文章的内容之后， 获取文章的评论
 					http.request({

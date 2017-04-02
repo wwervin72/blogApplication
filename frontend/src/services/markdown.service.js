@@ -1,74 +1,5 @@
 define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
     function markdown (config) {
-        var toolbarTitle = [
-            {
-                oT: 'Bold (Ctrl-B)',
-                nT: '粗体 (Ctrl-B)'
-            },
-            {
-                oT: 'Italic (Ctrl-I)',
-                nT: '斜体 (Ctrl-I)'
-            },
-            {
-                oT: 'Strikethrough',
-                nT: '删除线'
-            },
-            {
-                oT: 'Heading (Ctrl-H)',
-                nT: '标题 (Ctrl-H)'
-            },
-            {
-                oT: 'Code (Ctrl-Alt-C)',
-                nT: '代码 (Ctrl-Alt-C)'
-            },
-            {
-                oT: 'Quote (Ctrl-\')',
-                nT: '粗体 (Ctrl-B)'
-            },
-            {
-                oT: 'Generic List (Ctrl-L)',
-                nT: '无序列表 (Ctrl-B)'
-            },
-            {
-                oT: 'Numbered List (Ctrl-Alt-L)',
-                nT: '有序列表 (Ctrl-B)'
-            },
-            {
-                oT: 'Create Link (Ctrl-K)',
-                nT: '插入链接 (Ctrl-B)'
-            },
-            {
-                oT: 'Insert Table',
-                nT: '插入表格'
-            },
-            {
-                oT: 'Insert Image (Ctrl-Alt-I)',
-                nT: '插入图片 (Ctrl-B)'
-            },
-            {
-                oT: 'Insert Horizontal Line',
-                nT: '水平分割线'
-            },
-            {
-                oT: 'Toggle Preview (Ctrl-P)',
-                nT: '阅读模式 (Ctrl-P)'
-            },
-            {
-                oT: 'Toggle Side by Side (F9)',
-                nT: '并排显示 (F9)'
-            },
-            {
-                oT: 'Toggle Fullscreen (F11)',
-                nT: '全屏 (F11)'
-            }
-        ]
-        // function fn (e, url) {
-        //     var t = e.codemirror,
-        //     n = l(t),
-        //     r = e.options,
-        //     i = "http://";
-        //     return r.promptURLs && (i = prompt(r.promptTexts.image), !i) ? !1 : void E(t, n.image, r.insertTexts.image, i)
-        // }
         var editor = new simplemde({
             element: config.ele,
             autofocus: true,
@@ -88,30 +19,149 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
                 'publish'
             ],
             hideIcons: ['guide'],
-            // toolbar: [
-            //     {
-            //         name: 'image',
-            //         action: function (e) {
-            //             var url = 'http://localhost:3000';
-            //             console.log(simplemde.drawImage)
-            //             simplemde.drawImage(e, url) 
-            //         },
-            //         className: 'fa fa-picture-o',
-            //         title: '插入图片'
-            //     }
-            // ]
+            toolbar: [
+                {
+                    name: 'bold',
+                    action: simplemde.toggleBold,
+                    className: 'fa fa-bold',
+                    title: '粗体'
+                },
+                {
+                    name: 'italic',
+                    action: simplemde.toggleItalic,
+                    className: 'fa fa-italic',
+                    title: '斜体'
+                },
+                {
+                    name: 'strikethrough',
+                    action: simplemde.toggleStrikethrough,
+                    className: 'fa fa-strikethrough',
+                    title: '删除线'
+                },
+                {
+                    name: 'heading',
+                    action: simplemde.toggleHeadingSmaller,
+                    className: 'fa fa-header',
+                    title: '标题'
+                },
+                {
+                    name: 'code',
+                    action: simplemde.toggleCodeBlock,
+                    className: 'fa fa-code',
+                    title: '代码'
+                },
+                {
+                    name: 'quote',
+                    action: simplemde.toggleBlockquote,
+                    className: 'fa fa-quote-left',
+                    title: '引用'
+                },
+                {
+                    name: 'unordered-list',
+                    action: simplemde.toggleUnorderedList,
+                    className: 'fa fa-list-ul',
+                    title: '无序列表'
+                },
+                {
+                    name: 'ordered-list',
+                    action: simplemde.toggleOrderedList,
+                    className: 'fa fa-list-ol',
+                    title: '有序列表'
+                },
+                {
+                    name: 'link',
+                    action: simplemde.drawLink,
+                    className: 'fa fa-link',
+                    title: '插入链接'
+                },
+                {
+                    name: 'image',
+                    action: function (e) {
+                        $('#upload').bind('click',function () {
+                            var val = $('#remoteUrl').val();
+                            if(val === ''){
+                                alert("请选择上传本地图片或者输入网络图片链接");
+                                return;
+                            }
+                            $('#remoteUrl').val('');
+                            $('#upload').prev().click();
+                            simplemde.drawImage(e, val);
+                        });
+                        $('#file').bind('change', function (evt) {
+                            var event = evt || window.event;
+                            var files = this.files || event.dataTransfer.files;
+                            formData = new FormData();
+                            formData.append('file', files[0]);
+                            $.ajax({
+                                type: 'POST',
+                                url: 'http://localhost:3000/upload',
+                                cache: false,
+                                data: formData,
+                                processData: false,
+                                contentType: false
+                            }).then(function (res) {
+                                $('#file').val('');
+                                $('#upload').prev().click();
+                                simplemde.drawImage(e, res);
+                            });
+                        });
+                    },
+                    className: 'fa fa-picture-o',
+                    title: '插入图片'
+                },
+                {
+                    name: 'table',
+                    action: simplemde.drawTable,
+                    className: 'fa fa-table',
+                    title: '插入表格'
+                },
+                {
+                    name: 'horizontal-rule',
+                    action: simplemde.drawHorizontalRule,
+                    className: 'fa fa-minus',
+                    title: '水平分割线'
+                },
+                {
+                    name: 'preview',
+                    action: simplemde.togglePreview,
+                    className: 'fa fa-eye no-disable',
+                    title: '阅读模式'
+                },
+                {
+                    name: 'side-by-side',
+                    action: simplemde.toggleSideBySide,
+                    className: 'fa fa-columns no-disable no-mobile',
+                    title: '并排显示'
+                },
+                {
+                    name: 'fullscreen',
+                    action: simplemde.toggleFullScreen,
+                    className: 'fa fa-arrows-alt no-disable no-mobile',
+                    title: '全屏'
+                },
+                {
+                    name: 'publish',
+                    action: function (e) {
+                        config.publish && config.publish();
+                    },
+                    className: 'fa fa-publish',
+                    title: '发布文章'
+                }
+            ]
         });
         var ele = $(editor.element);
         ele.siblings('.editor-statusbar').remove();
+        // ele.find('+.editor-toolbar').append($('<a tabindex="-1" class="fa fa-arrows-alt no-disable no-mobile" data-original-title="发布文章">发布文章</a>'));
         // toolbar tips
         ele.find('+.editor-toolbar > a').each(function (index, item) {
             item = $(item);
-            toolbarTitle.forEach(function (element) {
-                if(element.oT === item.attr("title")){
-                    item.attr("title", element.nT)
-                    item.tooltip()
-                }
-            })
+            if(item.attr("title") === '插入图片'){
+                item.attr({
+                    'data-toggle': 'modal',
+                    'data-target': '#insertImg'
+                })
+            }
+            item.tooltip()
             item.removeAttr('title');
         });
         return editor;

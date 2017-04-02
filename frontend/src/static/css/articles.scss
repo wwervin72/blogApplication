@@ -65,6 +65,9 @@
 					}
 					span{
 						@extend %vaMiddle;
+						strong{
+							cursor: pointer;
+						}
 					}
 				}
 				ul.tags{

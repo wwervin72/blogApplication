@@ -14,7 +14,7 @@
                 <div class="articleInfo">
                     <div class="createTime">
                         <img src="./src/static/img/time.png" class="articleInfoIcon" title="创建时间"/>
-                        <span><strong ng-bind="article.author.nickname"></strong> 发布于 </span>
+                        <span><strong ui-sref="user({username: article.author.username})" ng-bind="article.author.nickname"></strong> 发布于 </span>
                         <span ng-bind="article.createAt"></span>
                     </div>
                     <ul class="tags">

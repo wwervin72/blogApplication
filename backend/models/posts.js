@@ -21,7 +21,6 @@ let setAbstract = abstract => abstract.replace(new RegExp("&nbsp;"), '');
 let PostSchema = new Schema({
 	id: {
 		type: String,
-		default: String(new Date().getTime()),
 		unique: true
 	},
 	// 文章标题

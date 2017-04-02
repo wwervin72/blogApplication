@@ -8,6 +8,7 @@ let tokenManage = require('../utils/tokenManage');
 module.exports = {
 	createPost: function (req, res, next) {
 		let post = new Post({
+			id: new Date().getTime() + '',
 			title: req.body.title,
 			abstract: req.body.abstract,
 			content: req.body.content,
@@ -44,6 +45,9 @@ module.exports = {
 			.exec(function (err, article) {
 			if(err){
 				return next(err);
+			}
+			if(!article){
+				return next();
 			}
 			if(article.author.username !== req.query.username){
 				return next();

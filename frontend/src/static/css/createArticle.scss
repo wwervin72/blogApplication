@@ -2,6 +2,9 @@
 .editor-toolbar.disabled-for-preview a:not(.no-disable){
 	background-color: transparent !important;
 }
+.editor-toolbar a{
+	vertical-align: middle;
+}
 .editor-toolbar.fullscreen{
 	background-color: #dedede !important;
 }
@@ -75,5 +78,60 @@
 		&::before{
 			color: #fff;
 		}
+	}
+}
+.uploadImg{
+	display: none;
+}
+.modal-content{
+	border-radius: 0;
+}
+.modal-title {
+	text-align: center;
+	font-size: 22px;
+	color: #555;
+	font-weight: bold;
+}
+.insertImg {
+	text-align: center;
+	#file{
+		width: 0;
+		height: 0;
+		transform: scale(0);
+	}
+	button, #remoteUrl{
+		width: 300px;
+		height: 42px;
+		line-height: 42px;
+		background-color: #666;
+		color: #fff;
+		letter-spacing: 2px;
+		font-size: 16px;
+	}
+	#remoteUrl{
+		background-color: #fff;
+		padding-left: 40px;
+		color: #555;
+		border: 1px solid #ddd;
+		display: none;
+	}
+}
+.insertImgType{
+	display: block;
+	margin-top: 30px;
+	color: #888;
+	text-align: center;
+	&:hover{
+		text-decoration: underline;
+	}
+}
+#upload{
+	display: none;
+}
+.fa-publish{
+	background: url('../img/publish_1.png')center center no-repeat;
+	background-size: 50% 50%;
+	&:hover,&.active{
+		background: url('../img/publish_2.png')center center no-repeat;
 	}
 }
