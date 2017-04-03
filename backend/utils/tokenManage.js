@@ -39,7 +39,7 @@ module.exports = {
 			// 并没有检测token是否正确
 			next();
 		});
-	},
+	},	
 	//检测token是否正确
 	verifyToken: function (req, res, next) {
 		let _this = this;

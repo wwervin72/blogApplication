@@ -14,8 +14,8 @@ requirejs.config({
 		toastr: 'libs/toastr/toastr.min',
 		// 封装的服务
 		markdownService: 'dist/services/markdown.service',
-		httpRequest: 'dist/services/httpService',
-		particle: 'dist/services/particleService',
+		httpRequest: 'dist/services/http.service',
+		particle: 'dist/services/particle.service',
 		message: 'dist/services/message.service',
 		// 模块
 		app: 'dist/modules/app/controllers/app',

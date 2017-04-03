@@ -80,9 +80,14 @@ module.exports = {
 				msg: '注册成功',
 				token: tokenManage.createNewToken(user),
 				info: {
-					username: user.username,
-					avatar: user.avatar,
-					nickname: user.nickname
+					_id: req.user._id,
+					nickname: req.user.nickname,
+					username: req.user.username,
+					avatar: req.user.avatar,
+					email: req.user.email,
+					bio: req.user.bio,
+					url: req.user.url,
+					sex: req.user.sex
 				}
 			});
 		});

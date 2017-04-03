@@ -45,7 +45,7 @@ define([], function () {
                 }
             })
             .state('user', {
-            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}',
+            	url: '/u/{username: [a-zA-Z0-9]{5,16}}',
             	templateUrl: 'src/modules/user/tpls/user.html',
 				controller: 'user.ctrl',
 				resolve: {
@@ -55,7 +55,7 @@ define([], function () {
                 }
             })
             .state('article', {
-            	url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/a/{articleId}',
+            	url: '/u/{username: [a-zA-Z0-9]{5,16}}/a/{articleId}',
             	templateUrl: 'src/modules/article/tpls/article.html',
 				controller: 'article.ctrl',
 				resolve: {
@@ -75,7 +75,7 @@ define([], function () {
                 }
 			})
 			.state('updateArticle', {
-				url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/{articleId}/update',
+				url: '/u/{username: [a-zA-Z0-9]{5,16}}/{articleId}/update',
 				templateUrl: 'src/modules/updateArticle/tpls/updateArticle.html',
 				controller: 'updateArticle.ctrl',
 				resolve: {
@@ -85,7 +85,7 @@ define([], function () {
                 }
 			})
             .state('settings', {
-                url: '/{username: [a-z]{1}[a-z0-9]{0,5}}/settings',
+                url: '/u/{username: [a-zA-Z0-9]{5,16}}/settings',
                 templateUrl: 'src/modules/user/tpls/settings.html',
                 controller: 'settings.ctrl',
                 resolve: {

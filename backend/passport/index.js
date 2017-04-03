@@ -6,7 +6,7 @@ let github = require('./github');
 module.exports = function(passport){
 	
 	passport.serializeUser(function(user, done){
-        return done(null, user.id);
+        return done(null, user);
     });
 
 	passport.deserializeUser(function(id, done){

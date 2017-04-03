@@ -30,7 +30,7 @@ gulp.task('script', (cb) => {
 });
 
 gulp.task('style', () => {
-    return gulp.src('src/static/css/style.scss', {base: 'src'})
+    return gulp.src('src/static/css/*.scss', {base: 'src'})
             .pipe(plumber())
             .pipe(postcss([autoprefixer]))
             .pipe(sass({outputStyle: 'compressed'}))

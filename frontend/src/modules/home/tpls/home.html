@@ -32,27 +32,27 @@
                         <span ng-show="login_form.password.$error.required">请填写密码</span>
                     </div>
                 </div>
-                <a class="forgetPwd" ui-sref="findPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a>
+                <a class="forgetPwd" ui-sref="findPwd">忘记密码？</a><a class="authLogin">第三方账号登陆</a><a href="http://localhost:3000/auth/github">github登陆</a>
                 <input type="submit" value="登陆">
             </form>
         </div>
         <div ng-show="home.register">
             <form id="register" name="registerForm" novalidate ng-submit="register()">
                 <div class="ipt_group">
-                    <input type="text" name="username" ng-model="registerUser.username" placeholder="账号" required ng-pattern="/^[a-zA-Z0-9]{3,10}$/"/>
+                    <input type="text" name="username" ng-model="registerUser.username" placeholder="账号" required ng-pattern="/^[a-zA-Z0-9]{5,16}$/"/>
                     <div class="iptMsg">
                         <span ng-show="registerForm.username.$error.required">
                         请填写注册账号
                         </span>
-                        <span ng-show="!registerForm.username.$error.required && registerForm.username.$error.pattern">账号为3到10个长度的字母或数字</span>
+                        <span ng-show="!registerForm.username.$error.required && registerForm.username.$error.pattern">账号为5到12个长度的字母或数字</span>
                         <span ng-show="!registerForm.username.$error.required && !registerForm.username.$error.pattern && accountExist">用户名已被注册</span>
                     </div>
                 </div>
                 <div class="ipt_group">
-                    <input type="password" name="password" ng-model="registerUser.password" placeholder="密码" ng-pattern="/^[a-zA-Z0-9-_.]{3,12}$/" required/>
+                    <input type="password" name="password" ng-model="registerUser.password" placeholder="密码" ng-pattern="/^[a-zA-Z0-9-_.]{5,20}$/" required/>
                     <div class="iptMsg">
                         <span ng-show="registerForm.password.$error.required">请填写密码</span>
-                        <span ng-show="!registerForm.password.$error.required && registerForm.password.$error.pattern">密码为3到12个长度的字母数字-_.</span>
+                        <span ng-show="!registerForm.password.$error.required && registerForm.password.$error.pattern">密码为5到20个长度的字母数字-_.</span>
                     </div>
                 </div>
                 <div class="ipt_group">

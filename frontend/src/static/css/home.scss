@@ -122,12 +122,6 @@
             letter-spacing: 2px;
         }
     }
-    // #register{
-    //     @extend %border;
-    // }
-    // #login{
-    //     @extend %border;
-    // }
     .forgetPwd{
         color: $color;
         @extend %loginSelect;

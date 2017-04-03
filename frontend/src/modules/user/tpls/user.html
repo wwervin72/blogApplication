@@ -26,12 +26,12 @@
                     <!-- 评论数 -->
                     <div class="commentsCount">
                         <img src="./src/static/img/comments.png" class="articleInfoIcon" alt="评论"/>
-                        <span ng-bind="article.comments.length"></span>
+                        (<span ng-bind="article.comments"></span>)
                     </div>
                     <!-- 阅读数 -->
                     <div class="viewsCount" ui-sref="/#!/{{article.author.username}}/articles/{{article._id}}">
                         <img src="./src/static/img/views.png" class="articleInfoIcon" alt="阅读"/>
-                        <span ng-bind="article.views"></span>
+                        (<span ng-bind="article.views"></span>)
                     </div>
                     <!-- 编辑 -->
                     <div class="updateArticle" ui-sref="updateArticle({username: article.author.username,articleId: article.id})" ng-show="article.author.username===userInfo.username">

@@ -13,10 +13,5 @@ module.exports = {
 		secret: 'myblog',
 		maxAge: 30 * 60 * 1000,
 		url: 'mongodb://localhost:8080/blog'
-	},
-	github: {
-		clientID: '90189950634776bd6a86',
-		clientSecret: '8c724997ce2685ea372dfba9e971778ddf2971aa',
-		callbackURL: 'http://localhost:3000/auth/github/callback'
 	}
 };
