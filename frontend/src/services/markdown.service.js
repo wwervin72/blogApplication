@@ -1,4 +1,4 @@
-define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
+define(['bootstrap','simplemde','toastr'], function (bootstrap,simplemde,toastr) {
     function markdown (config) {
         var editor = new simplemde({
             element: config.ele,
@@ -80,7 +80,7 @@ define(['bootstrap','simplemde'], function (bootstrap,simplemde) {
                         $('#upload').bind('click',function () {
                             var val = $('#remoteUrl').val();
                             if(val === ''){
-                                alert("请选择上传本地图片或者输入网络图片链接");
+                                toastr['info']('请选择上传本地图片或者输入网络图片链接');
                                 return;
                             }
                             $('#remoteUrl').val('');

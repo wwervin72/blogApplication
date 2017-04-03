@@ -1,8 +1,7 @@
 define(['marked'], function (marked) {
 	var deps = [];
 	var articleModel = angular.module('article', deps);
-	articleModel.controller('article.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', '$cookies', 'http', function($rootScope, $scope, $stateParams, $state, $location, $cookies, http){
-		$scope.editorMenus = ['emotion'];
+	articleModel.controller('article.ctrl', ['$rootScope','$scope','$stateParams','$state','$location','$cookies','http','message-service', function($rootScope,$scope,$stateParams,$state,$location,$cookies,http,message){
 		// 获取文章信息
 		(function () {
 			http.request({
@@ -20,7 +19,7 @@ define(['marked'], function (marked) {
 						if(response.data.result){
 							$scope.comments = response.data.data;
 						}else{
-							console.log('文章评论加载失败');
+							message({type: 'error', text: '文章评论加载失败'});
 						}
 					});
 				}
@@ -33,7 +32,7 @@ define(['marked'], function (marked) {
 			}else{
 				//推荐
 				if($rootScope.userInfo._id === $scope.article.author._id){
-					alert('不能点赞自己的文章');
+					message({type: 'info', text: '不能点赞自己的文章'});
 					return;
 				}
 				http.request({
@@ -41,11 +40,11 @@ define(['marked'], function (marked) {
 					url: '/article/heart?token=' + $cookies.get('TOKEN') + '&articleId=' + $scope.article._id
 				}).then(function (res) {
 					if(res.data.result){
-						alert('点赞成功');
+						message({type: 'success', text: '点赞成功'});
 						$scope.article.heart = res.data.data.heart;
 						$scope.article.stamp = res.data.data.stamp;
 					}else{
-						alert(res.data.msg);
+						message({type: 'error', text: res.data.msg});
 					}
 				});
 			}
@@ -57,7 +56,7 @@ define(['marked'], function (marked) {
 			}else{
 				// 反对
 				if($rootScope.userInfo._id === $scope.article.author._id){
-					alert('不能反对自己的文章');
+					message({type: 'info', text: '不能反对自己的文章'});
 					return;
 				}
 				http.request({
@@ -65,11 +64,11 @@ define(['marked'], function (marked) {
 					url: '/article/stamp?token=' + $cookies.get('TOKEN') + '&articleId=' + $scope.article._id
 				}).then(function (res) {
 					if(res.data.result){
-						alert('反对成功');
+						message({type: 'success', text: '反对成功'});
 						$scope.article.heart = res.data.data.heart;
 						$scope.article.stamp = res.data.data.stamp;
 					}else{
-						alert(res.data.msg);
+						message({type: 'error', text: res.data.msg});
 					}
 				});
 			}
@@ -78,7 +77,8 @@ define(['marked'], function (marked) {
 		$scope.reviewArticle = function ($event) {
 			var commentContent = $($event.target).parents('.commentsHandle').prev('textarea').val();
 			if(commentContent === ''){
-				return alert('请输入你的评论');
+				message({type: 'info', text: '请输入你的评论'});
+				return;
 			}
 			var reg = /:(\w+):/ig;
 			commentContent = commentContent.replace(reg, '<img src="src/static/img/emojis/$1.png" title="$1">');
@@ -97,10 +97,12 @@ define(['marked'], function (marked) {
 			}).then(function (res) {
 				// 评论成功
 				if(res.data.result){
+					message({type: 'success', text: '评论成功'});
 					$scope.article.comments += 1;
 					$scope.comments[$scope.comments.length] = res.data.data;
 					$($event.target).parents('.commentsHandle').prev('textarea').val('');
-					alert('评论成功');
+				}else{
+					message({type: 'error', text: '评论失败'});
 				}
 			});
 		};
@@ -118,10 +120,10 @@ define(['marked'], function (marked) {
 					}
 				}).then(function (res) {	
 					if(res.data.result){
-						alert('删除成功');
+						message({type: 'success', text: '删除成功'});
 						$state.go('articles');
 					}else{
-						alert('删除失败');
+						message({type: 'error', text: '删除失败'});
 					}
 				})
 			}
@@ -130,7 +132,8 @@ define(['marked'], function (marked) {
 		$scope.reviewReply = function ($event, comment) {
 			var commentContent = $($event.target).parents('.commentsHandle').prev('textarea').val();
 			if(commentContent === ''){
-				return alert('请输入你的评论');
+				message({type: 'info', text: '请输入你的评论'});
+				return;
 			}
 			commentContent = commentContent.replace(/:(\w+):/ig, '<img src="src/static/img/emojis/$1.png" title="$1">');
 			var newReply = {
@@ -148,10 +151,12 @@ define(['marked'], function (marked) {
 			}).then(function (res) {
 				// 回复成功
 				if(res.data.result){
+					message({type: 'success', text: '回复成功'});
 					$scope.article.comments += 1;
 					$scope.comments.push(res.data.data);
 					$($event.target).parents('.commentsHandle').prev('textarea').val('');
-					alert('回复成功');
+				}else{
+					message({type: 'error', text: '回复失败'});
 				}
 			});
 		};
@@ -183,11 +188,11 @@ define(['marked'], function (marked) {
 					}
 				}).then(function (res) {
 					if(res.data.result){
-						alert('删除成功');
+						message({type: 'success', text: '删除成功'});
 						$scope.comments.splice($index, 1);
 						$scope.article.comments -= 1;
 					}else{
-						alert('删除失败');
+						message({type: 'error', text: '删除失败'});
 					}
 				});
 			}
@@ -198,7 +203,7 @@ define(['marked'], function (marked) {
 				$state.go('home', {home:{login: true, register: false}});
 			}else{
 				if($rootScope.userInfo._id === comment.author._id){
-					alert('不能点赞自己的评论');
+					message({type: 'info', text: '不能点赞自己的评论'});
 					return;
 				}
 				http.request({
@@ -206,11 +211,11 @@ define(['marked'], function (marked) {
 					url: '/comment/heart?token='+$cookies.get('TOKEN')+'&commentId='+comment._id+'&authorId='+comment.author._id
 				}).then(function (res) {
 					if(res.data.result){
+						message({type: 'success', text: '点赞成功'});
 						$scope.comments[$index].heart = res.data.data.heart;
 						$scope.comments[$index].stamp = res.data.data.stamp;
-						alert('点赞成功');
 					}else{
-						alert('点赞失败');
+						message({type: 'error', text: '点赞失败'});
 					}
 				});
 			}
@@ -221,7 +226,7 @@ define(['marked'], function (marked) {
 				$state.go('home', {home:{login: true, register: false}});
 			}else{
 				if($rootScope.userInfo._id === comment.author._id){
-					alert('不能反对自己的评论');
+					message({type: 'info', text: '不能反对自己的评论'});
 					return;
 				}
 				http.request({
@@ -229,11 +234,11 @@ define(['marked'], function (marked) {
 					url: '/comment/stamp?token='+$cookies.get('TOKEN')+'&commentId='+comment._id+'&authorId='+comment.author._id
 				}).then(function (res) {
 					if(res.data.result){
+						message({type: 'success', text: '反对成功'});
 						$scope.comments[$index].heart = res.data.data.heart;
 						$scope.comments[$index].stamp = res.data.data.stamp;
-						alert('反对成功');
 					}else{
-						alert('反对失败');
+						message({type: 'error', text: '反对失败'});
 					}
 				});
 			}
@@ -271,7 +276,8 @@ define(['marked'], function (marked) {
 		$scope.updateComment = function ($event, $index) {
 			var commentContent = $($event.target).parents('.commentsHandle').prev('textarea').val();
 			if(commentContent === ''){
-				return alert('请输入你的评论');
+				message({type: 'info', text: '请输入你的评论'});
+				return;
 			}
 			var reg = /:(\w+):/ig;
 			commentContent = commentContent.replace(reg, '<img src="src/static/img/emojis/$1.png" title="$1">');
@@ -285,11 +291,11 @@ define(['marked'], function (marked) {
 				}
 			}).then(function (res) {
 				if(res.data.result){
+					message({type: 'success', text: '修改成功'});
 					$scope.comments[$index].content = commentContent;
 					$($event.target).parents('.updateReplyArea').hide();
-					alert('修改成功');
 				}else{
-					alert('修改失败');
+					message({type: 'error', text: '修改失败'});
 				}
 			})
 		};

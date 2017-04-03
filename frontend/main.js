@@ -1,6 +1,7 @@
 requirejs.config({
 	baseUrl: './',
 	paths: {
+		//第三方插件
 		angular: 'libs/angular/angular.min',
 		jquery: 'libs/jquery/dist/jquery.min',
 		bootstrap: 'libs/bootstrap/dist/js/bootstrap.min',
@@ -9,13 +10,14 @@ requirejs.config({
 		oclazyload: 'libs/oclazyload/dist/ocLazyLoad.require.min',
 		sanizite: 'libs/angular-sanitize/angular-sanitize.min',
 		simplemde: 'libs/simplemde/dist/simplemde.min',
+		marked: 'libs/marked/marked.min',
+		toastr: 'libs/toastr/toastr.min',
+		// 封装的服务
+		markdownService: 'dist/services/markdown.service',
 		httpRequest: 'dist/services/httpService',
 		particle: 'dist/services/particleService',
-		marked: 'libs/marked/marked.min',
-		toMarked: 'libs/to-markdown/dist/to-markdown',
-		sweetalert: 'libs/sweetalert/dist/sweetalert.min',
-		markdownService: 'dist/services/markdown.service',
-
+		message: 'dist/services/message.service',
+		// 模块
 		app: 'dist/modules/app/controllers/app',
 		home: 'dist/modules/home/controllers/home.controller',
 		articles: 'dist/modules/articles/controllers/articles.controller',
@@ -48,11 +50,14 @@ requirejs.config({
 		particle: {
 			exports: 'particle'
 		},
+		message: {
+			deps: ['angular', 'toastr']
+		},
 		marked: {
 			exports: 'marked'
 		},
 		app: {
-			deps: ['oclazyload', 'uiRouter', 'ngCookies', 'sanizite', 'httpRequest']
+			deps: ['oclazyload','uiRouter','ngCookies','sanizite','httpRequest','message']
 		},
 		home: {
 			deps: ['particle']

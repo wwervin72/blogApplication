@@ -1,7 +1,7 @@
 define(['markdownService','marked'], function (markdownService,marked) {
     var deps = [];
     var createArticleModel = angular.module('createArticle', deps);
-    createArticleModel.controller('createArticle.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
+    createArticleModel.controller('createArticle.ctrl', ['$rootScope','$scope','$cookies','$state','http','message-service', function($rootScope,$scope,$cookies,$state,http,message){
         $(function () {
             // 初始化编辑器
             var editor = markdownService({
@@ -40,13 +40,16 @@ define(['markdownService','marked'], function (markdownService,marked) {
             function createArticle () {
                 var content = editor.value();
                 if(!$scope.newArticle.title || $scope.newArticle.title.trim() === ''){
-                    return alert('请输入文章标题');
+                    message({type: 'info', text: '请输入文章标题'});
+                    return;
                 }
                 if(content.trim() === ''){
-                    return alert('请输入文章内容');
+                    message({type: 'info', text: '请输入文章内容'});
+                    return;
                 }
                 if(!$scope.newArticle.tags || $scope.newArticle.tags.trim() === ''){
-                    return alert('请输入文章标签');
+                    message({type: 'info', text: '请输入文章标签'});
+                    return;
                 }
                 var len = Math.floor(Math.random() * 100 + 50);
                 var abstract = getAbstract(content, len);
@@ -65,11 +68,14 @@ define(['markdownService','marked'], function (markdownService,marked) {
             		}
             	}).then(function (res) {
             		if(res.data.result){
+                        message({type: 'success', text: '文章添加成功'});
                         $scope.newArticle.title = '';
                         $scope.newArticle.tags = '';
                         editor.value('');
             			$state.go('user', {username: $rootScope.userInfo.username});
-            		}
+            		}else{
+                        message({type: 'error', text: '文章添加失败'});
+                    }
             	});
             };
             // 修改编辑器的高度，让他全屏显示

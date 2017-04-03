@@ -14,7 +14,7 @@ module.exports = {
 			content: req.body.content,
 			author: req.user._id,
 			tags: req.body.tags,
-			avatar: req.body.avatar
+			avatar: req.body.avatar || 'http://localhost:3000/asset/defaultArticleAvatar.jpg'
 		});
 		post.save(function (err, post) {
 			if(err){

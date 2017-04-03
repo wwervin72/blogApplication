@@ -9,7 +9,7 @@ define([], function () {
             }).then(function (res) {
                 $scope.articles = res.data.data;
             }, function (res) {
-
+                
             })
         }());             
     }]);

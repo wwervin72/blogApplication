@@ -1,5 +1,5 @@
 define([], function () {
-	var deps = ['oc.lazyLoad', 'ui.router', 'ngCookies', 'ngSanitize', 'httpRequest'];
+	var deps = ['oc.lazyLoad','ui.router','ngCookies','ngSanitize','httpRequest','message'];
 	var app = angular.module('app', deps);
     app.run(['$rootScope','$state', function ($rootScope,$state) {
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
@@ -71,19 +71,6 @@ define([], function () {
                 resolve: {
                     loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
                         return $ocLazyLoad.load('createArticle');
-                    }],
-                    checkLogin: ['$rootScope', '$location',function ($rootScope, $location) {
-                        // return new Promise(function (resolve, reject) {
-                        //     if($rootScope.userInfo){
-                        //         resolve(true);
-                        //         return;
-                        //     }else{
-                        //         // $location.path('/', {home: {login: true, register: false}});
-                        //         return;
-                        //         // $state.go('home', {home: {login: true, register: false}});
-                        //         // reject(error);
-                        //     }
-                        // })
                     }]
                 }
 			})
@@ -130,7 +117,7 @@ define([], function () {
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('tokenInterceptor');
     }]);
-    app.controller('app.ctrl', ['$rootScope', '$scope', '$cookies', 'http', function($rootScope, $scope, $cookies, http){
+    app.controller('app.ctrl', ['$rootScope','$scope','$cookies','http','message-service', function($rootScope,$scope,$cookies,http,message){
         $('#header .avatar, #header .avatar .userList').hover(function () {
             $(this).find('.userList').show();
         }, function () {
@@ -142,6 +129,7 @@ define([], function () {
                 url: '/logout?token=' + $cookies.get('TOKEN')
             }).then(function (res) {
                 if(res.data.result){
+                    message({type: 'success', text: '你已退出登陆'});
                     $cookies.remove("TOKEN", {path: '/'});
                     delete $rootScope.userInfo;
                 }

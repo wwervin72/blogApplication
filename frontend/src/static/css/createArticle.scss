@@ -107,6 +107,7 @@
 		color: #fff;
 		letter-spacing: 2px;
 		font-size: 16px;
+		border: none;
 	}
 	#remoteUrl{
 		background-color: #fff;
@@ -118,8 +119,9 @@
 }
 .insertImgType{
 	display: block;
-	margin-top: 30px;
+	margin: 30px auto 0;
 	color: #888;
+	width: 120px;
 	text-align: center;
 	&:hover{
 		text-decoration: underline;

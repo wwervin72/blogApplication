@@ -1,7 +1,7 @@
 define(['markdownService','marked'], function (markdownService,marked) {
     var deps = [];
     var updateArticleModel = angular.module('updateArticle', deps);
-    updateArticleModel.controller('updateArticle.ctrl', ['$rootScope', '$scope', '$stateParams', '$cookies', '$state', 'http', function($rootScope, $scope, $stateParams, $cookies, $state, http){
+    updateArticleModel.controller('updateArticle.ctrl', ['$rootScope','$scope','$stateParams','$cookies','$state','http','message-service', function($rootScope,$scope,$stateParams,$cookies,$state,http,message){
         $(function () {
             // 初始化编辑器
             var editor = markdownService({
@@ -49,13 +49,16 @@ define(['markdownService','marked'], function (markdownService,marked) {
             function updateArticle () {
                 var content = editor.value();
                 if(!$scope.article.title || $scope.article.title.trim() === ''){
-                    return alert('请输入文章标题');
+                    message({type: 'info', text: '请输入文章标题'});
+                    return;
                 }
                 if(content.trim() === ''){
-                    return alert('请输入文章内容');
+                    message({type: 'info', text: '请输入文章内容'});
+                    return;
                 }
                 if(!$scope.article.tags || $scope.article.tags.trim() === ''){
-                    return alert('请输入文章标签');
+                    message({type: 'info', text: '请输入文章标签'});
+                    return;
                 }
                 var len = Math.floor(Math.random() * 100 + 50);
                 var abstract = getAbstract(content, len);
@@ -74,6 +77,7 @@ define(['markdownService','marked'], function (markdownService,marked) {
                     }
                 }).then(function (res) {
                     if(res.data.result){
+                        message({type: 'success', text: '文章更新成功'});
                         $scope.article.title = '';
                         $scope.article.tags = '';
                         editor.value('');

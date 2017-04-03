@@ -1,7 +1,7 @@
 define([], function (){
     var deps = [];
     var homeModel = angular.module('home', deps);
-    homeModel.controller('home.ctrl', ['$rootScope', '$scope', '$stateParams', '$state', '$location', 'http', function($rootScope, $scope, $stateParams, $state, $location, http){
+    homeModel.controller('home.ctrl', ['$rootScope','$scope','$stateParams','$state','$location','http','message-service', function($rootScope,$scope,$stateParams,$state,$location,http,message){
         $('#login input[name=username]').focus();
         $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
         $scope.registerUser = {
@@ -61,12 +61,14 @@ define([], function (){
             }).then(function (res) {
                 if(res.data.result){
                     $rootScope.userInfo = res.data.info;
+                    message({type: 'success', text: '登陆成功'});
                     $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }else{
+                    message({type: 'error', text: '登陆失败'});
                     $scope.loginFailed = true;
                 }         
             }, function (res) {
-               
+               message({type: 'error', text: '数据请求失败'});
             });
         };
         $scope.register = function () {
@@ -81,6 +83,7 @@ define([], function (){
             }).then(function (res) {
                 if(res.data.result){
                     // 注册成功，然后登陆
+                    message({type: 'success', text: '注册成功'});
                     $scope.hideMsg($('#register .iptMsg'));
                     for(var prop in $scope.registerUser){
                         $scope.registerUser[prop] = '';
@@ -89,10 +92,10 @@ define([], function (){
                     $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
                 }else{
                     // 注册失败
-                    
+                    message({type: 'error', text: '注册失败'});
                 }
             }, function (res) {
-                console.log(res)
+                message({type: 'error', text: '数据请求失败'});
             });
         }
 

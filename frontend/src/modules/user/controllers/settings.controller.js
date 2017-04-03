@@ -1,7 +1,7 @@
 define([], function () {
 	var deps = [];
 	var settingsModel = angular.module('settings', deps);
-	settingsModel.controller('settings.ctrl', ['$rootScope', '$scope', '$cookies', '$state', 'http', function($rootScope, $scope, $cookies, $state, http){
+	settingsModel.controller('settings.ctrl', ['$rootScope','$scope','$cookies','$state','http','message-service', function($rootScope,$scope,$cookies,$state,http,message){
 		if(!$rootScope.userInfo){
 			$state.go('home', {home: {login: true, register: false}});
 			return;
@@ -34,14 +34,15 @@ define([], function () {
 			}).then(function (res) {
 				if(res.data.result){
 					$rootScope.userInfo.avatar = res.data.data;
+					message({type: 'success', text: '修改成功'})
 				}else{
-					alert('修改失败');
+					message({type: 'error', text: '修改失败'})
 				}
 			});
 		});
 		$scope.saveBaseSetting = function () {
 			if($scope.settingInfo.nickname === $rootScope.userInfo.nickname && $scope.settingInfo.email === $rootScope.userInfo.email){
-				alert('请进行修改之后在保存');
+				message({type: 'info', text: '请进行修改之后在保存'});
 				return;
 			}
 			http.request({
@@ -54,20 +55,17 @@ define([], function () {
 				}
 			}).then(function (res) {
 				if(res.data.result){
+					message({type: 'success', text: '修改成功'});
 					$rootScope.userInfo.nickname = $scope.settingInfo.nickname;
 					$rootScope.userInfo.email = $scope.settingInfo.email;
-					alert('修改成功');
 				}else{
-					if(res.data.msg === '该邮箱已被占用'){
-						alert('修改失败');
-					}
-					alert('修改失败');
+					message({type: 'error', text: res.data.msg});
 				}
 			})
 		};
 		$scope.savePersionInfo = function () {
 			if($scope.settingInfo.sex === $rootScope.userInfo.sex && $scope.settingInfo.bio === $rootScope.userInfo.bio && $scope.settingInfo.url === $rootScope.userInfo.url){
-				alert('请做出修改之后再进行保存');
+				message({type: 'info', text: '请做出修改之后再进行保存'});
 				return;
 			}
 			http.request({
@@ -81,34 +79,34 @@ define([], function () {
 				}
 			}).then(function (res) {
 				if(res.data.result){
+					message({type: 'success', text: '修改成功'});
 					$rootScope.userInfo.sex = $scope.settingInfo.sex;
 					$rootScope.userInfo.bio = $scope.settingInfo.bio;
 					$rootScope.userInfo.url = $scope.settingInfo.url;
-					alert('修改成功');
 				}else{
-					alert('修改失败');
+					message({type: 'error', text: '修改失败'});
 				}
 			})
 		};
 		$scope.modifyPwd = function () {
 			if($scope.settingInfo.oldPwd === ''){
-				alert('请输入原密码');
+				message({type: 'info', text: '请输入原密码'});
 				return;
 			}
 			if($scope.settingInfo.newPwd === ''){
-				alert('请输入新密码');
+				message({type: 'info', text: '请输入新密码'});
 				return;
 			}
 			if($scope.settingInfo.repeatPwd === ''){
-				alert('请确认新密码');
+				message({type: 'info', text: '请确认新密码'});
 				return;
 			}
 			if($scope.settingInfo.repeatPwd !== $scope.settingInfo.newPwd){
-				alert('新密码与确认密码不一致');
+				message({type: 'info', text: '新密码与确认密码不一致'});
 				return;
 			}
 			if(!/^[a-zA-Z0-9-_.]{3,12}$/.test($scope.settingInfo.newPwd)){
-				alert('密码格式不通过');
+				message({type: 'info', text: '密码格式不通过'});
 				return;
 			}
 			http.request({
@@ -121,15 +119,11 @@ define([], function () {
 				}
 			}).then(function (res) {
 				if(res.data.result){
-					alert('密码修改成功, 你需要从新登陆');
+					message({type: 'success', text: '密码修改成功, 你需要从新登陆'});
 					delete $rootScope.userInfo;
 					$state.go('home', {home: {login: true, register: false}});
 				}else{
-					if(res.data.msg === '原密码不正确'){
-						alert('原密码不正确');
-						return;
-					}
-					alert('密码修改失败');
+					message({type: 'error', text: res.data.msg});
 				}
 			})
 		};
@@ -145,11 +139,11 @@ define([], function () {
 				}).then(function (res) {
 					if(res.data.result){
 						// 删除成功, 需要从新登陆
-						alert('删除成功, 你需要重新登陆');
+						message({type: 'success', text: '删除成功, 你需要重新登陆'})
 						delete $rootScope.userInfo;
 						$state.go('home', {home:{login: true, register: false}});
 					}else{
-						alert('删除失败');
+						message({type: 'error', text: '删除失败'});
 					}
 				});
 			}
