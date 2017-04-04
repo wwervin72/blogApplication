@@ -25,7 +25,7 @@ h1, h2, h3, h4, h5, h6{
 	padding: 0;
 }
 input, button, textarea{
-	outline: none;
+	outline: none !important;
 }
 .noRadius{
 	border-radius: 0;
@@ -57,4 +57,7 @@ a, a:hover, a:active, a:visited, a:link{
 }
 .toast-top-center{
 	top: 70px;
+}
+.toast{
+	opacity: 1 !important;
 }

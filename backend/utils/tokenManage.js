@@ -83,5 +83,20 @@ module.exports = {
 	expireToken: function (token) {
 		redisClient.set(token, {is_expired: true}, redis.print);
 		redisClient.expire(token, config.redis.expireTime);
+	},
+	saveAuthCode: function (res, codeInfo) {
+		redisClient.set(codeInfo.email, codeInfo.code, function (err) {
+			if(err){
+				return res.status(200).json({
+					result: false,
+					msg: '验证码保存失败，请从新发送'
+				});
+			}
+			return res.status(200).json({
+				result: true,
+				msg: '邮件发送成功，三十分钟内有效。'
+			});
+		});
+		redisClient.expire(codeInfo.email, config.redis.oauth.expireTime);
 	}
 }

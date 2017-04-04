@@ -60,14 +60,71 @@ module.exports = {
 			});
 		})(req, res, next);
 	},
+	registerSendAuthCode: function (req, res, next) {
+		let email = req.query.email;
+		if(!email){
+			return res.status(200).json({
+				result: false,
+				msg: '请输入邮箱'
+			});
+		}
+		if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email)){
+			return res.status(200).json({
+				result: false,
+				msg: '邮箱格式不正确'
+			});
+		}
+		// 验证邮箱的唯一性
+		User.findOne({email: email}, function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(user){
+				return res.status(200).json({
+					result: false,
+					msg: '该邮箱已被占用'
+				});
+			}
+			let authCode = createAuthCode();
+			let html = '<p>你的邮箱<strong style="font-weight:bold;color:#f00;">，<strong style="color:#f00;text-decoration:underline;">';
+				html += email;
+				html += '</strong>正在进行注册账号的操作，验证码为<span style="color: #f00;">';
+				html += authCode;
+				html += '</span>，30分钟内有效。</p>';
+			mailer.send({
+					to: email,
+					subject: '注册账号',
+					html: html,
+					generateTextFromHtml: true
+				}, function (err, info) {
+					if(err){
+						return res.status(200).json({
+							result: false,
+							msg: '邮件发送失败'
+						});
+					}
+					let authCodeInfo = {
+						email: email,
+						code: authCode
+					};
+					tokenManage.saveAuthCode(res, authCodeInfo);
+				});
+		});
+	},
 	register: function(req, res, next){
+		if(!req.body.authCode){
+			return res.status(200).json({
+				result: false,
+				msg: '请输入验证码'
+			});
+		}
 		let user = new User(req.body);
 		user.save((err, user) => {
 			if(err) {
 				let msg = {};
 
 				Object.keys(err.errors).forEach(function (item) {
-					msg[item==='hashed_password'?'password':item] = err.errors[item].message;
+					msg[item === 'hashed_password' ? 'password' : item] = err.errors[item].message;
 				});
 				res.status(200);
 				return res.json({
@@ -157,22 +214,11 @@ module.exports = {
 	},
 	// 发送邮件（验证码）
 	sendAuthCode: function (req, res, next) {
-		let authCode = (function () {
-			let str = 'abcdefghijklmnopqrstuvwxyz1234567890';
-			let authCode = [];
-			let codeLen = 6;
-			while (codeLen) {
-				authCode[authCode.length] = str.substr(Math.floor(Math.random() * 36), 1);
-				codeLen--;
-			}
-			return authCode.join('');
-		}());
-
 		let html = '<p>你的账号<strong style="font-weight:bold;color:#f00;">，<strong style="color:#f00;text-decoration:underline;">';
 			html += req.query.username;
 			html += '</strong>正在进行重置密码操作，验证码为<span style="color: #f00;">';
-			html += authCode;
-			html += '</span>，30分钟内有效，若非本人操作，请尽快修改密码。</p>';
+			html += createAuthCode();
+			html += '</span>，30分钟内有效。</p>';
 		User.update({username: req.query.username, email: req.query.email},
 					{$set: {
 						authcode: authCode,
@@ -354,3 +400,14 @@ module.exports = {
 
 	}
 };
+// 生成验证码
+function createAuthCode () {
+	let str = 'abcdefghijklmnopqrstuvwxyz1234567890';
+	let authCode = [];
+	let codeLen = 6;
+	while (codeLen) {
+		authCode[authCode.length] = str.substr(Math.floor(Math.random() * 36), 1);
+		codeLen--;
+	}
+	return authCode.join('');
+}

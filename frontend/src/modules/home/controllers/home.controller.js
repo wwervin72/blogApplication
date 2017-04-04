@@ -15,42 +15,37 @@ define([], function (){
             username: '',
             password: ''
         };
-        $scope.accountExist = false;
         $scope.loginFailed = false;
-        $(function () {
-            $('.iptMsg').each(function (i, item) {
-                item = $(item);
-                item.css('right', -parseInt(item.css('width')) + 'px');
-            });
-        })
-        $('.from_content').on('.iptMsg span', 'click', function () {
-            $(this).parent().prev().focus();
+        $('.ipt_group input').on('focus', function () {
+            var _this = $(this);
+            if(_this.parents('#login').length){
+                $scope.loginFailed = false;
+                $scope.$apply(function () {
+                    $scope.verifyLogin[_this.attr('name')] = false;
+                });
+            }else{
+                $scope.$apply(function () {
+                    $scope.verifyRegister[_this.attr('name')] = false;
+                });
+            }
         });
-        $('.from_content').on('input', 'focus', function () {
-            $scope.loginFailed = false;
-            $scope.hideMsg($(this).next('.iptMsg'));
-        });
-        $scope.showMsg = function (dom) {
-            dom.css('display', 'block');
-            dom.animate({
-                opacity: 1,
-                right: '10px'
-            }, 300);
-        };
-        $scope.hideMsg = function (dom) {
-            dom.animate({
-                opacity: 0,
-                right: -parseInt(dom.css('width')) + 'px'
-            }, 300)
-        };
         $scope.hideRegisterMsg = function () {
-            $scope.hideMsg($('#register .iptMsg'));
+            $scope.home={
+                login: true, 
+                register: false
+            };
+            $scope.verifyRegister = {username: false,email: false,authCode: false,password: false,replayPwd: false};
         };
         $scope.hideLoginMsg = function () {
-            $scope.hideMsg($('#login .iptMsg'));
-        }
+            $scope.home={
+                login: false, 
+                register: true
+            };
+            $scope.verifyLogin = {username: false, password: false};
+        };
+        $scope.verifyLogin = {username: false, password: false};
         $scope.login = function () {
-            $scope.showMsg($('#login .iptMsg'));
+            $scope.verifyLogin = {username: true, password: true};
             if($scope.login_form.$invalid){
                 return;
             }
@@ -64,15 +59,39 @@ define([], function (){
                     message({type: 'success', text: '登陆成功'});
                     $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }else{
-                    message({type: 'error', text: '登陆失败'});
+                    // message({type: 'error', text: '登陆失败'});
+                    $scope.verifyLogin.name = false;
                     $scope.loginFailed = true;
                 }         
             }, function (res) {
                message({type: 'error', text: '数据请求失败'});
             });
         };
+        $scope.registerSendAuthCode = function (e) {
+            $scope.verifyRegister.email = true;
+            var event = e || window.event;
+            if(event.preventDefault){
+                event.preventDefault();
+            }else{
+                event.returnValue = false;
+            }
+            if($scope.registerForm.email.$invalid){
+                return;
+            }
+            if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test($scope.registerUser.email)){
+                message({type: 'info', text: '邮箱格式不正确'});
+                return;
+            }
+            http.request({
+                method: 'GET',
+                url: '/register/authCode?email='+$scope.registerUser.email
+            }).then(function (res) {
+                message({type: res.data.result ? 'success' : 'error', text: res.data.msg});
+            })
+        };
+        $scope.verifyRegister = {username: false,email: false,authCode: false,password: false,replayPwd: false};
         $scope.register = function () {
-            $scope.showMsg($('#register .iptMsg'));
+            $scope.verifyRegister = {username: true,email: true,authCode: true,password: true,replayPwd: true};
             if($scope.registerForm.$invalid){
                 return;
             }
@@ -92,7 +111,7 @@ define([], function (){
                     $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
                 }else{
                     // 注册失败
-                    message({type: 'error', text: '注册失败'});
+                    message({type: 'error', text: res.data.msg});
                 }
             }, function (res) {
                 message({type: 'error', text: '数据请求失败'});

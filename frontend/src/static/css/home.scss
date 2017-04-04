@@ -78,7 +78,7 @@
             position: relative;
             border: 1px solid #ddd;
             margin-top: -2px;
-            overflow: hidden;
+            // overflow: hidden;
             input{
                 width: 350px;
                 height: 36px;
@@ -99,14 +99,48 @@
                     color: #c3c3c3;
                 }
             }
+            input[name=authCode]{
+                position: relative;
+            }
+            .registerSendAuthCode{
+                position: absolute;
+                width: 100px;
+                height: 36px;
+                line-height: 36px;
+                border: none;
+                border-radius: 3px;
+                background-color: #55abed;
+                color: #fff;
+                text-align: center;
+                top: 7px;
+                right: 5px;
+            }
             .iptMsg{
                 position: absolute;
-                top: 0;
-                right: 10px;
-                height: 50px;
-                line-height: 50px;
+                padding: 0 10px;
+                height: 36px;
+                line-height: 36px;
+                border: 1px solid $errColor;
+                background-color: #fff;
+                border-radius: 3px;
+                top: 50%;
+                left: 370px;
+                white-space: nowrap;
+                transform: translateY(-55%);
                 color: $errColor;
-                display: none;
+                &:before{
+                    content: '';
+                    position: absolute;
+                    top: 13px;
+                    left: -6px;
+                    width: 10px;
+                    height: 10px;
+                    background-color: #fff;
+                    border-radius: 2px;
+                    border-top: 1px solid $errColor;
+                    border-left: 1px solid $errColor;
+                    transform: rotateZ(-45deg);
+                }
             }
         }
         input[type=submit]{
@@ -130,5 +164,31 @@
         @extend %loginSelect;
         float: right;
         color: #999;
+    }
+}
+.oauthLogin{
+    text-align: center;
+    h6{
+        position: relative;
+        height: 36px;
+        line-height: 36px;
+        margin: 10px 0;
+        color: #b5b5b5;
+        font-size: 12px;
+        text-align: center;
+        &:before, &:after{
+            content: "";
+            border-top: 1px solid #b5b5b5;
+            display: block;
+            position: absolute;
+            width: 60px;
+            top: 17.5px;
+        }
+        &:before{
+            left: 30px;
+        }
+        &:after{
+            right: 30px;
+        }
     }
 }

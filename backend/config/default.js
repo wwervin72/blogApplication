@@ -3,7 +3,10 @@ module.exports = {
 	port: 3000,
 	redis: {
 		port: 6379,
-		expireTime: 60 * 30
+		expireTime: 60 * 30,
+		oauth: {
+			expireTime: 60 * 30,
+		}
 	},
 	tokenSecret: 'ervinBlog',
 	tokenExpireTime: 60 * 30,

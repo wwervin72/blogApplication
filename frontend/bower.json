@@ -1,19 +1,18 @@
 {
   "name": "frontend",
-  "description": "blog application frontend",
-  "main": "index.js",
+  "description": "nodejs angularjs blog website application frontend",
+  "main": "main.js",
   "authors": [
     "ervin"
   ],
   "license": "ISC",
   "keywords": [
-    "blog",
+    "nodejs",
     "angularjs",
-    "jquery",
-    "bootstrap",
-    "application"
+    "blog",
+    "frontend"
   ],
-  "homepage": "https://github.com/wwervin72/blogApplication",
+  "homepage": "https://github.com/wwervin72/weishi",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -28,17 +27,14 @@
     "angular": "angularjs#^1.6.2",
     "angular-ui-router": "ui-router#^0.4.2",
     "angular-cookies": "^1.6.2",
-    "layer": "^3.0.1",
-    "wangEditor": "^2.1.23",
     "oclazyload": "^1.1.0",
     "angular-sanitize": "^1.6.2",
-    "editor.md": "^1.5.0",
     "simplemde": "^1.11.2",
     "highlight": "^9.10.0",
     "marked": "^0.3.6",
-    "to-markdown": "^3.0.4",
     "summernote": "^0.8.2",
     "sweetalert": "^1.1.3",
-    "toastr": "^2.1.3"
+    "toastr": "^2.1.3",
+    "ngMessage": "ng-message#^1.0.5-beta.1"
   }
 }
