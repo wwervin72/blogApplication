@@ -60,25 +60,16 @@ module.exports = {
 			});
 		})(req, res, next);
 	},
+	// 注册发送邮箱验证
 	registerSendAuthCode: function (req, res, next) {
 		let email = req.query.email;
-		if(!email){
-			return res.status(200).json({
-				result: false,
-				msg: '请输入邮箱'
-			});
-		}
 		if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email)){
 			return res.status(200).json({
 				result: false,
 				msg: '邮箱格式不正确'
 			});
 		}
-		// 验证邮箱的唯一性
 		User.findOne({email: email}, function (err, user) {
-			if(err){
-				return next(err);
-			}
 			if(user){
 				return res.status(200).json({
 					result: false,
@@ -97,6 +88,7 @@ module.exports = {
 					html: html,
 					generateTextFromHtml: true
 				}, function (err, info) {
+					console.log(err)
 					if(err){
 						return res.status(200).json({
 							result: false,
@@ -111,74 +103,79 @@ module.exports = {
 				});
 		});
 	},
+	// 用户注册
 	register: function(req, res, next){
-		if(!req.body.authCode){
-			return res.status(200).json({
-				result: false,
-				msg: '请输入验证码'
-			});
-		}
-		let user = new User(req.body);
-		user.save((err, user) => {
-			if(err) {
-				let msg = {};
-
-				Object.keys(err.errors).forEach(function (item) {
-					msg[item === 'hashed_password' ? 'password' : item] = err.errors[item].message;
-				});
-				res.status(200);
-				return res.json({
+		let username = req.body.username;
+		User.findOne({username: username}, function (err, result) {
+			if(result){
+				return res.status(200).json({
 					result: false,
-					msg: msg
+					msg: '该用户名已被占用'
+				});
+			}
+			let user = new User(req.body);
+			user.save((err, user) => {
+				if(err) {
+					let msg = {};
+
+					Object.keys(err.errors).forEach(function (item) {
+						msg[item === 'hashed_password' ? 'password' : item] = err.errors[item].message;
+					});
+					res.status(200);
+					return res.json({
+						result: false,
+						msg: msg
+					});
+				}
+				tokenManage.expireAuthCode(req.query.email);
+				return res.status(200).json({
+					result: true,
+					msg: '注册成功',
+					token: tokenManage.createNewToken(user),
+					info: {
+						_id: user._id,
+						nickname: user.nickname,
+						username: user.username,
+						avatar: user.avatar,
+						email: user.email,
+						bio: user.bio,
+						url: user.url,
+						sex: user.sex
+					}
+				});
+			});
+		});
+	},
+	// 验证邮箱唯一性
+	emailUnique: function (req, res, next) {
+		let email = (req.body && req.body.email || req.query && req.query.email);
+		User.findOne({email: email}, function (err, user) {
+			if(user){
+				return res.status(200).json({
+					result: false,
+					msg: '该邮箱已被占用'
 				});
 			}
 			return res.status(200).json({
 				result: true,
-				msg: '注册成功',
-				token: tokenManage.createNewToken(user),
-				info: {
-					_id: req.user._id,
-					nickname: req.user.nickname,
-					username: req.user.username,
-					avatar: req.user.avatar,
-					email: req.user.email,
-					bio: req.user.bio,
-					url: req.user.url,
-					sex: req.user.sex
-				}
+				msg: '该邮箱可以使用'
 			});
 		});
 	},
-	// 检查用户名、邮箱等是否唯一
-	registerCheckUnique: function (req, res, next) {
-		let propArr = Object.keys(req.query);
-		switch (propArr[0]) {
-			case 'username':
-				propArr = '用户名';
-				break;
-			case 'email':
-				propArr = '邮箱';
-				break;
-		}
-		User.findOne(req.query, function (err, user) {
-			if(err){
-				return res.status(500).json({
-					result: false,
-					msg: '服务器错误'
-				});
-			}
+	// 验证用户名唯一性
+	usernameUnique: function (argument) {
+		let username = (req.body && req.body.username || req.query && req.query.username);
+		User.findOne({username: username}, function (err, user) {
 			if(user){
 				return res.status(200).json({
 					result: false,
-					msg: '该'+propArr+'已被占用'
+					msg: '该用户名可以使用'
 				});
 			}
-			return res.status(200).json({
-					result: true,
-					msg: '该'+propArr+'可以使用'
-				});
-		})
+			next();
+		}); 
 	},
+	// 退出登陆
 	signOut: function (req, res, next) {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
 		tokenManage.expireToken(token);
@@ -188,6 +185,7 @@ module.exports = {
 			msg: '登出成功'
 		});
 	},
+	// 获取用户信息
 	getInfo: function (req, res, next) {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
 		tokenManage.expireToken(token);
@@ -214,10 +212,11 @@ module.exports = {
 	},
 	// 发送邮件（验证码）
 	sendAuthCode: function (req, res, next) {
+		let authCode = createAuthCode();
 		let html = '<p>你的账号<strong style="font-weight:bold;color:#f00;">，<strong style="color:#f00;text-decoration:underline;">';
 			html += req.query.username;
 			html += '</strong>正在进行重置密码操作，验证码为<span style="color: #f00;">';
-			html += createAuthCode();
+			html += authCode;
 			html += '</span>，30分钟内有效。</p>';
 		User.update({username: req.query.username, email: req.query.email},
 					{$set: {

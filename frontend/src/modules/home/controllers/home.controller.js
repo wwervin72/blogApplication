@@ -6,10 +6,11 @@ define([], function (){
         $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
         $scope.registerUser = {
             username: '',
+            email: '',
+            authCode: '',
             password: '',
             replayPwd: '',
-            nickName: '',
-            email: ''
+            nickName: ''
         };
         $scope.loginUser = {
             username: '',

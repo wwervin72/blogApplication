@@ -16,7 +16,7 @@ module.exports = {
 	verifyRedis: function (req, res, next) {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
 		// 没有token需要从新登陆
-		if(token == null){
+		if(!token){
 			return res.status(200).json({
 				result: false,
 				msg: '没有token, 请登录'
@@ -24,10 +24,7 @@ module.exports = {
 		}
 		redisClient.get(token, function (err, reply) {
 			if(err){
-				return res.status(500).json({
-					result: false,
-					msg: '服务器错误'
-				});
+				return next(err);
 			}
 			//如果redis里存在该token的属性，那么说明该token已失效了
 			if(reply){
@@ -98,5 +95,35 @@ module.exports = {
 			});
 		});
 		redisClient.expire(codeInfo.email, config.redis.oauth.expireTime);
+	},
+	verifyAuthCode: function (req, res, next) {
+		let authCode = (req.body && req.body.authCode) || (req.query && req.query.authCode);
+		let email = (req.body && req.body.email) || (req.query && req.query.email);
+		if(!authCode){
+			return res.status(200).json({
+				result: false,
+				msg: '请输入验证码'
+			});
+		}
+		redisClient.get(email, function (err, code) {
+			if(!code){
+				return res.status(200).json({
+					result: false,
+					msg: '验证码已过期'
+				});
+			}
+			if(code !== authCode){
+				return res.status(200).json({
+					result: false,
+					msg: '验证码不正确'
+				});
+			}
+			if(code === authCode){
+				return next();
+			}
+		})
+	},
+	expireAuthCode: function (key) {
+		redisClient.set(key, 0);
 	}
 }

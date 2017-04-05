@@ -1,13 +1,12 @@
 let express = require('express');
 let router = express.Router();
 let userCtrl = require('../controllers/user.controlelr');
+let tokenManage = require('../utils/tokenManage');
 
-router.post('/', userCtrl.register);
+// 注册
+router.post('/', tokenManage.verifyAuthCode, userCtrl.register);
 
-//注册验证唯一性
-// router.get('/unique', userCtrl.registerCheckUnique);
-
-//注册发送邮件
-router.get('/authCode', userCtrl.registerCheckUnique, userCtrl.registerSendAuthCode);
+// 注册发送邮件
+router.get('/authCode', userCtrl.registerSendAuthCode);
 
 module.exports = router;
