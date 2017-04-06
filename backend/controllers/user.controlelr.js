@@ -32,32 +32,48 @@ module.exports = {
 			if(err){
 				return next(err);
 			}
+			// 登陆失败
 			if(!user){
 				return res.status(200).json({
 					result: false,
 					msg: info.message
 				});
 			}
-			req.logIn(user, (err) => {
-				if(err){
-					return next(err);
+			return res.status(200).json({
+				result: true,
+				msg: info.message,
+				token: tokenManage.createNewToken(user),
+				info: {
+					username: user.username,
+					avatar: user.avatar,
+					nickname: user.nickname,
+					email: user.email,
+					_id: user._id,
+					bio: user.bio,
+					url: user.url,
+					sex: user.sex
 				}
-				return res.status(200).json({
-					result: true,
-					msg: '登陆成功',
-					token: tokenManage.createNewToken(user),
-					info: {
-						username: user.username,
-						avatar: user.avatar,
-						nickname: user.nickname,
-						email: user.email,
-						_id: user._id,
-						bio: user.bio,
-						url: user.url,
-						sex: user.sex
-					}
-				});
 			});
+			// req.logIn(user, (err) => {
+			// 	if(err){
+			// 		return next(err);
+			// 	}
+			// 	return res.status(200).json({
+			// 		result: true,
+			// 		msg: '登陆成功',
+			// 		token: tokenManage.createNewToken(user),
+			// 		info: {
+			// 			username: user.username,
+			// 			avatar: user.avatar,
+			// 			nickname: user.nickname,
+			// 			email: user.email,
+			// 			_id: user._id,
+			// 			bio: user.bio,
+			// 			url: user.url,
+			// 			sex: user.sex
+			// 		}
+			// 	});
+			// });
 		})(req, res, next);
 	},
 	// 注册发送邮箱验证
@@ -127,7 +143,7 @@ module.exports = {
 						msg: msg
 					});
 				}
-				tokenManage.expireAuthCode(req.query.email);
+				tokenManage.expireAuthCode(req.body.email);
 				return res.status(200).json({
 					result: true,
 					msg: '注册成功',
@@ -178,7 +194,7 @@ module.exports = {
 	// 退出登陆
 	signOut: function (req, res, next) {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
-		tokenManage.expireToken(token);
+		tokenManage.expireAuthCode(token);
 		delete req.user;
 		return res.status(200).json({
 			result: true,
