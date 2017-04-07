@@ -137,13 +137,11 @@ define([], function () {
 						token: $cookies.get('TOKEN')
 					}
 				}).then(function (res) {
+					message({type: 'success', text: res.data.msg})
 					if(res.data.result){
 						// 删除成功, 需要从新登陆
-						message({type: 'success', text: '删除成功, 你需要重新登陆'})
 						delete $rootScope.userInfo;
 						$state.go('home', {home:{login: true, register: false}});
-					}else{
-						message({type: 'error', text: '删除失败'});
 					}
 				});
 			}

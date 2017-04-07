@@ -39,7 +39,7 @@ module.exports = {
 	verifyToken: function (req, res, next) {
 		let _this = this;
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token'];;
-		jwt.verify(token, config.token.secret, function (err, decode) {
+		jwt.verify(token, config.redis.token.secret, function (err, decode) {
 			if(err){
 				// token是错误的
 				return res.status(200).json({
@@ -72,9 +72,9 @@ module.exports = {
 			url: user.url
 			// 用来生成不同的token，因为如果同一用户在一秒内连续请求，生成的token是一样的。需要一个一直变化的值来生成变化的token
 			// variable: new Date().getTime()
-		}, config.token.secret);
+		}, config.redis.token.secret);
 		redisClient.set(token, 'login_token', redisClient.print);
-		redisClient.expire(token, config.token.expireTime);
+		redisClient.expire(token, config.redis.token.expireTime);
 		return token;
 	},
 	saveAuthCode: function (res, codeInfo) {

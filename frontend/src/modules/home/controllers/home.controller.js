@@ -55,12 +55,11 @@ define([], function (){
                 url: '/login',
                 data: $scope.loginUser
             }).then(function (res) {
+                message({type: res.data.result ? 'success' : 'error', text: res.data.msg});
                 if(res.data.result){
                     $rootScope.userInfo = res.data.info;
-                    message({type: 'success', text: '登陆成功'});
                     $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }else{
-                    // message({type: 'error', text: '登陆失败'});
                     $scope.verifyLogin.name = false;
                     $scope.loginFailed = true;
                 }         
@@ -101,18 +100,18 @@ define([], function (){
                 url: '/register',
                 data: $scope.registerUser
             }).then(function (res) {
+                $scope.registerUser.authCode = '';
+                message({type: res.data.result ? 'success' : 'error', text: res.data.msg});
                 if(res.data.result){
                     // 注册成功，然后登陆
-                    message({type: 'success', text: '注册成功'});
-                    $scope.hideMsg($('#register .iptMsg'));
-                    for(var prop in $scope.registerUser){
-                        $scope.registerUser[prop] = '';
-                    }
+                    $scope.verifyRegister = {username: false,email: false,authCode: false,password: false,replayPwd: false};
+                    $scope.registerUser.username = '';
+                    $scope.registerUser.email = '';
+                    $scope.registerUser.password = '';
+                    $scope.registerUser.replayPwd = '';
+                    $scope.registerUser.nickName = '';
                     $rootScope.userInfo = res.data.info;
-                    $location.path(sessionStorage.redirectTo? sessionStorage.redirectTo : '/a');
-                }else{
-                    // 注册失败
-                    message({type: 'error', text: res.data.msg});
+                    $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }
             }, function (res) {
                 message({type: 'error', text: '数据请求失败'});

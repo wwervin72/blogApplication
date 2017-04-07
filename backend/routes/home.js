@@ -48,7 +48,7 @@ router.put('/user/persionalInfo', tokenManage.verifyRedis, tokenManage.verifyTok
 router.put('/user/pwd', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.modifyPwd);
 
 //用户删除账号
-router.delete('/user/count', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.basesettings);
+router.delete('/user/count', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.deleteCount);
 
 
 //上传文件

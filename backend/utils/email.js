@@ -1,7 +1,6 @@
 let nodemailer = require('nodemailer');
 let config = require('config-lite');
 module.exports = function (config) {
-	// let mailTransport = nodemailer.createTransport('smtps://' + config.gmail.user + '%40gmail.com:' + config.gmail.password + '@smtp.gmail.com');
 	let mailTransport = nodemailer.createTransport({
 		service: '163',
 		auth: {
@@ -16,7 +15,7 @@ module.exports = function (config) {
 				from: fm,
 				to: option.to,
 				// 给自己抄送一份邮件，防止被视为垃圾邮件
-				bcc: fm,
+				// bcc: fm,
 				subject: option.subject,
 				html: option.html,
 				generateTextFromHtml: true

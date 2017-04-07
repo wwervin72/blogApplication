@@ -29,8 +29,7 @@
                         (<span ng-bind="article.comments"></span>)
                     </div>
                     <!-- 阅读数 -->
-                    <!-- <div class="viewsCount" ui-sref="/#!/u/{{article.author.username}}/articles/{{article._id}}"> -->
-                    <div class="viewsCount" ui-sref="article({username:article.author.username,articleId:article._id})">
+                    <div class="viewsCount" ui-sref="article({username:article.author.username,articleId:article.id})">
                         <img src="./src/static/img/views.png" class="articleInfoIcon" alt="阅读"/>
                         (<span ng-bind="article.views"></span>)
                     </div>

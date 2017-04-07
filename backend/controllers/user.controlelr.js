@@ -17,6 +17,7 @@ module.exports = {
 					result: false,
 					msg: '404 not found'
 				});
+				return next();
 			}
 			return next();
 		});
@@ -54,26 +55,6 @@ module.exports = {
 					sex: user.sex
 				}
 			});
-			// req.logIn(user, (err) => {
-			// 	if(err){
-			// 		return next(err);
-			// 	}
-			// 	return res.status(200).json({
-			// 		result: true,
-			// 		msg: '登陆成功',
-			// 		token: tokenManage.createNewToken(user),
-			// 		info: {
-			// 			username: user.username,
-			// 			avatar: user.avatar,
-			// 			nickname: user.nickname,
-			// 			email: user.email,
-			// 			_id: user._id,
-			// 			bio: user.bio,
-			// 			url: user.url,
-			// 			sex: user.sex
-			// 		}
-			// 	});
-			// });
 		})(req, res, next);
 	},
 	// 注册发送邮箱验证
@@ -204,7 +185,7 @@ module.exports = {
 	// 获取用户信息
 	getInfo: function (req, res, next) {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
-		tokenManage.expireToken(token);
+		tokenManage.refreshToken(token);
 		return res.status(200).json({
 			user: {
 				_id: req.user._id,
@@ -216,7 +197,7 @@ module.exports = {
 				url: req.user.url,
 				sex: req.user.sex
 			},
-			token: tokenManage.createNewToken(req.user),
+			token: token,
 			result: true
 		});
 	},
@@ -309,6 +290,8 @@ module.exports = {
 	},
 	modifyAvatar: function (req, res, next) {
 		function avatar (server, uploadFolderName, fileName) {
+			let token = (req.query && req.query.token) || (req.body && req.body.token);
+			tokenManage.refreshToken(token);
 			let avatarUrl = 'http://' + server + '/' + uploadFolderName + '/' + fileName;
 			User.update({_id: req.user._id}, 
 						{$set: {
@@ -324,7 +307,7 @@ module.exports = {
 								result: true,
 								msg: '修改成功',
 								data: avatarUrl,
-								token: tokenManage.createNewToken(req.user)
+								token: token
 							});
 						});
 		}
@@ -337,6 +320,8 @@ module.exports = {
 		uploadfile.upload(req, res, next, callback);
 	},
 	basesettings: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
+		tokenManage.refreshToken(token);
 		User.findOne({email: req.body.email}, function (err, user) {
 			if(err){
 				return next(err);
@@ -356,12 +341,14 @@ module.exports = {
 				return res.status(200).json({
 					result: true, 
 					msg: '设置成功',
-					token: tokenManage.createNewToken(result)
+					token: token
 				});
 			});
 		})
 	},
 	persionalInfo: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
+		tokenManage.refreshToken(token);
 		User.findOne({_id: req.user._id}, function (err, user) {
 			if(err){
 				return next(err);
@@ -379,12 +366,14 @@ module.exports = {
 				return res.status(200).json({
 					result: true, 
 					msg: '设置成功',
-					token: tokenManage.createNewToken(result)
+					token: token
 				});
 			});
 		});
 	},
 	modifyPwd: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
+		tokenManage.refreshToken(token);
 		User.findOne({_id: req.user._id}, function (err, user) {
 			if(err){
 				return next(err);
@@ -406,13 +395,28 @@ module.exports = {
 				}
 				return res.status(200).json({
 					result: true,
-					msg: '修改成功'
+					msg: '修改成功',
+					token: token
 				})
 			})
 		})
 	},
 	deleteCount: function (req, res, next) {
-
+		User.remove({_id: req.user._id}, function (err, result) {
+			if(err){
+				return next(err);
+			}
+			if(!result.nModified){
+				return res.status(200).json({
+					result: false,
+					msg: '删除失败'
+				});
+			}
+			return res.status(200).json({
+				result: true,
+				msg: '删除成功，你需要从新登陆'
+			});
+		})
 	}
 };
 // 生成验证码
