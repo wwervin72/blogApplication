@@ -1,7 +1,7 @@
 define([], function (){
     var deps = [];
     var homeModel = angular.module('home', deps);
-    homeModel.controller('home.ctrl', ['$rootScope','$scope','$stateParams','$state','$location','http','message-service', function($rootScope,$scope,$stateParams,$state,$location,http,message){
+    homeModel.controller('home.ctrl', ['$rootScope','$scope','$stateParams','$state','$location','$cookies','http','message-service', function($rootScope,$scope,$stateParams,$state,$location,$cookies,http,message){
         $('#login input[name=username]').focus();
         $scope.home = $stateParams.home ? $stateParams.home : {register: false, login: true};
         $scope.registerUser = {
@@ -10,7 +10,7 @@ define([], function (){
             authCode: '',
             password: '',
             replayPwd: '',
-            nickName: ''
+            nickname: ''
         };
         $scope.loginUser = {
             username: '',
@@ -57,6 +57,12 @@ define([], function (){
             }).then(function (res) {
                 message({type: res.data.result ? 'success' : 'error', text: res.data.msg});
                 if(res.data.result){
+                    // 存储cookie, 一年的过期时间
+                    $cookies.remove("TOKEN", {path: '/'});
+                    var timeCount = new Date().getTime() + 60 * 60 * 24 * 365;
+                    var deadline = new Date(timeCount);
+                    $cookies.put('TOKEN', res.data.token, {'expires': deadline, path: '/'});
+
                     $rootScope.userInfo = res.data.info;
                     $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }else{
@@ -103,13 +109,18 @@ define([], function (){
                 $scope.registerUser.authCode = '';
                 message({type: res.data.result ? 'success' : 'error', text: res.data.msg});
                 if(res.data.result){
-                    // 注册成功，然后登陆
+                    // 关闭提示以及输入的内容
                     $scope.verifyRegister = {username: false,email: false,authCode: false,password: false,replayPwd: false};
                     $scope.registerUser.username = '';
                     $scope.registerUser.email = '';
                     $scope.registerUser.password = '';
                     $scope.registerUser.replayPwd = '';
                     $scope.registerUser.nickName = '';
+                    // 注册成功，然后登陆 存储cookie, 一年的过期时间
+                    $cookies.remove("TOKEN", {path: '/'});
+                    var timeCount = new Date().getTime() + 60 * 60 * 24 * 365;
+                    var deadline = new Date(timeCount);
+                    $cookies.put('TOKEN', res.data.token, {'expires': deadline, path: '/'});
                     $rootScope.userInfo = res.data.info;
                     $state.go($rootScope.prevState.name || 'articles', $rootScope.prevParams);
                 }

@@ -1,5 +1,7 @@
 let mongoose = require('mongoose');
 let User = mongoose.model('User');
+let Article = mongoose.model('Post');
+let Comment = mongoose.model('Comment');
 let passport = require('passport');
 let jwt = require('jsonwebtoken');
 let config = require('config-lite');
@@ -124,6 +126,7 @@ module.exports = {
 						msg: msg
 					});
 				}
+				// 过期掉验证码
 				tokenManage.expireAuthCode(req.body.email);
 				return res.status(200).json({
 					result: true,
@@ -175,7 +178,7 @@ module.exports = {
 	// 退出登陆
 	signOut: function (req, res, next) {
 		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
-		tokenManage.expireAuthCode(token);
+		tokenManage.expireAuthCode('token_' + req.user._id);
 		delete req.user;
 		return res.status(200).json({
 			result: true,
@@ -184,10 +187,9 @@ module.exports = {
 	},
 	// 获取用户信息
 	getInfo: function (req, res, next) {
-		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
-		tokenManage.refreshToken(token);
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		return res.status(200).json({
-			user: {
+			info: {
 				_id: req.user._id,
 				nickname: req.user.nickname,
 				username: req.user.username,
@@ -200,12 +202,6 @@ module.exports = {
 			token: token,
 			result: true
 		});
-	},
-	createCaptcha: function (req, res, next) {
-		res.status(200).json({
-			result: false,
-			msg: '没有验证码'
-		})
 	},
 	// 发送邮件（验证码）
 	sendAuthCode: function (req, res, next) {
@@ -250,6 +246,7 @@ module.exports = {
 	},
 	//重置密码
 	findPwd: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		User.findOne({username: req.body.username, email: req.body.email},function (err, user) {
 			if(err){
 				return next(err);
@@ -291,7 +288,6 @@ module.exports = {
 	modifyAvatar: function (req, res, next) {
 		function avatar (server, uploadFolderName, fileName) {
 			let token = (req.query && req.query.token) || (req.body && req.body.token);
-			tokenManage.refreshToken(token);
 			let avatarUrl = 'http://' + server + '/' + uploadFolderName + '/' + fileName;
 			User.update({_id: req.user._id}, 
 						{$set: {
@@ -321,7 +317,6 @@ module.exports = {
 	},
 	basesettings: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		tokenManage.refreshToken(token);
 		User.findOne({email: req.body.email}, function (err, user) {
 			if(err){
 				return next(err);
@@ -348,7 +343,6 @@ module.exports = {
 	},
 	persionalInfo: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		tokenManage.refreshToken(token);
 		User.findOne({_id: req.user._id}, function (err, user) {
 			if(err){
 				return next(err);
@@ -373,7 +367,6 @@ module.exports = {
 	},
 	modifyPwd: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		tokenManage.refreshToken(token);
 		User.findOne({_id: req.user._id}, function (err, user) {
 			if(err){
 				return next(err);
@@ -402,6 +395,14 @@ module.exports = {
 		})
 	},
 	deleteCount: function (req, res, next) {
+		// 需要删除账号  文章 文章下的评论 账号的评论
+		// Promise.all([
+		// 		User.remove({_id: req.user._id}).exec(),
+		// 		Article.remove({author: req.user._id}).exec(),
+		// 		Comment.remove({author: req.user._id}).exec()
+		// 	],function (result) {
+
+		// 	})
 		User.remove({_id: req.user._id}, function (err, result) {
 			if(err){
 				return next(err);
@@ -416,7 +417,7 @@ module.exports = {
 				result: true,
 				msg: '删除成功，你需要从新登陆'
 			});
-		})
+		});
 	}
 };
 // 生成验证码

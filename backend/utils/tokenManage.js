@@ -12,9 +12,26 @@ redisClient.on('connect', function () {
 });
 
 module.exports = {
-	// 检测是否传入了token, 和redis是否有token，没有则过期
+	// 检测redis是否有token，没有则过期，有则刷新过期时间
 	verifyRedis: function (req, res, next) {
-		let token = (req.body && req.body.token) || (req.query && req.query.token) || (req.headers['x-access-token']);
+		redisClient.get('token_' + req.user._id, function (err, reply) {
+			if(err){
+				return next(err);
+			}
+			if(reply){
+				// 刷新token
+				redisClient.expire('token_' + req.user._id, config.redis.token.expireTime);
+				return next();
+			}
+			return res.status(200).json({
+				result: false,
+				msg: 'token过期，请从新登陆'
+			});
+		});
+	},	
+	// 检测是否传入了token，并且解析token
+	verifyToken: function (req, res, next) {
+		let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token'];;
 		// 没有token需要从新登陆
 		if(!token){
 			return res.status(200).json({
@@ -22,23 +39,6 @@ module.exports = {
 				msg: '没有token, 请登录'
 			});
 		}
-		redisClient.get(token, function (err, reply) {
-			if(err){
-				return next(err);
-			}
-			if(reply){
-				return next();
-			}
-			return res.status(200).json({
-				result: false,
-				msg: 'token错误，请从新登陆'
-			});
-		});
-	},	
-	// 解析token
-	verifyToken: function (req, res, next) {
-		let _this = this;
-		let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['x-access-token'];;
 		jwt.verify(token, config.redis.token.secret, function (err, decode) {
 			if(err){
 				// token是错误的
@@ -47,20 +47,14 @@ module.exports = {
 					msg: 'token错误'
 				});
 			}else{
-				// token过期
-				// if(Date.now() > decode.exp * 1000){
-				// 	return res.status(200).json({
-				// 		result: false,
-				// 		msg: 'token过期, 请从新登陆'
-				// 	});
-				// }
 				req.user = decode;
-				next();
+				return next();
 			}
 		});
 	},
 	// 生成token，并且存储在redis中
 	createNewToken: function (user) {
+		let key = 'token_' + user._id;
 		let token = jwt.sign({
 			_id: user._id,
 			username: user.username,
@@ -70,11 +64,9 @@ module.exports = {
 			bio: user.bio,
 			sex: user.sex,
 			url: user.url
-			// 用来生成不同的token，因为如果同一用户在一秒内连续请求，生成的token是一样的。需要一个一直变化的值来生成变化的token
-			// variable: new Date().getTime()
 		}, config.redis.token.secret);
-		redisClient.set(token, 'login_token', redisClient.print);
-		redisClient.expire(token, config.redis.token.expireTime);
+		redisClient.set(key, token, redisClient.print);
+		redisClient.expire(key, config.redis.token.expireTime);
 		return token;
 	},
 	saveAuthCode: function (res, codeInfo) {
@@ -120,8 +112,8 @@ module.exports = {
 		})
 	},
 	// 刷新token
-	refreshToken: function (token) {
-		redisClient.expire(token, config.redis.expireTime);
+	refreshToken: function (user, token) {
+		redisClient.expire('token_' + user._id, config.redis.token.expireTime);
 	},
 	// 删除key
 	expireAuthCode: function (key) {

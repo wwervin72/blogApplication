@@ -5,7 +5,7 @@ module.exports = {
 		port: 6379,
 		token: {
 			secret: 'ervinBlog',
-			expireTime: 60 * 30
+			expireTime: 60 * 60 * 24 * 365
 		},
 		oauth: {
 			expireTime: 60 * 30,

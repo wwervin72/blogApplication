@@ -5,8 +5,8 @@ define(['marked'], function (marked) {
 		// 获取文章信息
 		(function () {
 			http.request({
-				url: '/article?username=' + $stateParams.username + '&articleId=' + $stateParams.articleId,
 				method: 'GET',
+				url: '/article?username=' + $stateParams.username + '&articleId=' + $stateParams.articleId
 			}).then(function(res) {
 				if(res.data.result){
                     res.data.data.content = marked(res.data.data.content);
@@ -305,6 +305,7 @@ define(['marked'], function (marked) {
 			target.next('.emoji-list').toggle();
 		};
 		// ctrl enter评论事件
+		$(document).unbind('keydown');
 		$(document).keydown(function (e) {
 			var event = e || window.event;
 			var textarea = $('textarea:focus');
@@ -314,6 +315,7 @@ define(['marked'], function (marked) {
 			}
 		});
 		// 点击body中其他地方关闭表情选择框
+		$('body').unbind('click');
 		$('body').click(function (e) {
 			var event = e || window.event;
 			var target = event.target || event.srcElement;

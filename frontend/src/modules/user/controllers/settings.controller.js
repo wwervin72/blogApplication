@@ -19,17 +19,16 @@ define([], function () {
 			bio: $rootScope.userInfo.bio,
 			url: $rootScope.userInfo.url
 		};
-		$('.avatarFile').change(function (e) {
-			var event = e || window.event;
-			var target = event.target || event.srcElement;
-			if(e.preventDefault){  
-				e.preventDefault();	
-			}else{
-				e.returnValue = false;
-			}
+		$('.avatarFile').change(function (event) {
+			var target = event.target;
+			event.preventDefault();
+			if(!$cookies.get('TOKEN')){
+				$state.go('home', {home: {login: true, register: false}});
+				return;
+			}	
 			var files = target.files || event.dataTransfer.files;
 			http.uploadFile({
-				url: '/user/avatar?token='+$cookies.get('TOKEN'),
+				url: '/user/avatar?token=' + $cookies.get('TOKEN'),
 				files: files
 			}).then(function (res) {
 				if(res.data.result){
@@ -43,6 +42,10 @@ define([], function () {
 		$scope.saveBaseSetting = function () {
 			if($scope.settingInfo.nickname === $rootScope.userInfo.nickname && $scope.settingInfo.email === $rootScope.userInfo.email){
 				message({type: 'info', text: '请进行修改之后在保存'});
+				return;
+			}
+			if(!$cookies.get('TOKEN')){
+				$state.go('home', {home: {login: true, register: false}});
 				return;
 			}
 			http.request({
@@ -66,6 +69,10 @@ define([], function () {
 		$scope.savePersionInfo = function () {
 			if($scope.settingInfo.sex === $rootScope.userInfo.sex && $scope.settingInfo.bio === $rootScope.userInfo.bio && $scope.settingInfo.url === $rootScope.userInfo.url){
 				message({type: 'info', text: '请做出修改之后再进行保存'});
+				return;
+			}
+			if(!$cookies.get('TOKEN')){
+				$state.go('home', {home: {login: true, register: false}});
 				return;
 			}
 			http.request({
@@ -107,6 +114,10 @@ define([], function () {
 			}
 			if(!/^[a-zA-Z0-9-_.]{3,12}$/.test($scope.settingInfo.newPwd)){
 				message({type: 'info', text: '密码格式不通过'});
+				return;
+			}
+			if(!$cookies.get('TOKEN')){
+				$state.go('home', {home: {login: true, register: false}});
 				return;
 			}
 			http.request({

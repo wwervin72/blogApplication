@@ -118,11 +118,28 @@ define([], function () {
         $httpProvider.interceptors.push('tokenInterceptor');
     }]);
     app.controller('app.ctrl', ['$rootScope','$scope','$cookies','http','message-service', function($rootScope,$scope,$cookies,http,message){
+        // 获取用户的信息
+        (function () {
+            var token = $cookies.get('TOKEN');
+            if(token && !$rootScope.userInfo){
+                http.request({
+                    method: 'GET',
+                    url: '/userinfo?token=' + token
+                }).then(function (res) {
+                    if(res.data.result){
+                        $rootScope.userInfo = res.data.info;
+                    }else{
+                        message({type: 'error', text: '用户信息获取失败'});
+                    }
+                });
+            }
+        }());
         $('#header .avatar, #header .avatar .userList').hover(function () {
             $(this).find('.userList').show();
         }, function () {
             $(this).find('.userList').hide();
         });
+        // 退出登陆
         $scope.loginOut = function () {
             http.request({
                 method: 'GET',
@@ -136,6 +153,7 @@ define([], function () {
             })
         };
         // 显示或者隐藏回到顶部
+        $(document).unbind('scroll');
         $(document).scroll(function () {
             if($('body').scrollTop() >= $(window).height()){
                 $('#goTop').show();
@@ -143,6 +161,8 @@ define([], function () {
                 $('#goTop').hide();
             }
         });
+        // 回到顶部
+        $('#goTop').unbind('click');
         $('#goTop').click(function (e) {
             $('body').animate({
                 scrollTop: 0

@@ -15,7 +15,7 @@ module.exports = function (config) {
 				from: fm,
 				to: option.to,
 				// 给自己抄送一份邮件，防止被视为垃圾邮件
-				// bcc: fm,
+				bcc: fm,
 				subject: option.subject,
 				html: option.html,
 				generateTextFromHtml: true

@@ -12,16 +12,13 @@ router.get('/', (req, res, next) => {
 });
 
 // 获取用户信息
-router.get('/userinfo', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.getInfo);
+router.get('/userinfo', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.getInfo);
 
 //用户找回密码, 发送邮件
 router.get('/pwd/authCode', userCtrl.sendAuthCode);
 
 //重置密码
 router.put('/pwd', userCtrl.findPwd);
-
-// 获取验证码
-router.get('/captcha', userCtrl.createCaptcha);
 
 // 获取所有文章
 router.get('/posts', articleCtrl.getAllPost);
@@ -36,52 +33,52 @@ router.get('/comments', commentCtrl.getArticleComments);
 router.get('/user/posts', userCtrl.findUserByName, articleCtrl.getUserPosts);
 
 // 修改用户头像
-router.post('/user/avatar', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.modifyAvatar);
+router.post('/user/avatar', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.modifyAvatar);
 
 //用户基础设置
-router.put('/user/basesettings', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.basesettings);
+router.put('/user/basesettings', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.basesettings);
 
 //用户个人资料设置
-router.put('/user/persionalInfo', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.persionalInfo);
+router.put('/user/persionalInfo', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.persionalInfo);
 
 //用户修改密码
-router.put('/user/pwd', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.modifyPwd);
+router.put('/user/pwd', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.modifyPwd);
 
 //用户删除账号
-router.delete('/user/count', tokenManage.verifyRedis, tokenManage.verifyToken, userCtrl.deleteCount);
+router.delete('/user/count', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.deleteCount);
 
 
 //上传文件
 router.post('/upload', userCtrl.uploadFile);
 
 // 用户添加文章
-router.post('/user/article', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.createPost);
+router.post('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.createPost);
 
 // 用户删除文章
-router.delete('/user/article', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.deleteArticle);
+router.delete('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.deleteArticle);
 
 // 更新文章
-router.put('/user/article', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.update);
+router.put('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.update);
 
 //点赞文章
-router.get('/article/heart', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.heart);
+router.get('/article/heart', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.heart);
 
 //反对文章
-router.get('/article/stamp', tokenManage.verifyRedis, tokenManage.verifyToken, articleCtrl.stamp);
+router.get('/article/stamp', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.stamp);
 
 //评论文章
-router.post('/article/comment', tokenManage.verifyRedis, tokenManage.verifyToken, commentCtrl.createComment);
+router.post('/article/comment', tokenManage.verifyToken, tokenManage.verifyRedis, commentCtrl.createComment);
 
 // 修改评论
-router.put('/article/comment', tokenManage.verifyRedis, tokenManage.verifyToken, commentCtrl.updateComment);
+router.put('/article/comment', tokenManage.verifyToken, tokenManage.verifyRedis, commentCtrl.updateComment);
 
 // 删除评论
-router.delete('/article/comment', tokenManage.verifyRedis, tokenManage.verifyToken, commentCtrl.deleteComment);
+router.delete('/article/comment', tokenManage.verifyToken, tokenManage.verifyRedis, commentCtrl.deleteComment);
 
 // 点赞评论
-router.get('/comment/heart', tokenManage.verifyRedis, tokenManage.verifyToken, commentCtrl.heart);
+router.get('/comment/heart', tokenManage.verifyToken, tokenManage.verifyRedis, commentCtrl.heart);
 
 // 反对评论
-router.get('/comment/stamp', tokenManage.verifyRedis, tokenManage.verifyToken, commentCtrl.stamp);
+router.get('/comment/stamp', tokenManage.verifyToken, tokenManage.verifyRedis, commentCtrl.stamp);
 
 module.exports = router;

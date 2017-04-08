@@ -7,6 +7,7 @@ let tokenManage = require('../utils/tokenManage');
 
 module.exports = {
 	createPost: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		let post = new Post({
 			id: new Date().getTime() + '',
 			title: req.body.title,
@@ -24,53 +25,54 @@ module.exports = {
 				result: true,
 				msg: '创建成功',
 				data: post,
-				token: tokenManage.createNewToken(req.user)
+				token: token
 			});
 		});
 	},
 	getAllPost: function (req, res, next) {
-		Post.find().populate('author', ['nickname', 'avatar', 'username']).sort({_id: -1})
-		.exec(function (err, articles) {
-			if(err){
-				return next(err);
-			}
-			return res.status(200).json({
-				result: true,
-				data: articles
+		Post.find()
+			.populate('author', ['nickname', 'avatar', 'username']).sort({_id: -1})
+			.exec(function (err, articles) {
+				if(err){
+					return next(err);
+				}
+				return res.status(200).json({
+					result: true,
+					data: articles
+				});
 			});
-		});
 	},
 	findArticleById: function (req, res, next) {
 		Post.findOne({id: req.query.articleId})
 			.populate({path: 'author', model: 'User', select: ['_id','nickname', 'avatar', 'username']})
 			.exec(function (err, article) {
-			if(err){
-				return next(err);
-			}
-			if(!article){
-				return next();
-			}
-			if(article.author.username !== req.query.username){
-				return next();
-			}
-			Post.update({id: req.query.articleId}, 
-						{$inc: {
-							views: 1
-						}}, function (error, result) {
-							if(error){
-								return next(err);
-							}
-							if(!result.nModified){
-								return next();
-							}
-							article.views += 1;
-							return res.status(200).json({
-									result: true,
-									msg: '文章获取成功',
-									data: article
-								});
-						})
-		});
+				if(err){
+					return next(err);
+				}
+				if(!article){
+					return next();
+				}
+				if(article.author.username !== req.query.username){
+					return next();
+				}
+				Post.update({id: req.query.articleId}, 
+							{$inc: {
+								views: 1
+							}}, function (error, result) {
+								if(error){
+									return next(err);
+								}
+								if(!result.nModified){
+									return next();
+								}
+								article.views += 1;
+								return res.status(200).json({
+										result: true,
+										msg: '文章获取成功',
+										data: article
+									});
+							})
+			});
 	},
 	getUserPosts: function (req, res, next) {
 		User.findOne({username: req.query.username}, function (err, user) {
@@ -96,6 +98,7 @@ module.exports = {
 		})
 	},
 	update: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		Post.update({id: req.body.articleId, author: req.user._id},
 					{$set: {
 						title: req.body.title,
@@ -109,11 +112,12 @@ module.exports = {
 						return res.status(200).json({
 							result: true,
 							msg: '修改成功',
-							token: tokenManage.createNewToken(req.user)
+							token: token
 						});
 					});
 	},
 	heart: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		Post.findOne({_id: req.query.articleId}, function (err, result) {
 			if(err){
 				return next(err);
@@ -139,12 +143,13 @@ module.exports = {
 					result: true,
 					msg: '点赞成功',
 					data: result,
-					token: tokenManage.createNewToken(req.user)
+					token: token
 				});
 			});
 		});
 	},
 	stamp: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		Post.findOne({_id: req.query.articleId}, function (err, result) {
 			if(err){
 				return next(err);
@@ -170,13 +175,14 @@ module.exports = {
 					result: true,
 					msg: '反对成功',
 					data: result,
-					token: tokenManage.createNewToken(req.user)
+					token: token
 				});
 			})
 		});
 	},
 	// 删除文章
 	deleteArticle: (req, res, next) => {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		if(req.user._id === req.body.authorId){
 			// 删除文章下的评论
 			Comment.remove({articleId: req.body.articleId}, function (err, result) {
@@ -194,7 +200,7 @@ module.exports = {
 					return res.status(200).json({
 						result: true,
 						msg: '删除成功',
-						token: tokenManage.createNewToken(req.user)
+						token: token
 					});
 				})	
 
@@ -202,7 +208,8 @@ module.exports = {
 		}else{
 			return res.status(200).json({
 				result: false,
-				msg: '只能删除自己的文章'
+				msg: '只能删除自己的文章',
+				token: token
 			});
 		}
 	}

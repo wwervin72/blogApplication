@@ -5,6 +5,7 @@ let tokenManage = require('../utils/tokenManage');
 
 module.exports = {
 	createComment: function (req, res, next) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		let comment = new Comment({
 			article: req.body.articleId,
 			author: req.body.authorId,
@@ -40,7 +41,7 @@ module.exports = {
 									result: true,
 									msg: '评论成功',
 									data: cmt,
-									token: tokenManage.createNewToken(req.user)
+									token: token
 								});
 					});
 				})
@@ -52,7 +53,6 @@ module.exports = {
 				.populate({path: 'replyUser', model: 'User'})
 				.sort({_id: 1})
 				.exec(function (err, result) {
-								console.log(result)
 					if(err){
 						return next(err);
 					}
@@ -64,6 +64,7 @@ module.exports = {
 				});
 		},
 	updateComment: (req, res, next) => {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		Comment.update({_id: req.body.commentId},
 						{$set: {
 							content: req.body.newComment,
@@ -81,7 +82,7 @@ module.exports = {
 							return res.status(200).json({
 								result: true,
 								msg: '修改成功',
-								token: tokenManage.createNewToken(req.user)
+								token: token
 							});
 						});
 	},
