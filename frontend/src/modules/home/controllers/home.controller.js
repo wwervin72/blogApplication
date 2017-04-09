@@ -7,7 +7,7 @@ define([], function (){
         $scope.registerUser = {
             username: '',
             email: '',
-            authCode: '',
+            authcode: '',
             password: '',
             replayPwd: '',
             nickname: ''
@@ -35,7 +35,7 @@ define([], function (){
                 login: true, 
                 register: false
             };
-            $scope.verifyRegister = {username: false,email: false,authCode: false,password: false,replayPwd: false};
+            $scope.verifyRegister = {username: false,email: false,authcode: false,password: false,replayPwd: false};
         };
         $scope.hideLoginMsg = function () {
             $scope.home={
@@ -90,14 +90,14 @@ define([], function (){
             }
             http.request({
                 method: 'GET',
-                url: '/register/authCode?email='+$scope.registerUser.email
+                url: '/register/authcode?email='+$scope.registerUser.email
             }).then(function (res) {
                 message({type: res.data.result ? 'success' : 'error', text: res.data.msg});
             })
         };
-        $scope.verifyRegister = {username: false,email: false,authCode: false,password: false,replayPwd: false};
+        $scope.verifyRegister = {username: false,email: false,authcode: false,password: false,replayPwd: false};
         $scope.register = function () {
-            $scope.verifyRegister = {username: true,email: true,authCode: true,password: true,replayPwd: true};
+            $scope.verifyRegister = {username: true,email: true,authcode: true,password: true,replayPwd: true};
             if($scope.registerForm.$invalid){
                 return;
             }
@@ -106,11 +106,11 @@ define([], function (){
                 url: '/register',
                 data: $scope.registerUser
             }).then(function (res) {
-                $scope.registerUser.authCode = '';
+                $scope.registerUser.authcode = '';
                 message({type: res.data.result ? 'success' : 'error', text: res.data.msg});
                 if(res.data.result){
                     // 关闭提示以及输入的内容
-                    $scope.verifyRegister = {username: false,email: false,authCode: false,password: false,replayPwd: false};
+                    $scope.verifyRegister = {username: false,email: false,authcode: false,password: false,replayPwd: false};
                     $scope.registerUser.username = '';
                     $scope.registerUser.email = '';
                     $scope.registerUser.password = '';

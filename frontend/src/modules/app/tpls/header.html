@@ -4,7 +4,7 @@
         <div class="avatar">
             <img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}" ui-sref='user({username: userInfo.username})'/>
             <ul class="userList">
-                <li ui-sref='user({username: userInfo.username})'><s class="ws_icon ws_icon_home"></s>我的主页</li>
+                <li ui-sref='user({username: userInfo.username})'><s class="ws_icon_two ws_icon_home"></s>我的主页</li>
                 <li ui-sref='settings({username: userInfo.username})'><s class="ws_icon ws_icon_setting"></s>设置</li>
                 <li ng-click="loginOut()"><s class="ws_icon ws_icon_exit"></s>退出</li>
             </ul>

@@ -1,10 +1,10 @@
 @font-face {
     font-family: "iconfont";
-    src: url('../font/iconfont.eot?t=1491694509374'); /* IE9*/
-    src: url('../font/iconfont.eot?t=1491694509374#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../font/iconfont.woff?t=1491694509374') format('woff'), /* chrome, firefox */
-    url('../font/iconfont.ttf?t=1491694509374') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-    url('../font/iconfont.svg?t=1491694509374#iconfont') format('svg'); /* iOS 4.1- */
+    src: url('../font/one/iconfont.eot?t=1491694509374'); /* IE9*/
+    src: url('../font/one/iconfont.eot?t=1491694509374#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/one/iconfont.woff?t=1491694509374') format('woff'), /* chrome, firefox */
+    url('../font/one/iconfont.ttf?t=1491694509374') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../font/one/iconfont.svg?t=1491694509374#iconfont') format('svg'); /* iOS 4.1- */
 }
 .ws_icon {
     font-family:"iconfont" !important;
@@ -182,4 +182,44 @@
 .fa.ws_icon_title,
 .fa.ws_icon_strong{
     font-size: 17px;
+}
+
+@font-face {
+    font-family: "iconfont";
+    src: url('../font/two/iconfont.eot?t=1491694509374'); /* IE9*/
+    src: url('../font/two/iconfont.eot?t=1491694509374#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/two/iconfont.woff?t=1491694509374') format('woff'), /* chrome, firefox */
+    url('../font/two/iconfont.ttf?t=1491694509374') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../font/two/iconfont.svg?t=1491694509374#iconfont') format('svg'); /* iOS 4.1- */
+}
+.ws_icon_two {
+    font-family:"iconfont" !important;
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+// 主页
+.ws_icon_home:before { 
+    content: "\e701"; 
+}
+// 微信
+.ws_icon_wechat:before { 
+    content: "\e686"; 
+}
+// 返回
+.ws_icon_return:before { 
+    content: "\e612"; 
+}
+// 一行两列
+.ws_icon_cols:before { 
+    content: "\e61f"; 
+}
+// 全屏
+.ws_icon_fullscreen:before { 
+    content: "\e658"; 
+}
+// 微信
+.ws_icon_oauthcode:before { 
+    content: "\e6a0"; 
 }

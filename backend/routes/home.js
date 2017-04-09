@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 router.get('/userinfo', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.getInfo);
 
 //用户找回密码, 发送邮件
-router.get('/pwd/authCode', userCtrl.sendAuthCode);
+router.get('/pwd/authcode', userCtrl.sendAuthCode);
 
 //重置密码
 router.put('/pwd', userCtrl.findPwd);

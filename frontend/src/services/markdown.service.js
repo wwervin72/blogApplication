@@ -131,13 +131,13 @@ define(['bootstrap','simplemde','toastr'], function (bootstrap,simplemde,toastr)
                 {
                     name: 'side-by-side',
                     action: simplemde.toggleSideBySide,
-                    className: 'fa ws_icon ws_icon_cols',
+                    className: 'fa ws_icon_two ws_icon_cols',
                     title: '并排显示'
                 },
                 {
                     name: 'fullscreen',
                     action: simplemde.toggleFullScreen,
-                    className: 'fa ws_icon ws_icon_fullscreen',
+                    className: 'fa ws_icon_two ws_icon_fullscreen',
                     title: '全屏'
                 },
                 {
