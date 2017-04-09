@@ -71,7 +71,7 @@
 					}
 				}
 				ul.tags{
-					max-width: 300px;
+					max-width: 40%;
 					@extend %vaMiddle;
 					@extend %articleInfoHeight;
 					li{
@@ -101,6 +101,9 @@
 					&:hover{
 						color: #787878;
 					}
+					.ws_icon{
+						font-size: 13px;
+					}
 				}
 				.articleInfoIcon{
 					width: 20px;
@@ -111,6 +114,9 @@
 					margin-right: 10px;
 					cursor: pointer;
 					@extend %articleInfoHeight;
+					&:hover{
+						color: #787878;
+					}
 				}
 			}
 		}

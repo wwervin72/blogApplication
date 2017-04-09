@@ -12,30 +12,30 @@
                     <div ng-bind-html="article.abstract"></div>
                 </div>
                 <div class="articleInfo">
-                    <div class="createTime">
-                        <img src="./src/static/img/time.png" class="articleInfoIcon" title="创建时间"/>
+                    <div class="createTime" title="创作时间">
+                        <span class="ws_icon ws_icon_time"></span>
                         <span><strong ui-sref="user({username: article.author.username})" ng-bind="article.author.nickname"></strong> 发布于 </span>
                         <span ng-bind="article.createAt"></span>
                     </div>
                     <ul class="tags">
-                        <li ng-repeat="tag in article.tags">
-                            <img src="./src/static/img/tags.png" class="tagIcon articleInfoIcon" title="标签"/>
+                        <li ng-repeat="tag in article.tags" title="{{tag}}">
+                            <span class="ws_icon ws_icon_tags"></span>
                             <span ng-bind="tag"></span>
                         </li>
                     </ul>
                     <!-- 评论数 -->
-                    <div class="commentsCount" ui-sref="article({username:article.author.username,articleId:article.id})">
-                        <img src="./src/static/img/comments.png" class="articleInfoIcon" title="评论"/>
+                    <div class="commentsCount" ui-sref="article({username:article.author.username,articleId:article.id})" title="评论">
+                        <span class="ws_icon ws_icon_comment"></span>
                         (<span ng-bind="article.comments"></span>)
                     </div>
                     <!-- 阅读数 -->
-                    <div class="viewsCount" ui-sref="article({username:article.author.username,articleId:article.id})">
-                        <img src="./src/static/img/views.png" class="articleInfoIcon" title="阅读"/>
+                    <div class="viewsCount" ui-sref="article({username:article.author.username,articleId:article.id})" title="阅读">
+                        <span class="ws_icon ws_icon_read"></span>
                         (<span ng-bind="article.views"></span>)
                     </div>
                     <!-- 编辑 -->
-                    <div class="updateArticle" ui-sref="updateArticle({username: article.author.username,articleId: article.id})" ng-show="article.author.username===userInfo.username">
-                        <img src="./src/static/img/update.png" class="articleInfoIcon" title="编辑"/>
+                    <div class="updateArticle" ui-sref="updateArticle({username: article.author.username,articleId: article.id})" ng-show="article.author.username===userInfo.username" title="编辑">
+                        <span class="ws_icon ws_icon_edit"></span>
                     </div>
                 </div>
             </li>

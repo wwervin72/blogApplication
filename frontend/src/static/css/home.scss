@@ -30,6 +30,16 @@
     font-size: 0;
 }
 .home_content{
+    .home_title{
+        color: #ea6f5a;
+        display: block;
+        font-size: 50px;
+        text-align: center;
+        vertical-align: middle;
+        span{
+            padding: 0 30px;
+        }
+    }
     position: absolute;
     top: 100px;
     left: 50%;
@@ -77,25 +87,39 @@
         .ipt_group{
             position: relative;
             border: 1px solid #ddd;
-            margin-top: -2px;
-            // overflow: hidden;
+            margin-top: -1px;
+            &>s{
+                color: #969696;
+                position: absolute;
+                left: 10px;
+                top: 11px;
+                text-decoration: none;
+                font-size: 20px;
+            }
             input{
+                font-family: 'microsoft yahei';
                 width: 350px;
                 height: 36px;
                 line-height: 36px;
                 padding: 25px 15px;
-                font-size: 14px;
+                padding-left: 40px;
+                font-size: 16px;
+                color: #333;
                 border: none;
                 &::-webkit-input-placeholder{
                     color: #c3c3c3;
+                    letter-spacing: 1px;
                 }
                 &:-ms-input-placeholder{
                     color: #c3c3c3;
+                    letter-spacing: 1px;
                 }
                 &:-moz-placeholder{
                     color: #c3c3c3;
+                    letter-spacing: 1px;
                 }
                 &::-moz-placeholder{
+                    letter-spacing: 1px;
                     color: #c3c3c3;
                 }
             }
@@ -189,6 +213,17 @@
         }
         &:after{
             right: 30px;
+        }
+    }
+    a{
+        font-size: 50px;
+        margin: 0 5px;
+        color: #e05244;
+        &.ws_icon_qq{
+            color: #498ad5;
+        }
+        &:last-child{
+            color: #00bb29;
         }
     }
 }

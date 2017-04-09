@@ -4,19 +4,24 @@
 		<form class="findPwd">
 			<h1>用邮箱重置密码</h1>
 			<div class="ipt-group">
+				<s class="ws_icon ws_icon_username"></s>
 				<input type="text" placeholder="请输入注册账号" ng-model="resetPwdInfo.username">
 			</div>
 			<div class="ipt-group">
+				<s class="ws_icon ws_icon_email"></s>
 				<input type="text" placeholder="请输入注册账号绑定的邮箱" ng-model="resetPwdInfo.email">
 			</div>
 			<div class="ipt-group sendAuthCode">
+				<s class="ws_icon ws_icon_oauthcode"></s>
 				<input type="text" placeholder="请输入邮箱验证码" ng-model="resetPwdInfo.authCode">
 				<button ng-click="sendAuthCode()">发送验证码</button>
 			</div>
 			<div class="ipt-group">
+				<s class="ws_icon ws_icon_password"></s>
 				<input type="password" placeholder="请输入新密码" ng-model="resetPwdInfo.newPwd">
 			</div>
 			<div class="ipt-group">
+				<s class="ws_icon ws_icon_password"></s>
 				<input type="password" placeholder="请再输入一次新密码" ng-model="resetPwdInfo.repeatPwd">
 			</div>
 			<button ng-click="resetPwd()">重置密码</button>

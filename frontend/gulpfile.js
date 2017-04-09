@@ -44,10 +44,15 @@ gulp.task('image', () => {
             .pipe(gulp.dest('dist'));
 });
 
+gulp.task('font', () => {
+    return gulp.src('src/static/font/**/*', {base: 'src'})
+            .pipe(gulp.dest('dist'));
+});
+
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*']));
 
 gulp.task('watch', () => {
-    runSequence('clean', 'html', 'style', 'script', 'image');
+    runSequence('clean', 'html', 'font', 'style', 'script', 'image');
 	browserSync.init({
 		port: 80,
 		server: {

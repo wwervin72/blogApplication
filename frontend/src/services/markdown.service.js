@@ -23,55 +23,56 @@ define(['bootstrap','simplemde','toastr'], function (bootstrap,simplemde,toastr)
                 {
                     name: 'bold',
                     action: simplemde.toggleBold,
-                    className: 'fa fa-bold',
+                    // className: 'fa fa-bold',
+                    className: 'fa ws_icon ws_icon_strong',
                     title: '粗体'
                 },
                 {
                     name: 'italic',
                     action: simplemde.toggleItalic,
-                    className: 'fa fa-italic',
+                    className: 'fa ws_icon ws_icon_italic',
                     title: '斜体'
                 },
                 {
                     name: 'strikethrough',
                     action: simplemde.toggleStrikethrough,
-                    className: 'fa fa-strikethrough',
+                    className: 'fa ws_icon ws_icon_s',
                     title: '删除线'
                 },
                 {
                     name: 'heading',
                     action: simplemde.toggleHeadingSmaller,
-                    className: 'fa fa-header',
+                    className: 'fa ws_icon ws_icon_title',
                     title: '标题'
                 },
                 {
                     name: 'code',
                     action: simplemde.toggleCodeBlock,
-                    className: 'fa fa-code',
+                    className: 'fa ws_icon ws_icon_code',
                     title: '代码'
                 },
                 {
                     name: 'quote',
                     action: simplemde.toggleBlockquote,
-                    className: 'fa fa-quote-left',
+                    className: 'fa ws_icon ws_icon_quote',
                     title: '引用'
                 },
                 {
                     name: 'unordered-list',
                     action: simplemde.toggleUnorderedList,
-                    className: 'fa fa-list-ul',
+                    className: 'fa ws_icon ws_icon_ul',
                     title: '无序列表'
                 },
                 {
                     name: 'ordered-list',
                     action: simplemde.toggleOrderedList,
-                    className: 'fa fa-list-ol',
+                    className: 'fa ws_icon ws_icon_ol',
                     title: '有序列表'
                 },
                 {
                     name: 'link',
                     action: simplemde.drawLink,
-                    className: 'fa fa-link',
+                    className: 'fa ws_icon ws_icon_link',
                     title: '插入链接'
                 },
                 {
@@ -106,37 +107,37 @@ define(['bootstrap','simplemde','toastr'], function (bootstrap,simplemde,toastr)
                             });
                         });
                     },
-                    className: 'fa fa-picture-o',
+                    className: 'fa ws_icon ws_icon_img',
                     title: '插入图片'
                 },
                 {
                     name: 'table',
                     action: simplemde.drawTable,
-                    className: 'fa fa-table',
+                    className: 'fa ws_icon ws_icon_table',
                     title: '插入表格'
                 },
                 {
                     name: 'horizontal-rule',
                     action: simplemde.drawHorizontalRule,
-                    className: 'fa fa-minus',
+                    className: 'fa ws_icon ws_icon_hr',
                     title: '水平分割线'
                 },
                 {
                     name: 'preview',
                     action: simplemde.togglePreview,
-                    className: 'fa fa-eye no-disable',
+                    className: 'fa ws_icon ws_icon_read',
                     title: '阅读模式'
                 },
                 {
                     name: 'side-by-side',
                     action: simplemde.toggleSideBySide,
-                    className: 'fa fa-columns no-disable no-mobile',
+                    className: 'fa ws_icon ws_icon_cols',
                     title: '并排显示'
                 },
                 {
                     name: 'fullscreen',
                     action: simplemde.toggleFullScreen,
-                    className: 'fa fa-arrows-alt no-disable no-mobile',
+                    className: 'fa ws_icon ws_icon_fullscreen',
                     title: '全屏'
                 },
                 {
@@ -144,7 +145,7 @@ define(['bootstrap','simplemde','toastr'], function (bootstrap,simplemde,toastr)
                     action: function (e) {
                         config.publish && config.publish();
                     },
-                    className: 'fa fa-publish',
+                    className: 'fa ws_icon ws_icon_publish',
                     title: '发布文章'
                 }
             ]

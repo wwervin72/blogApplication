@@ -46,7 +46,7 @@ define([], function () {
                 // 如果返回了token则需要把token刷新时间
                 if(res.status === 200 && res.data.result && res.data.token){
                     $cookies.remove("TOKEN", {path: '/'});
-                    var timeCount = new Date().getTime() + 1000 * 60 * 30;
+                    var timeCount = new Date().getTime() + 60 * 60 * 24 * 365;
                     var deadline = new Date(timeCount);
                     $cookies.put('TOKEN', res.data.token, {'expires': deadline, path: '/'});
                 }

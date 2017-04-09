@@ -1,0 +1,185 @@
+@font-face {
+    font-family: "iconfont";
+    src: url('../font/iconfont.eot?t=1491694509374'); /* IE9*/
+    src: url('../font/iconfont.eot?t=1491694509374#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/iconfont.woff?t=1491694509374') format('woff'), /* chrome, firefox */
+    url('../font/iconfont.ttf?t=1491694509374') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../font/iconfont.svg?t=1491694509374#iconfont') format('svg'); /* iOS 4.1- */
+}
+.ws_icon {
+    font-family:"iconfont" !important;
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+// 评论
+.ws_icon_comment:before {
+    content: "\3438";
+}
+// 点赞
+.ws_icon_heart:before { 
+    content: "\343c"; 
+}
+// 反对
+.ws_icon_stamp:before { 
+    content: "\e681"; 
+}
+// 设置
+.ws_icon_setting:before { 
+    content: "\3434"; 
+}
+// 删除
+.ws_icon_delete:before { 
+    content: "\e61b"; 
+}
+// 时间
+.ws_icon_time:before { 
+    content: "\e620"; 
+}
+// 邮箱
+.ws_icon_email:before { 
+    content: "\e61d"; 
+}
+// 密码
+.ws_icon_password:before { 
+    content: "\e65e"; 
+}
+// 分享
+.ws_icon_share:before { 
+    content: "\e654"; 
+}
+// 全屏
+.ws_icon_fullscreen:before { 
+    content: "\e643"; 
+}
+// 退出
+.ws_icon_exit:before { 
+    content: "\e627"; 
+}
+// 主页
+.ws_icon_home:before { 
+    content: "\e63b"; 
+}
+// QQ
+.ws_icon_qq:before { 
+    content: "\e616"; 
+}
+// 微信
+.ws_icon_wechat:before { 
+    content: "\e6f7"; 
+}
+// 标签
+.ws_icon_tags:before { 
+    content: "\e7cb"; 
+}
+// 一行两列
+.ws_icon_cols:before { 
+    content: "\e600"; 
+}
+// GitHub
+.ws_icon_github:before { 
+    content: "\e735"; 
+}
+// 上传图片
+.ws_icon_img:before { 
+    content: "\e689"; 
+}
+// 标题
+.ws_icon_title:before { 
+    content: "\e645"; 
+}
+// 发表
+.ws_icon_publish:before { 
+    content: "\e698"; 
+}
+// 链接
+.ws_icon_link:before { 
+    content: "\e626"; 
+}
+// 表格
+.ws_icon_table:before { 
+    content: "\e68a"; 
+}
+// 阅读
+.ws_icon_read:before { 
+    content: "\e63d"; 
+}
+// 笑脸
+.ws_icon_face:before { 
+    content: "\e72e"; 
+}
+// 羽毛
+.ws_icon_yumao:before { 
+    content: "\e601"; 
+}
+// 代码
+.ws_icon_code:before { 
+    content: "\e606"; 
+}
+// 账号
+.ws_icon_username:before { 
+    content: "\e602"; 
+}
+// 分割线
+.ws_icon_hr:before { 
+    content: "\e6d6"; 
+}
+// 修改
+.ws_icon_edit:before { 
+    content: "\e62c"; 
+}
+// 中划线
+.ws_icon_s:before { 
+    content: "\e62b"; 
+}
+// 无序列表
+.ws_icon_ul:before { 
+    content: "\e64a"; 
+}
+// 有序列表
+.ws_icon_ol:before { 
+    content: "\e862"; 
+}
+// 引用
+.ws_icon_quote:before { 
+    content: "\e621"; 
+}
+// 加粗
+.ws_icon_strong:before { 
+    content: "\e624"; 
+}
+// 斜体
+.ws_icon_italic:before { 
+    content: "\e7d3"; 
+}
+// 验证码
+.ws_icon_oauthcode:before { 
+    content: "\e603"; 
+}
+// 昵称
+.ws_icon_nickname:before { 
+    content: "\e639"; 
+}
+
+.fa.ws_icon_img{
+    font-size: 26px;
+}
+.fa.ws_icon_read{
+    font-size: 16px;
+}
+.fa.ws_icon_ul,
+.fa.ws_icon_quote{
+    font-size: 18px;
+}
+.fa.ws_icon_hr{
+    font-size: 30px;
+}
+.fa.ws_icon_code,
+.fa.ws_icon_fullscreen{
+    font-size: 24px;
+}
+.fa.ws_icon_title,
+.fa.ws_icon_strong{
+    font-size: 17px;
+}
