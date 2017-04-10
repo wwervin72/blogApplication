@@ -61,6 +61,7 @@ gulp.task('watch', () => {
 	});
     gulp.watch('src/static/css/*.scss', ['style']);
     gulp.watch('src/static/img/*', ['image']);
+    gulp.watch('src/static/font/**/*', ['font']);
     gulp.watch('src/modules/**/tpls/*.html', ['html']);
     gulp.watch(['src/modules/**/controllers/*.js', 'src/directives/*.js', 'src/services/*.js'], ['script']);
     gulp.watch([

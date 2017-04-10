@@ -157,10 +157,6 @@
 .ws_icon_oauthcode:before { 
     content: "\e603"; 
 }
-// 昵称
-.ws_icon_nickname:before { 
-    content: "\e639"; 
-}
 
 .fa.ws_icon_img{
     font-size: 26px;
@@ -222,4 +218,8 @@
 // 微信
 .ws_icon_oauthcode:before { 
     content: "\e6a0"; 
+}
+// 昵称
+.ws_icon_nickname:before { 
+    content: "\e609"; 
 }
