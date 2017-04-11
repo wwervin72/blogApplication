@@ -26,7 +26,9 @@ requirejs.config({
 		createArticle: 'dist/modules/createArticle/controllers/createArticle.controller',
 		updateArticle: 'dist/modules/updateArticle/controllers/updateArticle.controller',
 		settings: 'dist/modules/user/controllers/settings.controller',
-		findPwd: 'dist/modules/user/controllers/findPwd.controller'
+		findPwd: 'dist/modules/user/controllers/findPwd.controller',
+		// ervin
+		ervin: 'dist/modules/ervin/controllers/ervin.controller'
 	},
 	shim: {
 		angular: {

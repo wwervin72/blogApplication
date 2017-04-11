@@ -16,6 +16,7 @@
     border-radius: 0 !important;
     height: 59px !important;
     box-shadow: none !important;
+    z-index: 2 !important;
     &:hover{
         box-shadow: 0 2px 20px rgba(0,0,0,.15) !important;
     }
@@ -139,6 +140,19 @@
             &:hover{
                 background: rgba(236,97,73,.1);
             }
+        }
+    }
+    .ervin{
+        float: right;
+        height: 59px;
+        line-height: 59px;
+        padding: 0 15px;
+        color: #ea6f5a;
+        margin-left: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        &:hover{
+            background-color: #f5f5f5;
         }
     }
 }

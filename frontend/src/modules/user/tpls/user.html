@@ -13,29 +13,29 @@
                 </div>
                 <div class="articleInfo">
                     <div class="createTime">
-                        <img src="./src/static/img/time.png" class="articleInfoIcon" alt="创建时间"/>
+                        <span class="ws_icon ws_icon_time"></span>
                         <span><strong ng-bind="article.author.nickname"></strong> 发布于 </span>
                         <span ng-bind="article.createAt"></span>
                     </div>
                     <ul class="tags">
                         <li ng-repeat="tag in article.tags">
-                            <img src="./src/static/img/tags.png" class="tagIcon articleInfoIcon" alt="标签"/>
+                            <span class="ws_icon ws_icon_tags"></span>
                             <span ng-bind="tag"></span>
                         </li>
                     </ul>
                     <!-- 评论数 -->
                     <div class="commentsCount">
-                        <img src="./src/static/img/comments.png" class="articleInfoIcon" alt="评论"/>
+                        <span class="ws_icon ws_icon_comment"></span>
                         (<span ng-bind="article.comments"></span>)
                     </div>
                     <!-- 阅读数 -->
                     <div class="viewsCount" ui-sref="article({username:article.author.username,articleId:article.id})">
-                        <img src="./src/static/img/views.png" class="articleInfoIcon" alt="阅读"/>
+                        <span class="ws_icon ws_icon_read"></span>
                         (<span ng-bind="article.views"></span>)
                     </div>
                     <!-- 编辑 -->
                     <div class="updateArticle" ui-sref="updateArticle({username: article.author.username,articleId: article.id})" ng-show="article.author.username===userInfo.username">
-                        <img src="./src/static/img/update.png" class="articleInfoIcon" title="编辑"/>
+                        <span class="ws_icon ws_icon_edit"></span>
                     </div>
                 </div>
             </li>

@@ -1,5 +1,6 @@
 <div class="header" id="header" ng-controller="app.ctrl">
     <h2 ui-sref="articles" title="微识">微识</h2>
+    <div class="ervin" ui-sref="ervin"><span class="ws_icon ws_icon_link"></span>&nbsp;友情链接</div>
     <div class="userInfo" ng-show="userInfo">
         <div class="avatar">
             <img ng-src="{{userInfo.avatar}}" title="{{userInfo.nickname}}" ui-sref='user({username: userInfo.username})'/>
@@ -15,7 +16,7 @@
     </div>
     <div class="noUserInfo" ng-show="!userInfo">
         <div class="login" ui-sref="home({home: {register: false, login: true}})">登陆</div>
-        <div class="register" ui-sref="home({home: {register: true, login: false}})">加入Blog</div>
+        <div class="register" ui-sref="home({home: {register: true, login: false}})">加入微识</div>
     </div>
 </div>
 <svg id="goTop" class="goTop" width="90px" height="215px" title="回到顶部" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">

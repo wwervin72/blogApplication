@@ -104,6 +104,16 @@ define([], function () {
                     }]
                 }
             })
+            .state('ervin', {
+                url: '/ervin',
+                templateUrl: 'src/modules/ervin/tpls/ervin.html',
+                controller: 'ervin.ctrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('ervin');
+                    }]
+                }
+            })
 			.state('404', {
 				url: '/404',
 				templateUrl: 'src/modules/404/tpls/404.html'
@@ -118,22 +128,6 @@ define([], function () {
         $httpProvider.interceptors.push('tokenInterceptor');
     }]);
     app.controller('app.ctrl', ['$rootScope','$scope','$cookies','http','message-service', function($rootScope,$scope,$cookies,http,message){
-
-            // 获取城市
-            $.ajax({
-                type: 'GET',
-                dataType: "script",
-                url: 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js'
-            }).then(function () {
-                $scope.$apply(function () {
-                    $scope.currentCity = remote_ip_info.city;
-                })
-            }); 
-
-
-
-
-
         // 获取用户的信息
         (function () {
             var token = $cookies.get('TOKEN');
