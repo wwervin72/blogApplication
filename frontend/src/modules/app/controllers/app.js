@@ -11,10 +11,14 @@ define([], function () {
             }
         });
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            // if(fromState.name === 'home'){
+                // $('.widget_17jgaCC.widgetNotAlarmed_188ZFdo').show();
+            // }
             // 跳转到登陆页面，并记录页面的状态
-            if(toState.name === 'home'){
-                $rootScope.prevScrollTop = $('body').scrollTop();
-            }
+            // if(toState.name === 'home'){
+                // $rootScope.prevScrollTop = $('body').scrollTop();
+                // $('.widget_17jgaCC.widgetNotAlarmed_188ZFdo').hide();
+            // }
         });
     }]);
 	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider) {
@@ -144,11 +148,6 @@ define([], function () {
                 });
             }
         }());
-        $('#header .avatar, #header .avatar .userList').hover(function () {
-            $(this).find('.userList').show();
-        }, function () {
-            $(this).find('.userList').hide();
-        });
         // 退出登陆
         $scope.loginOut = function () {
             http.request({

@@ -1,0 +1,89 @@
+.ws-carousel{
+	position: relative;
+	width: 400px;
+	height: 200px;
+	overflow: hidden;
+	&:hover{
+		&>.prev,
+		&>.next{
+			display: block;
+		}
+	}
+	.leaf{
+		float: left;
+		width: 400px;
+		height: 200px;
+		&:nth-child(2n){
+			background-color: #f00;
+		}
+		&:nth-child(2n+1){
+			background-color: #0f0;
+		}
+	}
+	.ws-carousel-btns{
+		position: absolute;
+		bottom: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		padding: 5px;
+		margin-bottom: 0;
+		li{
+			display: inline-block;
+			margin: 0 2px;
+			button{
+				width: 16px;
+				height: 3px;
+				background-color: #FFF;
+				opacity: .3;
+				border: none;
+				transition: all 1s;
+				border-radius: 1px;
+			}
+			&.active{
+				button{
+					opacity: 1;
+					width: 24px;
+				}
+			}
+			&:not(.active):hover{
+				button{
+					opacity: .8;
+				}
+			}
+		}
+	}
+	.prev, 
+	.next{
+		position: absolute;
+		width: 36px;
+		height: 36px;
+		top: 50%;
+		transform: translateY(-50%);
+		border-radius: 50%;
+		background-color: rgba(0, 0, 0, .2);
+		display: none;
+		&::before{
+			content: '';
+			width: 16px;
+			height: 16px;
+			top: 10px;
+			left: 12px;
+			border: 3px solid #ccc;
+			border-right: none;
+			border-top: none;
+			border-radius: 2px;
+			position: absolute;
+			transform: rotate(45deg);
+		}
+	}
+	.prev{
+		left: 10px;
+	}
+	.next{
+		right: 10px;
+		&::before{
+			left: 8px;
+			transform: rotate(-135deg);
+		}
+	}
+}

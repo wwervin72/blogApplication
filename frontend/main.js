@@ -12,6 +12,8 @@ requirejs.config({
 		simplemde: 'libs/simplemde/dist/simplemde.min',
 		marked: 'libs/marked/marked.min',
 		toastr: 'libs/toastr/toastr.min',
+		// 封装的指令
+		carousel: 'dist/directives/carousel.directive',
 		// 封装的服务
 		markdownService: 'dist/services/markdown.service',
 		httpRequest: 'dist/services/http.service',
@@ -46,6 +48,9 @@ requirejs.config({
 		ngCookies: {
 			deps: ['angular']	
 		},
+		carousel: {
+			deps: ['sanizite']
+		},
 		httpRequest: {
 			deps: ['angular']
 		},
@@ -66,6 +71,9 @@ requirejs.config({
 		},
 		article: {
 			deps: ['sanizite']
+		},
+		articles: {
+			deps: ['carousel']
 		}
 	}
 });

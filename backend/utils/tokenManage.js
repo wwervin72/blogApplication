@@ -85,7 +85,7 @@ module.exports = {
 		redisClient.expire(codeInfo.email, config.redis.oauth.expireTime);
 	},
 	verifyAuthCode: function (req, res, next) {
-		let authCode = (req.body && req.body.authCode) || (req.query && req.query.authCode);
+		let authCode = (req.body && req.body.authcode) || (req.query && req.query.authcode);
 		let email = (req.body && req.body.email) || (req.query && req.query.email);
 		if(!authCode){
 			return res.status(200).json({
