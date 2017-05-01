@@ -1,5 +1,5 @@
 define(['marked'], function (marked){
-    var deps = ['carousel'];
+    var deps = ['carousel','ui.bootstrap.pagination'];
     var articlesModel = angular.module('articles', deps);
     articlesModel.controller('articles.ctrl', ['$rootScope','$scope','$state','http','message-service', function($rootScope,$scope,$state,http,message){
         (function () {
@@ -47,7 +47,22 @@ define(['marked'], function (marked){
             {
                 html: 9
             }
-        ]
+        ];
+        
+        $scope.totalItems = 64;
+        $scope.currentPage = 4;
+
+        $scope.setPage = function (pageNo) {
+            // $scope.currentPage = pageNo;
+            // };
+
+            // $scope.pageChanged = function() {
+            // $log.log('Page changed to: ' + $scope.currentPage);
+        };
+
+        $scope.maxSize = 5;
+        $scope.bigTotalItems = 175;
+        $scope.bigCurrentPage = 1;
     }]);
     return articlesModel;
 });

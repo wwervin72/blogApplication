@@ -14,6 +14,7 @@ requirejs.config({
 		toastr: 'libs/toastr/toastr.min',
 		// 封装的指令
 		carousel: 'dist/directives/carousel.directive',
+		pagination: 'dist/directives/pagination.directive',
 		// 封装的服务
 		markdownService: 'dist/services/markdown.service',
 		httpRequest: 'dist/services/http.service',
@@ -73,7 +74,7 @@ requirejs.config({
 			deps: ['sanizite']
 		},
 		articles: {
-			deps: ['carousel']
+			deps: ['carousel', 'pagination']
 		}
 	}
 });
