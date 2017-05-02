@@ -38,6 +38,7 @@ input, button, textarea{
 a, a:hover, a:active, a:visited, a:link{
 	text-decoration: none;
 	color: #666;
+	outline: none;
 }
 
 ::-webkit-scrollbar{
@@ -45,16 +46,17 @@ a, a:hover, a:active, a:visited, a:link{
 	height:6px;
 }
 ::-webkit-scrollbar-track-piece{
-	background-color: #c2c2c2;
+	background-color: #aaa;
 }
 ::-webkit-scrollbar-thumb{
-	background: #ea6f5a;
+	// background: #ea6f5a;
+	background-color: rgba(236, 97, 73, .7);
 	min-height: 100px;
 	min-width: 100px;
 	border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover{
-	background-color: #333;
+	background-color: rgba(236, 97, 73, 1);
 }
 .toast-top-center{
 	top: 70px;

@@ -30,17 +30,29 @@ module.exports = {
 		});
 	},
 	getAllPost: function (req, res, next) {
-		Post.find()
-			.populate('author', ['nickname', 'avatar', 'username']).sort({_id: -1})
-			.exec(function (err, articles) {
-				if(err){
-					return next(err);
-				}
-				return res.status(200).json({
-					result: true,
-					data: articles
-				});
+		let pageNum = Number(req.query.pageNum);
+		let start = (req.query.currentPage - 1) * pageNum;
+		Promise.all([
+			Post.find()
+				.populate('author', ['nickname', 'avatar', 'username'])
+				.sort({_id: -1})
+				.skip(start)
+				.limit(pageNum)
+				.exec(),
+			Post.count()
+				.exec()	
+		]).then(function (result) {
+			return res.status(200).json({
+				result: true,
+				data: result[0],
+				total: result[1]
 			});
+		}, function (err) {
+			return res.status(200).json({
+				result: false,
+				msg: err
+			});
+		});
 	},
 	findArticleById: function (req, res, next) {
 		Post.findOne({id: req.query.articleId})

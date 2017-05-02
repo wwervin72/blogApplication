@@ -2,18 +2,36 @@ define(['marked'], function (marked){
     var deps = ['carousel','ui.bootstrap.pagination'];
     var articlesModel = angular.module('articles', deps);
     articlesModel.controller('articles.ctrl', ['$rootScope','$scope','$state','http','message-service', function($rootScope,$scope,$state,http,message){
-        (function () {
+        // 获取文章
+        $scope.getArticles = function (currentPage, pageNum) {
+            // 默认每页显示10篇文章
+            pageNum = pageNum ? pageNum : 10;
             http.request({
                 method: 'GET',
-                url: '/posts'
+                url: '/posts?currentPage='+currentPage+'&pageNum='+pageNum
             }).then(function (res) {
                 if(res.data.result){
                     $scope.articles = res.data.data;
+                    $scope.totalArticles = res.data.total;
                 }else{
                     message({type: 'error', text: '数据获取失败，请刷新页面'});
                 }
             })
-        }());
+        };
+        $scope.setPage = function (pageNo) {
+            // $scope.currentPage = pageNo;
+            // };
+
+            // $scope.pageChanged = function() {
+            // $log.log('Page changed to: ' + $scope.currentPage);
+        };
+
+        $scope.maxSize = 5;
+        $scope.totalArticles = 1;
+        $scope.currentPage = 1;
+        
+        $scope.getArticles($scope.currentPage);
+
         $scope.carouselWidth = parseInt($('.articlesContent').css('width'));
         $scope.carouselHeight = $scope.carouselWidth / 3;
         $scope.carousels = [
@@ -48,21 +66,6 @@ define(['marked'], function (marked){
                 html: 9
             }
         ];
-        
-        $scope.totalItems = 64;
-        $scope.currentPage = 4;
-
-        $scope.setPage = function (pageNo) {
-            // $scope.currentPage = pageNo;
-            // };
-
-            // $scope.pageChanged = function() {
-            // $log.log('Page changed to: ' + $scope.currentPage);
-        };
-
-        $scope.maxSize = 5;
-        $scope.bigTotalItems = 175;
-        $scope.bigCurrentPage = 1;
     }]);
     return articlesModel;
 });
