@@ -184,5 +184,6 @@
 			</div>
 		</li>
 	</ul>
+	<ul uib-pagination total-items="totalComments" ng-change="getComments(article,currentPage)" previous-text="上一页" next-text="下一页" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true"></ul>
 </div>
 <div ng-include="'src/modules/app/tpls/foot.html'"></div>

@@ -1,21 +1,32 @@
 <div ng-include="'src/modules/app/tpls/header.html'"></div>
 <a href="https://github.com/wwervin72" target="_blank" class="fork_me"><img src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" title="Fork me on Github"></a>
 <div class="ervin_sidebar">
+	<!-- .编辑器 -->
+	<div class="editor" ng-if="userInfo.username===admin">
+		编辑器
+	</div>
 	<ul class="sidebar_menu">
 		<li>
-			<a href="javascript:;">实验室</a>
+			<a href="javascript:;"><span class="ws_icon ws_icon_link"></span>实验室</a>
 			<ul class="sidebar_menu">
-				<li><a href="javascript:;">123</a></li>
-				<li><a href="javascript:;">456</a></li>
-				<li><a href="javascript:;">789</a></li>
+				<li>
+					<a href="javascript:;"><span class="ws_icon ws_icon_link"></span>es6</a>
+					<ul class="sidebar_menu">
+						<li><a href="javascript:;">123</a></li>
+						<li><a href="javascript:;">456</a></li>
+						<li><a href="javascript:;">789</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:;"><span class="ws_icon ws_icon_link"></span>canvas</a></li>
+				<li><a href="javascript:;"><span class="ws_icon ws_icon_link"></span>vue</a></li>
 			</ul>
 		</li>
 		<li>
-			<a href="javascript:;">笔记</a>
+			<a href="javascript:;"><span class="ws_icon ws_icon_link"></span>笔记</a>
 			<ul class="sidebar_menu">
-				<li><a href="javascript:;">2015</a></li>
-				<li><a href="javascript:;">2015</a></li>
-				<li><a href="javascript:;">2015</a></li>
+				<li><a href="javascript:;">linux</a></li>
+				<li><a href="javascript:;">webpack</a></li>
+				<li><a href="javascript:;">gulp</a></li>
 			</ul>
 		</li>
 	</ul>

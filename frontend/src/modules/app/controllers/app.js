@@ -1,7 +1,33 @@
 define([], function () {
 	var deps = ['oc.lazyLoad','ui.router','ngCookies','ngSanitize','httpRequest','message'];
 	var app = angular.module('app', deps);
-    app.run(['$rootScope','$state', function ($rootScope,$state) {
+    app.run(['$rootScope','$state','$cookies','$location','http', function ($rootScope,$state,$cookies,$location,http) {
+        // 获取用户信息
+        (function () {
+            if(!$cookies.get('TOKEN')){
+                return;
+            }
+            http.request({
+                method: 'GET',
+                url: '/userinfo?token=' + $cookies.get('TOKEN')
+            }).then(function (res) {
+                if(res.data.result){
+                    $rootScope.userInfo = res.data.user;
+                }
+                $cookies.remove("TOKEN", {path: '/'});
+                var timeCount = new Date().getTime() + 1000 * 60 * 30;
+                var deadline = new Date(timeCount);
+                $cookies.put('TOKEN', res.data.token, {'expires': deadline, path: '/'});
+            }, function (res) {
+                if(res.status === 404){
+                    $location.path('/404');
+                }
+                if(res.status === 500){
+                    $location.path('/500');
+                }
+            });
+        }());
+
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.prevState = fromState;
             $rootScope.prevParams = fromParams;

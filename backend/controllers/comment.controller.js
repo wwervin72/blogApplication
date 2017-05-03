@@ -48,20 +48,31 @@ module.exports = {
 		})
 	},
 	getArticleComments: function (req, res, next) {
-		Comment.find({article: req.query.articleId})
+		let pageNum = req.query.pageNum - 0;
+		let	start = (req.query.currentPage - 1) * pageNum;
+		console.log(start, pageNum)
+		Promise.all([
+			Comment.find({article: req.query.articleId})
 				.populate({path: 'author', model: 'User', select: ['_id', 'nickname', 'avatar', 'username']})
 				.populate({path: 'replyUser', model: 'User'})
 				.sort({_id: 1})
-				.exec(function (err, result) {
-					if(err){
-						return next(err);
-					}
-					return res.status(200).json({
-						result: true,
-						msg: '文章评论获取成功',
-						data: result
-					});
-				});
+				.skip(start)
+				.limit(pageNum)
+				.exec(),
+			Comment.count({article: req.query.articleId})
+				.exec()
+		]).then(function (data) {
+			return res.status(200).json({
+				result: true,
+				data: data[0],
+				total: data[1]
+			});
+		}, function (data) {
+			return res.status(200).json({
+				result: false,
+				msg: '评论获取失败'
+			});
+		});
 		},
 	updateComment: (req, res, next) => {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);

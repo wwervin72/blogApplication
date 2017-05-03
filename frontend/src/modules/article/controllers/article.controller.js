@@ -1,7 +1,10 @@
 define(['marked'], function (marked) {
-	var deps = [];
+	var deps = ['ui.bootstrap.pagination'];
 	var articleModel = angular.module('article', deps);
 	articleModel.controller('article.ctrl', ['$rootScope','$scope','$stateParams','$state','$location','$cookies','http','message-service', function($rootScope,$scope,$stateParams,$state,$location,$cookies,http,message){
+		$scope.maxSize = 5;
+        $scope.totalComments = 1;
+        $scope.currentPage = 1;
 		// 获取文章信息
 		(function () {
 			http.request({
@@ -12,19 +15,24 @@ define(['marked'], function (marked) {
                     res.data.data.content = marked(res.data.data.content);
 					$scope.article = res.data.data;
 					//获取文章的内容之后， 获取文章的评论
-					http.request({
-						method: 'GET',
-						url: '/comments?token=' + $cookies.get('TOKEN') + '&articleId=' + $scope.article._id
-					}).then(function (response) {
-						if(response.data.result){
-							$scope.comments = response.data.data;
-						}else{
-							message({type: 'error', text: '文章评论加载失败'});
-						}
-					});
+					$scope.getComments($scope.article,$scope.currentPage)
 				}
 			});
 		}());
+		$scope.getComments = function (article, currentPage, pageNum) {
+        	pageNum = pageNum ? pageNum : 10;
+        	http.request({
+				method: 'GET',
+				url: '/comments?token=' + $cookies.get('TOKEN') + '&articleId=' + article._id + '&currentPage=' + currentPage + '&pageNum=' + pageNum
+			}).then(function (response) {
+				if(response.data.result){
+					$scope.comments = response.data.data;
+					$scope.totalComments = response.data.total;
+				}else{
+					message({type: 'error', text: '文章评论加载失败'});
+				}
+			});
+        }
 		// 点赞文章
 		$scope.heartArticle = function () {
 			if(!$rootScope.userInfo){

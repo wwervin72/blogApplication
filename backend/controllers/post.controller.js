@@ -30,7 +30,7 @@ module.exports = {
 		});
 	},
 	getAllPost: function (req, res, next) {
-		let pageNum = Number(req.query.pageNum);
+		let pageNum = req.query.pageNum - 0;
 		let start = (req.query.currentPage - 1) * pageNum;
 		Promise.all([
 			Post.find()
@@ -87,6 +87,9 @@ module.exports = {
 			});
 	},
 	getUserPosts: function (req, res, next) {
+		let pageNum = req.query.pageNum - 0;
+		let start = (req.query.currentPage - 1) * pageNum;
+
 		User.findOne({username: req.query.username}, function (err, user) {
 			if(err){
 				return next(err);
@@ -94,19 +97,27 @@ module.exports = {
 			if(!user){
 				return next();
 			}
-			// 查找该用户的所有文章
-			Post.find({author: user._id})
-				.populate('author', ['nickname', 'avatar', 'username'])
-				.sort({_id: -1})
-				.exec(function (err, articles) {
-				if(err){
-					next(err);
-				}			
+			Promise.all([
+				Post.find({author: user._id})
+					.populate('author', ['nickname', 'avatar', 'username'])
+					.sort({_id: -1})
+					.skip(start)
+					.limit(pageNum)
+					.exec(),
+				Post.count({author: user._id})
+					.exec()
+			]).then(function (data) {
 				return res.status(200).json({
 					result: true,
-					data: articles
+					data: data[0],
+					total: data[1]
 				});
-			});
+			}, function (data) {
+				return res.status(200).json({
+					result: false,
+					msg: '数据获取失败'
+				});
+			})
 		})
 	},
 	update: function (req, res, next) {

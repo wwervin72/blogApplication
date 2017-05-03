@@ -5,6 +5,47 @@
 }
 .ervin_sidebar{
 	position: fixed;
-	width: 120px;
+	width: 180px;
 	height: 100%;
+	border-right: 1px solid #ddd;
+	overflow: auto;
+	.editor{
+		height: 36px;
+		line-height: 36px;
+		cursor: pointer;
+		padding-left: 20px;
+		&:hover{
+			background-color: rgba(236,97,73,.05);
+			color: #ea6f5a;
+		}
+	}
+	li{
+		.sidebar_menu{
+			display: none;
+		}
+		.ws_icon{
+			margin-right: 10px;
+		}
+		a:hover{
+			background-color: rgba(236,97,73,.05);
+			color: #ea6f5a;
+		}
+		&>a{
+			display: block;
+			height: 36px; 
+			line-height: 36px;
+			padding-left: 20px;
+
+		}
+		& > ul.sidebar_menu{
+			a{
+				padding-left: 45px;
+			}
+			& > li > ul.sidebar_menu{
+				a{
+					padding-left: 65px;
+				}
+			}
+		}
+	}
 }

@@ -4,6 +4,11 @@
 	margin: 30px auto;
 	min-width: 900px;
 	max-width: 1200px; 
+	&+div{
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+	}
 	&::before, &::after{
 		content: "";
 		display: table;
