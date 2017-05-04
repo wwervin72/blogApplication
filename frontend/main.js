@@ -31,7 +31,8 @@ requirejs.config({
 		settings: 'dist/modules/user/controllers/settings.controller',
 		findPwd: 'dist/modules/user/controllers/findPwd.controller',
 		// ervin
-		ervin: 'dist/modules/ervin/controllers/ervin.controller'
+		ervin: 'dist/modules/ervin/controllers/ervin.controller',
+		'ervin.editor': 'dist/modules/ervin/controllers/editor.controller'
 	},
 	shim: {
 		angular: {

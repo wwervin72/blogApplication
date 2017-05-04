@@ -144,6 +144,16 @@ define([], function () {
                     }]
                 }
             })
+            .state('ervin.editor', {
+                url: '/editor',
+                templateUrl: 'src/modules/ervin/tpls/editor.html',
+                controller: 'ervin.editor.ctrl',
+                resolve: {
+                    loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad){
+                        return $ocLazyLoad.load('ervin.editor');
+                    }]
+                }
+            })
 			.state('404', {
 				url: '/404',
 				templateUrl: 'src/modules/404/tpls/404.html'
