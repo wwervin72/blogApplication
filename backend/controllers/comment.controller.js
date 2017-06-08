@@ -7,12 +7,12 @@ module.exports = {
 	createComment: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		let comment = new Comment({
-			article: req.body.articleId,
-			author: req.body.authorId,
-			content: req.body.content.trim(),
-			replyParent: req.body.replyParent,
-			replyUser: req.body.replyUser,
-			reply: req.body.reply
+			article: req.query.articleId,
+			author: req.query.authorId,
+			content: req.query.content.trim(),
+			replyParent: req.query.replyParent,
+			replyUser: req.query.replyUser,
+			reply: req.query.reply
 		});
 		comment.save(function (err) {
 			if(err){
@@ -50,7 +50,6 @@ module.exports = {
 	getArticleComments: function (req, res, next) {
 		let pageNum = req.query.pageNum - 0;
 		let	start = (req.query.currentPage - 1) * pageNum;
-		console.log(start, pageNum)
 		Promise.all([
 			Comment.find({article: req.query.articleId})
 				.populate({path: 'author', model: 'User', select: ['_id', 'nickname', 'avatar', 'username']})

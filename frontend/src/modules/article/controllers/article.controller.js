@@ -5,6 +5,7 @@ define(['marked'], function (marked) {
 		$scope.maxSize = 5;
         $scope.totalComments = 1;
         $scope.currentPage = 1;
+
 		// 获取文章信息
 		(function () {
 			http.request({

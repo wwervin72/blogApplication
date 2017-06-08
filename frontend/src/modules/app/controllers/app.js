@@ -47,7 +47,7 @@ define([], function () {
             // }
         });
     }]);
-	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider) {
+	app.config(['$ocLazyLoadProvider', '$stateProvider', '$urlRouterProvider','$locationProvider', function ($ocLazyLoadProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
         $ocLazyLoadProvider.config({
             jsLoader: requirejs,
             debug: false
@@ -163,6 +163,7 @@ define([], function () {
 				templateUrl: 'src/modules/500/tpls/500.html'
 			});
         $urlRouterProvider.otherwise("/a");
+        $locationProvider.html5Mode(true);//启用html5模式 去掉#
     }]);
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('tokenInterceptor');
