@@ -78,14 +78,14 @@ UserSchema.path('username').validate((username) => {
 		return true;
 	}
 	return /^[a-zA-Z0-9]{5,16}$/.test(username);
-}, '账号为3到10个长度的字母或数字');
+}, '账号为5到16个长度的字母或数字');
 
 UserSchema.path('hashed_password').validate(function(hashed_password){
 	if(this.provider !== 'local'){
 		return true;
 	}
 	return /^[a-zA-Z0-9-_.]{5,20}$/.test(this.toObject({virtuals: true}).password);
-}, '密码必须是长度为3到12个的字母、数字、-、_、.');
+}, '密码必须是长度为5到20个的字母、数字、-、_、.');
 
 UserSchema.path('email').validate((email) => {
 	return /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email);

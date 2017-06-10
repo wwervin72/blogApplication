@@ -15,9 +15,10 @@ module.exports = {
 				return next(err);
 			}
 			if(!user){
-				return res.status(404).json({
+				return res.status(200).json({
 					result: false,
-					msg: '404 not found'
+					msg: '404 not found',
+					code: 404
 				});
 				return next();
 			}
@@ -28,7 +29,8 @@ module.exports = {
 		if(req.body.username === '' || req.body.password === ''){
 			return res.status(200).json({
 					result: false,
-					msg: '用户名或者密码为空'
+					msg: '用户名或者密码为空',
+					code: 200
 				});
 		}
 		passport.authenticate('local', function(err, user, info){
@@ -39,7 +41,8 @@ module.exports = {
 			if(!user){
 				return res.status(200).json({
 					result: false,
-					msg: info.message
+					msg: info.message,
+					code: 500
 				});
 			}
 			return res.status(200).json({
@@ -55,7 +58,8 @@ module.exports = {
 					bio: user.bio,
 					url: user.url,
 					sex: user.sex
-				}
+				},
+				code: 200
 			});
 		})(req, res, next);
 	},
@@ -65,14 +69,16 @@ module.exports = {
 		if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email)){
 			return res.status(200).json({
 				result: false,
-				msg: '邮箱格式不正确'
+				msg: '邮箱格式不正确',
+				code: 200
 			});
 		}
 		User.findOne({email: email}, function (err, user) {
 			if(user){
 				return res.status(200).json({
 					result: false,
-					msg: '该邮箱已被占用'
+					msg: '该邮箱已被占用',
+					code: 200
 				});
 			}
 			let authCode = createAuthCode();
@@ -91,7 +97,8 @@ module.exports = {
 					if(err){
 						return res.status(200).json({
 							result: false,
-							msg: '邮件发送失败'
+							msg: '邮件发送失败',
+							code: 500
 						});
 					}
 					let authCodeInfo = {
@@ -109,7 +116,8 @@ module.exports = {
 			if(result){
 				return res.status(200).json({
 					result: false,
-					msg: '该用户名已被占用'
+					msg: '该用户名已被占用',
+					code: 200
 				});
 			}
 			let user = new User(req.body);
@@ -120,10 +128,10 @@ module.exports = {
 					Object.keys(err.errors).forEach(function (item) {
 						msg[item === 'hashed_password' ? 'password' : item] = err.errors[item].message;
 					});
-					res.status(200);
-					return res.json({
+					return res.status(200).json({
 						result: false,
-						msg: msg
+						msg: msg,
+						code: 500
 					});
 				}
 				// 过期掉验证码
@@ -141,7 +149,8 @@ module.exports = {
 						bio: user.bio,
 						url: user.url,
 						sex: user.sex
-					}
+					},
+					code: 200
 				});
 			});
 		});
@@ -153,12 +162,14 @@ module.exports = {
 			if(user){
 				return res.status(200).json({
 					result: false,
-					msg: '该邮箱已被占用'
+					msg: '该邮箱已被占用',
+					code: 200
 				});
 			}
 			return res.status(200).json({
 				result: true,
-				msg: '该邮箱可以使用'
+				msg: '该邮箱可以使用',
+				code: 200
 			});
 		});
 	},
@@ -169,7 +180,8 @@ module.exports = {
 			if(user){
 				return res.status(200).json({
 					result: false,
-					msg: '该用户名可以使用'
+					msg: '该用户名可以使用',
+					code: 200
 				});
 			}
 			next();
@@ -182,7 +194,8 @@ module.exports = {
 		delete req.user;
 		return res.status(200).json({
 			result: true,
-			msg: '登出成功'
+			msg: '登出成功',
+			code: 200
 		});
 	},
 	// 获取用户信息
@@ -200,7 +213,8 @@ module.exports = {
 				sex: req.user.sex
 			},
 			token: token,
-			result: true
+			result: true,
+			code: 200
 		});
 	},
 	// 发送邮件（验证码）
@@ -222,7 +236,8 @@ module.exports = {
 						if(!result.nModified){
 							return res.status(200).json({
 								result: false,
-								msg: '用户名或者邮箱不正确'
+								msg: '用户名或者邮箱不正确',
+								code: 200
 							})
 						}
 						mailer.send({
@@ -234,12 +249,14 @@ module.exports = {
 							if(err){
 								return res.status(200).json({
 									result: false,
-									msg: '邮件发送失败'
+									msg: '邮件发送失败',
+									code: 200
 								});
 							}
 							return res.status(200).json({
 								result: true,
-								msg: '邮件发送成功，30分钟内有效，请尽快完成操作。'
+								msg: '邮件发送成功，30分钟内有效，请尽快完成操作。',
+								code: 200
 							});
 						});
 					})
@@ -299,11 +316,12 @@ module.exports = {
 							if(!result.nModified){
 								return next();
 							}
+							req.user.avatar = avatarUrl;
 							return res.status(200).json({
 								result: true,
 								msg: '修改成功',
 								data: avatarUrl,
-								token: token
+								token: tokenManage.createNewToken(req.user)
 							});
 						});
 		}

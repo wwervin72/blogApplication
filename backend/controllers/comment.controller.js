@@ -50,7 +50,6 @@ module.exports = {
 	getArticleComments: function (req, res, next) {
 		let pageNum = req.query.pageNum - 0;
 		let	start = (req.query.currentPage - 1) * pageNum;
-		console.log(start, pageNum)
 		Promise.all([
 			Comment.find({article: req.query.articleId})
 				.populate({path: 'author', model: 'User', select: ['_id', 'nickname', 'avatar', 'username']})
