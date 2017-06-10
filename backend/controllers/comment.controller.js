@@ -7,12 +7,12 @@ module.exports = {
 	createComment: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		let comment = new Comment({
-			article: req.body.articleId,
-			author: req.body.authorId,
-			content: req.body.content.trim(),
-			replyParent: req.body.replyParent,
-			replyUser: req.body.replyUser,
-			reply: req.body.reply
+			article: req.query.articleId,
+			author: req.query.authorId,
+			content: req.query.content.trim(),
+			replyParent: req.query.replyParent,
+			replyUser: req.query.replyUser,
+			reply: req.query.reply
 		});
 		comment.save(function (err) {
 			if(err){
@@ -76,9 +76,9 @@ module.exports = {
 		},
 	updateComment: (req, res, next) => {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		Comment.update({_id: req.body.commentId},
+		Comment.update({_id: req.query.commentId},
 						{$set: {
-							content: req.body.newComment,
+							content: req.query.newComment,
 							createDate: Date.now()
 						}}, function (err, result) {
 							if(err){
@@ -98,8 +98,8 @@ module.exports = {
 						});
 	},
 	deleteComment: (req, res, next) => {
-		if(req.body.authorId === req.user._id){
-			Comment.remove({_id: req.body.commentId})
+		if(req.query.authorId === req.user._id){
+			Comment.remove({_id: req.query.commentId})
 					.exec(function (err, result) {
 						if(err){
 							return next(err);
@@ -110,7 +110,7 @@ module.exports = {
 								msg: '删除失败'
 							});
 						}
-						Article.update({_id: req.body.articleId},
+						Article.update({_id: req.query.articleId},
 										{$inc: {
 											comments: -1
 										}}, function (err, result) {
