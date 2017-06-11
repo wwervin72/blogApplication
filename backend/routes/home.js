@@ -29,6 +29,9 @@ router.get('/article', articleCtrl.findArticleById);
 //获取文章下的评论
 router.get('/comments', commentCtrl.getArticleComments);
 
+// 获取用户的信息\
+router.get('/user', userCtrl.getUserInfoByName);
+
 //获取用户的文章
 router.get('/user/posts', userCtrl.findUserByName, articleCtrl.getUserPosts);
 

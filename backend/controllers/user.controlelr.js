@@ -8,6 +8,7 @@ let config = require('config-lite');
 let tokenManage = require('../utils/tokenManage');
 let mailer = require('../utils/email')(config);
 let uploadfile = require('../utils/uploadFile');
+
 module.exports = {
 	findUserByName: function (req, res, next) {
 		User.findOne({username: req.query.username || req.user.username}, function (err, user) {
@@ -215,6 +216,43 @@ module.exports = {
 			result: true,
 			code: 200
 		});
+	},
+	/**
+	 * 根据账号获取信息
+	 * @return {[type]} [description]
+	 */
+	getUserInfoByName (req, res, next) {
+		let username = (req.body && req.body.username) || (req.query && req.query.username);
+		if(!username){
+			return res.status(200).json({
+				result: false,
+				msg: '没有用户名'
+			});
+		}
+		User.findOne({
+			username
+		}, (user) => {
+			if(!user){
+				return res.status(404).json({
+					result: false,
+					msg: '该账号不存在'
+				});
+			}
+			Article.count({
+				author: user._id
+			}, (articles) => {
+				return res.status(200).json({
+					result: true,
+					info: {
+						nickname: user.nickname,
+						avatar: user.avatar,
+						attentions: user.attentions,
+						fans: user.fans,
+						articles: articles
+					}
+				})
+			})
+		}) 
 	},
 	// 发送邮件（重置密码验证码）
 	sendResetPwdAuthCode: function (req, res, next) {
@@ -450,7 +488,7 @@ module.exports = {
 				}
 				return res.status(200).json({
 					result: true,
-					msg: '修改成功',
+					msg: '密码修改成功, 你需要从新登陆, 3秒后跳转到登陆页面',
 					token: token
 				})
 			})
