@@ -230,8 +230,14 @@ module.exports = {
 			});
 		}
 		User.findOne({
-			username
-		}, (user) => {
+			username: username
+		}, (err, user) => {
+			if(err){
+				return res.status(500).json({
+					result: false,
+					msg: '服务器错误'
+				});
+			}
 			if(!user){
 				return res.status(404).json({
 					result: false,
@@ -240,7 +246,13 @@ module.exports = {
 			}
 			Article.count({
 				author: user._id
-			}, (articles) => {
+			}, (err, articles) => {
+				if(err){
+					return res.status(500).json({
+						result: false,
+						msg: '服务器错误'
+					});
+				}
 				return res.status(200).json({
 					result: true,
 					info: {
@@ -252,7 +264,7 @@ module.exports = {
 					}
 				})
 			})
-		}) 
+		}); 
 	},
 	// 发送邮件（重置密码验证码）
 	sendResetPwdAuthCode: function (req, res, next) {
