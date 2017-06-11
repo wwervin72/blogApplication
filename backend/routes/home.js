@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 router.get('/userinfo', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.getInfo);
 
 //用户找回密码, 发送邮件
-router.get('/pwd/authcode', userCtrl.sendAuthCode);
+router.get('/pwd/authcode', userCtrl.sendResetPwdAuthCode);
 
 //重置密码
 router.put('/pwd', userCtrl.findPwd);
@@ -36,7 +36,10 @@ router.get('/user/posts', userCtrl.findUserByName, articleCtrl.getUserPosts);
 router.post('/user/avatar', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.modifyAvatar);
 
 //用户基础设置
-router.put('/user/basesettings', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.basesettings);
+router.put('/user/basesettings', tokenManage.verifyToken, tokenManage.verifyRedis, tokenManage.verifyAuthCode, userCtrl.basesettings);
+
+// 用户重置邮箱，获取验证码
+router.put('/user/persionalInfo/email', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.sendResetEmailAuthCode);
 
 //用户个人资料设置
 router.put('/user/persionalInfo', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.persionalInfo);

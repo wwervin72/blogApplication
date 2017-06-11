@@ -63,7 +63,7 @@ module.exports = {
 			});
 		})(req, res, next);
 	},
-	// 注册发送邮箱验证
+	// 注册账号发送邮箱验证
 	registerSendAuthCode: function (req, res, next) {
 		let email = req.query.email;
 		if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email)){
@@ -93,7 +93,6 @@ module.exports = {
 					html: html,
 					generateTextFromHtml: true
 				}, function (err, info) {
-					console.log(err)
 					if(err){
 						return res.status(200).json({
 							result: false,
@@ -102,7 +101,7 @@ module.exports = {
 						});
 					}
 					let authCodeInfo = {
-						email: email,
+						authCodeTitle: 'register-' + email,
 						code: authCode
 					};
 					tokenManage.saveAuthCode(res, authCodeInfo);
@@ -135,7 +134,7 @@ module.exports = {
 					});
 				}
 				// 过期掉验证码
-				tokenManage.expireAuthCode(req.body.email);
+				tokenManage.expireAuthCode('register-' + req.query.email);
 				return res.status(200).json({
 					result: true,
 					msg: '注册成功',
@@ -217,8 +216,8 @@ module.exports = {
 			code: 200
 		});
 	},
-	// 发送邮件（验证码）
-	sendAuthCode: function (req, res, next) {
+	// 发送邮件（重置密码验证码）
+	sendResetPwdAuthCode: function (req, res, next) {
 		let authCode = createAuthCode();
 		let html = '<p>你的账号<strong style="font-weight:bold;color:#f00;">，<strong style="color:#f00;text-decoration:underline;">';
 			html += req.query.username;
@@ -302,6 +301,40 @@ module.exports = {
 			})
 		});
 	},
+	sendResetEmailAuthCode (req, res, next) {
+		let authCode = createAuthCode();
+		let email = req.query.email,
+			username = req.user.username;
+		let html = `<p>你的邮箱<strong>${email}</strong>正在进行绑定账号操作, 绑定账号为<strong>${username}</strong>, 验证码为${authCode}, 30分钟内有效。<p>`;
+		User.findOne({email: email}, function (err, user) {
+			if(user){
+				return res.status(200).json({
+					result: false,
+					msg: '该邮箱已被占用, 请更换绑定邮箱',
+					code: 200
+				});
+			}
+			mailer.send({
+				to: email,
+				subject: '绑定邮箱',
+				html: html,
+				generateTextFromHtml: true
+			}, function (err, info) {
+				if(err){
+					return res.status(200).json({
+						result: false,
+						msg: '邮件发送失败',
+						code: 500
+					});
+				}
+				let authCodeInfo = {
+					authCodeTitle: 'resetEmail-' + email,
+					code: authCode
+				};
+				tokenManage.saveAuthCode(res, authCodeInfo);
+			});
+		})
+	},
 	modifyAvatar: function (req, res, next) {
 		function avatar (server, uploadFolderName, fileName) {
 			let token = (req.query && req.query.token) || (req.body && req.body.token);
@@ -335,7 +368,7 @@ module.exports = {
 	},
 	basesettings: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		User.findOne({email: req.body.email}, function (err, user) {
+		User.findOne({email: req.query.email}, function (err, user) {
 			if(err){
 				return next(err);
 			}
@@ -345,16 +378,22 @@ module.exports = {
 					msg: '该邮箱已被占用'
 				});
 			}
-			user.nickname = req.body.nickname;
-			user.email = req.body.email;
+			user.nickname = req.query.nickname;
+			user.email = req.query.email;
 			user.save(function (err, result) {
 				if(err){
 					return next(err);
 				}
+				// 过期掉验证码
+				tokenManage.expireAuthCode('resetEmail-' + req.query.email);
 				return res.status(200).json({
 					result: true, 
 					msg: '设置成功',
-					token: token
+					token: tokenManage.createNewToken(user),
+					info: {
+						email: user.email,
+						nickname: user.nickname
+					}
 				});
 			});
 		})
@@ -368,9 +407,9 @@ module.exports = {
 			if(!user){
 				return next();
 			}
-			user.sex = req.body.sex;
-			user.bio = req.body.bio;
-			user.url = req.body.url;
+			user.sex = req.query.sex;
+			user.bio = req.query.bio;
+			user.url = req.query.url;
 			user.save(function (err, result) {
 				if(err){
 					return next(err);
@@ -378,7 +417,12 @@ module.exports = {
 				return res.status(200).json({
 					result: true, 
 					msg: '设置成功',
-					token: token
+					token: tokenManage.createNewToken(user),
+					info: {
+						sex: user.sex,
+						bio: user.bio,
+						url: user.url
+					}
 				});
 			});
 		});

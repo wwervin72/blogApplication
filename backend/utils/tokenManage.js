@@ -70,7 +70,7 @@ module.exports = {
 		return token;
 	},
 	saveAuthCode: function (res, codeInfo) {
-		redisClient.set(codeInfo.email, codeInfo.code, function (err) {
+		redisClient.set(codeInfo.authCodeTitle, codeInfo.code, function (err) {
 			if(err){
 				return res.status(200).json({
 					result: false,
@@ -79,21 +79,21 @@ module.exports = {
 			}
 			return res.status(200).json({
 				result: true,
-				msg: '邮件发送成功，三十分钟内有效。'
+				msg: '邮件发送成功，' + (codeInfo.timeout || config.redis.oauth.expireTime / 60) + '分钟内有效。'
 			});
 		});
-		redisClient.expire(codeInfo.email, config.redis.oauth.expireTime);
+		redisClient.expire(codeInfo.authCodeTitle, codeInfo.timeout || config.redis.oauth.expireTime);
 	},
 	verifyAuthCode: function (req, res, next) {
 		let authCode = (req.body && req.body.authcode) || (req.query && req.query.authcode);
-		let email = (req.body && req.body.email) || (req.query && req.query.email);
+		let authcodetitle = (req.body && req.body.authcodetitle) || (req.query && req.query.authcodetitle);
 		if(!authCode){
 			return res.status(200).json({
 				result: false,
 				msg: '请输入验证码'
 			});
 		}
-		redisClient.get(email, function (err, code) {
+		redisClient.get(authcodetitle, function (err, code) {
 			if(!code){
 				return res.status(200).json({
 					result: false,

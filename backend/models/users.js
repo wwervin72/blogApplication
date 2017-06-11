@@ -58,7 +58,15 @@ let UserSchema = new Schema({
 		default: 'local'
 	},
 	github: String,
-	profile: {}
+	profile: {},
+	attentions: {
+		type: Array,
+		default: []
+	},
+	fans: {
+		type: Array,
+		default: []
+	}
 });
 
 UserSchema
