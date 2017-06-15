@@ -269,28 +269,26 @@ module.exports = {
 	// 发送邮件（重置密码验证码）
 	sendResetPwdAuthCode: function (req, res, next) {
 		let authCode = createAuthCode();
-		let html = '<p>你的账号<strong style="font-weight:bold;color:#f00;">，<strong style="color:#f00;text-decoration:underline;">';
+		let html = '<p>你的账号<strong style="color:#f00;text-decoration:underline;">';
 			html += req.query.username;
 			html += '</strong>正在进行重置密码操作，验证码为<span style="color: #f00;">';
 			html += authCode;
 			html += '</span>，30分钟内有效。</p>';
-		User.update({username: req.query.username, email: req.query.email},
-					{$set: {
-						authcode: authCode,
-						lastsendauthcodetime: Date.now()
-					}}, function (err, result) {
+		let email = req.query.email;
+		User.findOne({username: req.query.username, email: email},
+					function (err, result) {
 						if(err){
 							return next(err);
 						}
-						if(!result.nModified){
+						if(!result){
 							return res.status(200).json({
 								result: false,
 								msg: '用户名或者邮箱不正确',
 								code: 200
-							})
+							});
 						}
 						mailer.send({
-							to: req.query.email,
+							to: email,
 							subject: '找回密码',
 							html: html,
 							generateTextFromHtml: true
@@ -302,13 +300,14 @@ module.exports = {
 									code: 200
 								});
 							}
-							return res.status(200).json({
-								result: true,
-								msg: '邮件发送成功，30分钟内有效，请尽快完成操作。',
-								code: 200
-							});
+							let authCodeInfo = {
+								authCodeTitle: 'resetPwd-' + email,
+								code: authCode
+							};
+							tokenManage.saveAuthCode(res, authCodeInfo);
+							return;
 						});
-					})
+					});
 	},
 	//重置密码
 	findPwd: function (req, res, next) {

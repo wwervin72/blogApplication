@@ -25,7 +25,7 @@ define([], function () {
 			}
 			http.request({
 				method: 'GET',
-				url: '/pwd/authCode?username='+$scope.resetPwdInfo.username+'&email='+$scope.resetPwdInfo.email
+				url: '/pwd/authcode?username='+$scope.resetPwdInfo.username+'&email='+$scope.resetPwdInfo.email
 			}).then(function (res) {
 				if(res.data.result){
 					message({type: 'success', text: '邮件发送成功，30分钟内有效，请注意查收'});
