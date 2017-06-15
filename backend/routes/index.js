@@ -40,13 +40,15 @@ module.exports = (app, passport) => {
 	app.use(function (req, res, next) {
 		return res.status(404).json({
 			result: false,
-			msg: '404 not found'
+			msg: '404 not found',
+			code: 404
 		});
 	});
 	app.use(function (err, req, res) {
 		return res.status(500).json({
 			result: false,
-			msg: '500 server error'
+			msg: '500 server error',
+			code: 500
 		});
 	});
 }

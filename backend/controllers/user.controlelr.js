@@ -233,16 +233,10 @@ module.exports = {
 			username: username
 		}, (err, user) => {
 			if(err){
-				return res.status(500).json({
-					result: false,
-					msg: '服务器错误'
-				});
+				return next(err);
 			}
 			if(!user){
-				return res.status(404).json({
-					result: false,
-					msg: '该账号不存在'
-				});
+				return next();
 			}
 			Article.count({
 				author: user._id
