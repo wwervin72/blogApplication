@@ -18,7 +18,7 @@ router.get('/userinfo', tokenManage.verifyToken, tokenManage.verifyRedis, userCt
 router.get('/pwd/authcode', userCtrl.sendResetPwdAuthCode);
 
 //重置密码
-router.put('/pwd', userCtrl.findPwd);
+router.put('/pwd', tokenManage.verifyAuthCode, userCtrl.findPwd);
 
 // 获取所有文章
 router.get('/posts', articleCtrl.getAllPost);

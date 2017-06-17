@@ -312,8 +312,7 @@ module.exports = {
 	},
 	//重置密码
 	findPwd: function (req, res, next) {
-		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		User.findOne({username: req.body.username, email: req.body.email},function (err, user) {
+		User.findOne({username: req.query.username, email: req.query.email},function (err, user) {
 			if(err){
 				return next(err);
 			}
@@ -323,23 +322,10 @@ module.exports = {
 					msg: '用户名或者邮箱不正确'
 				});
 			}
-			if(user.authcode !== req.body.authCode){
-				return res.status(200).json({
-					result: false,
-					msg: '验证码不正确'
-				});
-			}
-			if(user.lastsendauthcodetime + 1800000 < Date.now()){
-				return res.status(200).json({
-					result: false,
-					msg: '验证码已超时，请从新获取。'
-				});
-			}
 			let salt = Math.round(new Date().getTime() * Math.random()) + '';
 			user.password = req.body.newPwd;
 			user.salt = salt;
 			user.hashed_password = User.encryptoPassword(req.body.newPwd, salt);
-			user.authcode = '';
 			user.save(function (err) {
 				if(err){
 					return next(err);
