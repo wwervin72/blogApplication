@@ -111,7 +111,10 @@ module.exports = {
 	},
 	// 用户注册
 	register: function(req, res, next){
-		let username = req.body.username;
+		let username = req.query.username.trim(),
+			email = req.query.email.trim(),
+			password = req.query.password.trim(),
+			nickname = req.query.nickname.trim();
 		User.findOne({username: username}, function (err, result) {
 			if(result){
 				return res.status(200).json({
@@ -120,7 +123,12 @@ module.exports = {
 					code: 200
 				});
 			}
-			let user = new User(req.body);
+			let user = new User({
+				username: username,
+	            email: email,
+	            password: password,
+	            nickname: nickname
+			});
 			user.save((err, user) => {
 				if(err) {
 					let msg = {};
@@ -130,8 +138,7 @@ module.exports = {
 					});
 					return res.status(200).json({
 						result: false,
-						msg: msg,
-						code: 500
+						msg: msg
 					});
 				}
 				// 过期掉验证码

@@ -96,6 +96,7 @@ UserSchema.path('hashed_password').validate(function(hashed_password){
 }, '密码必须是长度为5到20个的字母、数字、-、_、.');
 
 UserSchema.path('email').validate((email) => {
+	console.log(email)
 	return /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email);
 }, '邮箱格式不正确');
 
