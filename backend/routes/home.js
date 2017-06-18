@@ -53,6 +53,11 @@ router.put('/user/pwd', tokenManage.verifyToken, tokenManage.verifyRedis, userCt
 //用户删除账号
 router.delete('/user/count', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.deleteCount);
 
+// 用户关注作者
+router.post('/user/attention', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.focusOn);
+
+// 用户取消关注
+router.put('/user/attention', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.cancelFocusOn);
 
 //上传文件
 router.post('/upload', userCtrl.uploadFile);

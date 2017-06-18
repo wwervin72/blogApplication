@@ -475,11 +475,118 @@ module.exports = {
 				}
 				return res.status(200).json({
 					result: true,
-					msg: '密码修改成功, 你需要从新登陆, 3秒后跳转到登陆页面',
-					token: token
+					msg: '密码修改成功, 你需要从新登陆, 3秒后跳转到登陆页面'
 				})
 			})
 		})
+	},
+	// 关注
+	focusOn (req, res, next) {
+		let author = (req.body && req.body.author) || (req.query && req.query.author);
+		if(!author){
+			return res.status(200).json({
+				msg: '没有要关注的作者',
+				result: false
+			});
+		}
+		User.findOne({_id: req.user._id}, function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(!user){
+				return res.status(200).json({
+					msg: '请登录',
+					result: false
+				});
+			}
+			let attentions = user.attentions.some(item => {
+				return item._id == author
+			});
+			if(attentions){
+				return res.status(200).json({
+					msg: '你已经关注他了',
+					result: false
+				});
+			}
+			User.findOne({_id: author}, function (error, author) {
+				if(error){
+					return next(error);
+				}
+				if(!author){
+					return res.status(200).json({
+						msg: '你要关注的人不存在',
+						result: false
+					});
+				}
+				user.attentions.push(author);
+				user.save((er, result) => {
+					if(er){
+						return next(er);
+					}
+					return res.status(200).json({
+						msg: '关注成功',
+						result: true,
+						token: tokenManage.createNewToken(user),
+					});
+				});
+			});
+		});
+	},
+	// 取消关注
+	cancelFocusOn (req, res, next) {
+		let author = (req.body && req.body.author) || (req.query && req.query.author);
+		if(!author){
+			return res.status(200).json({
+				msg: '没有要取消关注的作者',
+				result: false
+			});
+		}
+		User.findOne({_id: req.user._id}, function (err, user) {
+			if(err){
+				return next(err);
+			}
+			if(!user){
+				return res.status(200).json({
+					msg: '请登录',
+					result: false
+				});
+			}
+			let index;
+			let attentions = user.attentions.filter((item, i) => {
+				if(item._id == author) {
+					index = i;
+				}
+				return item._id == author;
+			});
+			if(!attentions.length){
+				return res.status(200).json({
+					msg: '你还没有关注他呢',
+					result: false
+				});
+			}
+			User.findOne({_id: author}, function (error, author) {
+				if(error){
+					return next(error);
+				}
+				if(!author){
+					return res.status(200).json({
+						msg: '你要取消关注的人不存在',
+						result: false
+					});
+				}
+				user.attentions.splice(index, 1);
+				user.save((er, result) => {
+					if(er){
+						return next(er);
+					}
+					return res.status(200).json({
+						msg: '取消关注成功',
+						result: true,
+						token: tokenManage.createNewToken(user),
+					});
+				});
+			});
+		});
 	},
 	deleteCount: function (req, res, next) {
 		// 需要删除账号  文章 文章下的评论 账号的评论
