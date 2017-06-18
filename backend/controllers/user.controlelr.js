@@ -30,8 +30,7 @@ module.exports = {
 		if(req.body.username === '' || req.body.password === ''){
 			return res.status(200).json({
 					result: false,
-					msg: '用户名或者密码为空',
-					code: 200
+					msg: '用户名或者密码为空'
 				});
 		}
 		passport.authenticate('local', function(err, user, info){
@@ -42,8 +41,7 @@ module.exports = {
 			if(!user){
 				return res.status(200).json({
 					result: false,
-					msg: info.message,
-					code: 500
+					msg: info.message
 				});
 			}
 			return res.status(200).json({
@@ -59,8 +57,7 @@ module.exports = {
 					bio: user.bio,
 					url: user.url,
 					sex: user.sex
-				},
-				code: 200
+				}
 			});
 		})(req, res, next);
 	},
@@ -70,16 +67,14 @@ module.exports = {
 		if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(email)){
 			return res.status(200).json({
 				result: false,
-				msg: '邮箱格式不正确',
-				code: 200
+				msg: '邮箱格式不正确'
 			});
 		}
 		User.findOne({email: email}, function (err, user) {
 			if(user){
 				return res.status(200).json({
 					result: false,
-					msg: '该邮箱已被占用',
-					code: 200
+					msg: '该邮箱已被占用'
 				});
 			}
 			let authCode = createAuthCode();
@@ -95,11 +90,7 @@ module.exports = {
 					generateTextFromHtml: true
 				}, function (err, info) {
 					if(err){
-						return res.status(200).json({
-							result: false,
-							msg: '邮件发送失败',
-							code: 500
-						});
+						return res.status(500);
 					}
 					let authCodeInfo = {
 						authCodeTitle: 'register-' + email,
@@ -169,14 +160,12 @@ module.exports = {
 			if(user){
 				return res.status(200).json({
 					result: false,
-					msg: '该邮箱已被占用',
-					code: 200
+					msg: '该邮箱已被占用'
 				});
 			}
 			return res.status(200).json({
 				result: true,
-				msg: '该邮箱可以使用',
-				code: 200
+				msg: '该邮箱可以使用'
 			});
 		});
 	},
