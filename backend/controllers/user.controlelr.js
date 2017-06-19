@@ -225,36 +225,37 @@ module.exports = {
 				msg: '没有用户名'
 			});
 		}
-		User.findOne({
-			username: username
-		}, (err, user) => {
-			if(err){
-				return next(err);
-			}
-			if(!user){
-				return next();
-			}
-			Article.count({
-				author: user._id
-			}, (err, articles) => {
+		User.findOne({username: username})
+			.populate('attentions', ['nickname', 'avatar'])
+			.populate('fans', ['nickname', 'avatar'])
+			.exec((err, user) => {
 				if(err){
-					return res.status(500).json({
-						result: false,
-						msg: '服务器错误'
-					});
+					return next(err);
 				}
-				return res.status(200).json({
-					result: true,
-					info: {
-						nickname: user.nickname,
-						avatar: user.avatar,
-						attentions: user.attentions,
-						fans: user.fans,
-						articles: articles
+				if(!user){
+					return next();
+				}
+				Article.count({
+					author: user._id
+				}, (err, articles) => {
+					if(err){
+						return res.status(500).json({
+							result: false,
+							msg: '服务器错误'
+						});
 					}
+					return res.status(200).json({
+						result: true,
+						info: {
+							nickname: user.nickname,
+							avatar: user.avatar,
+							attentions: user.attentions,
+							fans: user.fans,
+							articles: articles
+						}
+					})
 				})
-			})
-		}); 
+			}); 
 	},
 	// 发送邮件（重置密码验证码）
 	sendResetPwdAuthCode: function (req, res, next) {
@@ -489,6 +490,12 @@ module.exports = {
 				result: false
 			});
 		}
+		if(author === req.user._id){
+			return res.status(200).json({
+				msg: '不能自己关注自己',
+				result: false
+			});
+		}
 		User.findOne({_id: req.user._id}, function (err, user) {
 			if(err){
 				return next(err);
@@ -500,7 +507,7 @@ module.exports = {
 				});
 			}
 			let attentions = user.attentions.some(item => {
-				return item._id == author
+				return item === author
 			});
 			if(attentions){
 				return res.status(200).json({
@@ -508,25 +515,31 @@ module.exports = {
 					result: false
 				});
 			}
-			User.findOne({_id: author}, function (error, author) {
-				if(error){
-					return next(error);
+			User.findOne({_id: author}, function (err, ahr) {
+				if(err){
+					return next(err);
 				}
-				if(!author){
+				if(!ahr){
 					return res.status(200).json({
 						msg: '你要关注的人不存在',
 						result: false
 					});
 				}
 				user.attentions.push(author);
-				user.save((er, result) => {
-					if(er){
-						return next(er);
+				ahr.fans.push(req.user._id);
+				user.save((err, result) => {
+					if(err){
+						return next(err);
 					}
-					return res.status(200).json({
-						msg: '关注成功',
-						result: true,
-						token: tokenManage.createNewToken(user),
+					ahr.save((err, ret) => {
+						if(err){
+							return next(err);
+						}
+						return res.status(200).json({
+							msg: '关注成功',
+							result: true,
+							token: tokenManage.createNewToken(user),
+						});
 					});
 				});
 			});
@@ -553,10 +566,10 @@ module.exports = {
 			}
 			let index;
 			let attentions = user.attentions.filter((item, i) => {
-				if(item._id == author) {
+				if(item === author) {
 					index = i;
 				}
-				return item._id == author;
+				return item === author;
 			});
 			if(!attentions.length){
 				return res.status(200).json({
@@ -564,25 +577,31 @@ module.exports = {
 					result: false
 				});
 			}
-			User.findOne({_id: author}, function (error, author) {
+			User.findOne({_id: author}, function (error, ahr) {
 				if(error){
 					return next(error);
 				}
-				if(!author){
+				if(!ahr){
 					return res.status(200).json({
 						msg: '你要取消关注的人不存在',
 						result: false
 					});
 				}
 				user.attentions.splice(index, 1);
+				ahr.fans.splice(ahr.fans.indexOf(req.user._id), 1);
 				user.save((er, result) => {
 					if(er){
 						return next(er);
 					}
-					return res.status(200).json({
-						msg: '取消关注成功',
-						result: true,
-						token: tokenManage.createNewToken(user),
+					user.save((er, ret) => {
+						if(er){
+							return next(er);
+						}
+						return res.status(200).json({
+							msg: '取消关注成功',
+							result: true,
+							token: tokenManage.createNewToken(user),
+						});
 					});
 				});
 			});

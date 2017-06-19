@@ -56,7 +56,7 @@ module.exports = {
 	},
 	findArticleById: function (req, res, next) {
 		Post.findOne({id: req.query.articleId})
-			.populate({path: 'author', model: 'User', select: ['_id','nickname', 'avatar', 'username']})
+			.populate({path: 'author', model: 'User', select: ['_id','nickname', 'avatar', 'username', 'attentions', 'fans']})
 			.exec(function (err, article) {
 				if(err){
 					return next(err);
@@ -67,23 +67,33 @@ module.exports = {
 				if(article.author.username !== req.query.username){
 					return next();
 				}
-				Post.update({id: req.query.articleId}, 
-							{$inc: {
-								views: 1
-							}}, function (error, result) {
-								if(error){
-									return next(err);
-								}
-								if(!result.nModified){
-									return next();
-								}
-								article.views += 1;
-								return res.status(200).json({
-										result: true,
-										msg: '文章获取成功',
-										data: article
-									});
-							})
+				
+				Promise.all([
+					Post.find({author: mongoose.Types.ObjectId(article.author._id), createAt: {$lt: article.createAt}}).sort({_id: 1}).limit(1).exec(),
+					Post.find({author: mongoose.Types.ObjectId(article.author._id), createAt: {$gt: article.createAt}}).sort({_id: -1}).limit(1).exec()
+				]).then(result => {
+					Post.update({id: req.query.articleId}, 
+								{$inc: {
+									views: 1
+								}}, function (error, ret) {
+									if(error){
+										return next(err);
+									}
+									if(!ret.nModified){
+										return next();
+									}
+									article.views += 1;
+									return res.status(200).json({
+											result: true,
+											msg: '文章获取成功',
+											data: article,
+											prev: (result[0][0]._id + '' === article._id + '') ? null : result[0][0],
+											next: (result[1][0]._id + '' === article._id + '') ? null : result[1][0]
+										});
+								});
+				}, err => {
+					return next(err);
+				});
 			});
 	},
 	getUserPosts: function (req, res, next) {
