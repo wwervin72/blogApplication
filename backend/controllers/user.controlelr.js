@@ -56,7 +56,9 @@ module.exports = {
 					_id: user._id,
 					bio: user.bio,
 					url: user.url,
-					sex: user.sex
+					sex: user.sex,
+					attentions: user.attentions,
+					fans: user.fans
 				}
 			});
 		})(req, res, next);
@@ -146,7 +148,9 @@ module.exports = {
 						email: user.email,
 						bio: user.bio,
 						url: user.url,
-						sex: user.sex
+						sex: user.sex,
+						attentions: user.attentions,
+						fans: user.fans
 					},
 					code: 200
 				});
@@ -197,21 +201,34 @@ module.exports = {
 	// 获取用户信息
 	getInfo: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		return res.status(200).json({
-			info: {
-				_id: req.user._id,
-				nickname: req.user.nickname,
-				username: req.user.username,
-				avatar: req.user.avatar,
-				email: req.user.email,
-				bio: req.user.bio,
-				url: req.user.url,
-				sex: req.user.sex
-			},
-			token: token,
-			result: true,
-			code: 200
-		});
+		User.findOne({_id: req.user._id})
+			.populate('attentions', ['_id','nickname', 'avatar'])
+			.populate('fans', ['_id','nickname', 'avatar'])
+			.exec((err, user) =>{
+				if(err){
+					return next(err);
+				}
+				if(!user){
+					return next();
+				}
+				return res.status(200).json({
+					info: {
+						_id: user._id,
+						nickname: user.nickname,
+						username: user.username,
+						avatar: user.avatar,
+						email: user.email,
+						bio: user.bio,
+						url: user.url,
+						sex: user.sex,
+						attentions: user.attentions,
+						fans: user.fans
+					},
+					token: token,
+					result: true,
+					code: 200
+				});
+			});
 	},
 	/**
 	 * 根据账号获取信息
@@ -226,8 +243,8 @@ module.exports = {
 			});
 		}
 		User.findOne({username: username})
-			.populate('attentions', ['nickname', 'avatar'])
-			.populate('fans', ['nickname', 'avatar'])
+			.populate('attentions', ['_id','nickname', 'avatar'])
+			.populate('fans', ['_id','nickname', 'avatar'])
 			.exec((err, user) => {
 				if(err){
 					return next(err);
@@ -247,6 +264,7 @@ module.exports = {
 					return res.status(200).json({
 						result: true,
 						info: {
+							_id: user._id,
 							nickname: user.nickname,
 							avatar: user.avatar,
 							attentions: user.attentions,
@@ -507,7 +525,7 @@ module.exports = {
 				});
 			}
 			let attentions = user.attentions.some(item => {
-				return item === author
+				return item === author;
 			});
 			if(attentions){
 				return res.status(200).json({
@@ -564,19 +582,6 @@ module.exports = {
 					result: false
 				});
 			}
-			let index;
-			let attentions = user.attentions.filter((item, i) => {
-				if(item === author) {
-					index = i;
-				}
-				return item === author;
-			});
-			if(!attentions.length){
-				return res.status(200).json({
-					msg: '你还没有关注他呢',
-					result: false
-				});
-			}
 			User.findOne({_id: author}, function (error, ahr) {
 				if(error){
 					return next(error);
@@ -587,13 +592,30 @@ module.exports = {
 						result: false
 					});
 				}
-				user.attentions.splice(index, 1);
-				ahr.fans.splice(ahr.fans.indexOf(req.user._id), 1);
+				let fan, attention;
+				ahr.fans.forEach((item, i) => {
+					if(item === req.user._id) {
+						fan = i;
+					}
+				});
+				user.attentions.forEach((ele, index) => {
+					if(ele === author) {
+						attention = index;
+					}
+				});
+				if(fan === undefined || attention === undefined){
+					return res.status(200).json({
+						msg: '你还没有关注他呢',
+						result: false
+					});
+				}
+				user.attentions.splice(attention, 1);
+				ahr.fans.splice(fan, 1);
 				user.save((er, result) => {
 					if(er){
 						return next(er);
 					}
-					user.save((er, ret) => {
+					ahr.save((er, ret) => {
 						if(er){
 							return next(er);
 						}

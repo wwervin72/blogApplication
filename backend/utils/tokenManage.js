@@ -63,7 +63,9 @@ module.exports = {
 			email: user.email,
 			bio: user.bio,
 			sex: user.sex,
-			url: user.url
+			url: user.url,
+			attentions: user.attentions,
+			fans: user.fans
 		}, config.redis.token.secret);
 		redisClient.set(key, token, redisClient.print);
 		redisClient.expire(key, config.redis.token.expireTime);
