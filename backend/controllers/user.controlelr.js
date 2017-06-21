@@ -202,8 +202,8 @@ module.exports = {
 	getInfo: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		User.findOne({_id: req.user._id})
-			.populate('attentions', ['_id','nickname', 'avatar'])
-			.populate('fans', ['_id','nickname', 'avatar'])
+			.populate('attentions', ['_id','username','nickname', 'avatar'])
+			.populate('fans', ['_id','username','nickname', 'avatar'])
 			.exec((err, user) =>{
 				if(err){
 					return next(err);
@@ -243,8 +243,8 @@ module.exports = {
 			});
 		}
 		User.findOne({username: username})
-			.populate('attentions', ['_id','nickname', 'avatar'])
-			.populate('fans', ['_id','nickname', 'avatar'])
+			.populate('attentions', ['_id','username','nickname', 'avatar'])
+			.populate('fans', ['_id','username','nickname', 'avatar'])
 			.exec((err, user) => {
 				if(err){
 					return next(err);
