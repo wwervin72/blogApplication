@@ -225,8 +225,7 @@ module.exports = {
 						fans: user.fans
 					},
 					token: token,
-					result: true,
-					code: 200
+					result: true
 				});
 			});
 	},

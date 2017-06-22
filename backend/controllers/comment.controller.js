@@ -97,8 +97,8 @@ module.exports = {
 						});
 	},
 	deleteComment: (req, res, next) => {
-		if(req.query.authorId === req.user._id){
-			Comment.remove({_id: req.query.commentId})
+		if(req.body.authorId === req.user._id){
+			Comment.remove({_id: req.body.commentId})
 					.exec(function (err, result) {
 						if(err){
 							return next(err);
@@ -109,7 +109,7 @@ module.exports = {
 								msg: '删除失败'
 							});
 						}
-						Article.update({_id: req.query.articleId},
+						Article.update({_id: req.body.articleId},
 										{$inc: {
 											comments: -1
 										}}, function (err, result) {
