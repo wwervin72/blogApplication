@@ -27,7 +27,7 @@ module.exports = {
 		});
 	},
 	login: function(req, res, next){
-		if(req.body.username === '' || req.body.password === ''){
+		if(req.body.username.trim() === '' || req.body.password.trim()  === ''){
 			return res.status(200).json({
 					result: false,
 					msg: '用户名或者密码为空'
@@ -104,10 +104,10 @@ module.exports = {
 	},
 	// 用户注册
 	register: function(req, res, next){
-		let username = req.query.username.trim(),
-			email = req.query.email.trim(),
-			password = req.query.password.trim(),
-			nickname = req.query.nickname.trim();
+		let username = req.body.username.trim(),
+			email = req.body.email.trim(),
+			password = req.body.password.trim(),
+			nickname = req.body.nickname.trim();
 		User.findOne({username: username}, function (err, result) {
 			if(result){
 				return res.status(200).json({
@@ -135,7 +135,7 @@ module.exports = {
 					});
 				}
 				// 过期掉验证码
-				tokenManage.expireAuthCode('register-' + req.query.email);
+				tokenManage.expireAuthCode('register-' + req.body.email);
 				return res.status(200).json({
 					result: true,
 					msg: '注册成功',
