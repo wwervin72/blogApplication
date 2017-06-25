@@ -7,12 +7,12 @@ module.exports = {
 	createComment: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		let comment = new Comment({
-			article: req.query.articleId,
-			author: req.query.authorId,
-			content: req.query.content.trim(),
-			replyParent: req.query.replyParent,
-			replyUser: req.query.replyUser,
-			reply: req.query.reply
+			article: req.body.articleId,
+			author: req.body.authorId,
+			content: req.body.content.trim(),
+			replyParent: req.body.replyParent,
+			replyUser: req.body.replyUser,
+			reply: req.body.reply
 		});
 		comment.save(function (err) {
 			if(err){
@@ -75,9 +75,9 @@ module.exports = {
 		},
 	updateComment: (req, res, next) => {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
-		Comment.update({_id: req.query.commentId},
+		Comment.update({_id: req.body.commentId},
 						{$set: {
-							content: req.query.newComment,
+							content: req.body.newComment,
 							createDate: Date.now()
 						}}, function (err, result) {
 							if(err){

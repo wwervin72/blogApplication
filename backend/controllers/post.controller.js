@@ -87,8 +87,8 @@ module.exports = {
 											result: true,
 											msg: '文章获取成功',
 											data: article,
-											prev: (result[0][0]._id + '' === article._id + '') ? null : result[0][0],
-											next: (result[1][0]._id + '' === article._id + '') ? null : result[1][0]
+											prev: result[0][0] ? null : result[0][0],
+											next: result[1][0] ? null : result[1][0]
 										});
 								});
 				}, err => {
@@ -212,6 +212,44 @@ module.exports = {
 				});
 			})
 		});
+	},
+	// 推荐文章列表 按照时间排序, 取前十条
+	getHeartArticle (req, res, next) {
+		Post.find({})
+			.populate('author', ['nickname', 'avatar', '_id'])
+			.sort({createAt: -1})
+			.skip(req.query.skip - 0 || 0)
+			.limit(req.query.limit - 0 || 10)
+			.exec((err, result) => {
+				if(err){
+					return next(err);
+				}
+				result.sort((a, b) => a.heart.length - b.heart.length);
+				return res.status(200).json({
+					msg: '最新推荐文章获取成功',
+					data: result,
+					result: true
+				});
+			});
+	},
+	// 阅读文章列表 按照时间排序, 取前十条
+	getViewArticle (req, res, next) {
+		Post.find({})
+			.populate('author', ['nickname', 'avatar', '_id'])
+			.sort({createAt: -1})
+			.skip(req.query.skip - 0 || 0)
+			.limit(req.query.limit - 0 || 10)
+			.exec((err, result) => {
+				if(err){
+					return next(err);
+				}
+				result.sort((a, b) => a.views.length - b.views.length);
+				return res.status(200).json({
+					msg: '最新推荐文章获取成功',
+					data: result,
+					result: true
+				});
+			});
 	},
 	// 删除文章
 	deleteArticle: (req, res, next) => {

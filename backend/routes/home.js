@@ -23,6 +23,12 @@ router.put('/pwd', tokenManage.verifyAuthCode, userCtrl.findPwd);
 // 获取所有文章
 router.get('/posts', articleCtrl.getAllPost);
 
+// 获取最新文章的点赞排行榜
+router.get('/newheartarticle', articleCtrl.getHeartArticle);
+
+// 获取最新文章的阅读排行榜
+router.get('/newviewtarticle', articleCtrl.getViewArticle);
+
 //获取具体某篇文章
 router.get('/article', articleCtrl.findArticleById);
 

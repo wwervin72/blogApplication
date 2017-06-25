@@ -45,6 +45,14 @@ let UserSchema = new Schema({
 		type: String,
 		default: ''
 	},
+	heart: {
+		type: Number,
+		default: 0
+	},
+	stamp: {
+		type: Number,
+		default: 0
+	},
 	lastsendauthcodetime: {
 		type: String,
 		default: ''
