@@ -9,7 +9,7 @@ module.exports = {
 	createPost: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		let post = new Post({
-			id: new Date().getTime() + '',
+			id: Math.round(new Date().getTime() * Math.random()) + '',
 			title: req.body.title,
 			abstract: req.body.abstract,
 			content: req.body.content,

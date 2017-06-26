@@ -4,6 +4,9 @@ let moment = require('moment');
 
 let setTags = tags => {
 	let res = [];
+	if(Object.prototype.toString.call(tags) === '[object Array]'){
+		return tags;
+	}
 	tags.split(',').forEach(function (item) {
 		if(res.indexOf(item) === -1){
 			res.push(item)
