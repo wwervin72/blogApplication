@@ -216,7 +216,7 @@ module.exports = {
 	// 推荐文章列表 按照时间排序, 取前十条
 	getHeartArticle (req, res, next) {
 		Post.find({})
-			.populate('author', ['nickname', 'avatar', '_id'])
+			.populate('author', ['nickname', 'avatar', 'username'])
 			.sort({createAt: -1})
 			.skip(req.query.skip - 0 || 0)
 			.limit(req.query.limit - 0 || 10)
@@ -235,7 +235,7 @@ module.exports = {
 	// 阅读文章列表 按照时间排序, 取前十条
 	getViewArticle (req, res, next) {
 		Post.find({})
-			.populate('author', ['nickname', 'avatar', '_id'])
+			.populate('author', ['nickname', 'avatar', 'username'])
 			.sort({createAt: -1})
 			.skip(req.query.skip - 0 || 0)
 			.limit(req.query.limit - 0 || 10)
