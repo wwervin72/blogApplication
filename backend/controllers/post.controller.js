@@ -33,7 +33,7 @@ module.exports = {
 		let pageNum = req.query.pageNum - 0;
 		let start = (req.query.currentPage - 1) * pageNum;
 		Promise.all([
-			Post.find()
+			Post.find({}, 'id title abstract avatar author comments tags createAt views heart stamp')
 				.populate('author', ['nickname', 'avatar', 'username'])
 				.sort({_id: -1})
 				.skip(start)
@@ -108,7 +108,7 @@ module.exports = {
 				return next();
 			}
 			Promise.all([
-				Post.find({author: user._id})
+				Post.find({author: user._id}, 'id title abstract avatar author comments tags createAt views heart stamp')
 					.populate('author', ['nickname', 'avatar', 'username'])
 					.sort({_id: -1})
 					.skip(start)
