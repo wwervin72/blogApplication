@@ -57,6 +57,7 @@ module.exports = {
 					bio: user.bio,
 					url: user.url,
 					sex: user.sex,
+					collections: user.collections,
 					attentions: user.attentions,
 					fans: user.fans
 				}
@@ -149,6 +150,7 @@ module.exports = {
 						bio: user.bio,
 						url: user.url,
 						sex: user.sex,
+						collections: user.collections,
 						attentions: user.attentions,
 						fans: user.fans
 					},
@@ -221,6 +223,7 @@ module.exports = {
 						bio: user.bio,
 						url: user.url,
 						sex: user.sex,
+						collections: user.collections,
 						attentions: user.attentions,
 						fans: user.fans
 					},
@@ -627,6 +630,106 @@ module.exports = {
 				});
 			});
 		});
+	},
+	// 收藏文章
+	collectedArticle (req, res, next) {
+		User.findOne({_id: req.body.userId}, 'collections')
+			.exec((err, user) => {
+				if(err){
+					return next(err);
+				}
+				if(!user){
+					return next();
+				}
+				Article.findOne({_id: req.body.articleId}, '_id author')
+					.populate('author', ['_id'])
+					.exec((err, article) => {
+						if(err){
+							return next(err);
+						}
+						if(!article){
+							return next();
+						}
+						if(user.collections.indexOf(article._id) !== -1){
+							return res.status(200).json({
+								msg: '你已经收藏了改文章',
+								result: false
+							});
+						}
+						if(user._id === article.author._id){
+							return res.status(200).json({
+								msg: '不能收藏自己的文章',
+								result: false
+							});
+						}
+						user.collections[user.collections.length] = article._id;
+						User.update({_id: req.body.userId}, {$set: {collections: user.collections}})
+							.exec((err, result) => {
+								if(err){
+									return next(err);
+								}
+								if(result.nModified){
+									return res.status(200).json({
+										result: true,
+										msg: '收藏成功',
+										token: tokenManage.createNewToken(user)
+									});
+								}								
+							});
+					});
+			});
+	},
+	getCollectedArticle (req, res, next) {
+		Article.find({}, 'id title abstract avatar author comments tags createAt views heart stamp')
+				.where('_id')
+				.in(req.user.collections)
+				.populate('author', ['nickname', 'avatar', 'username'])
+				.exec((err, articles) => {
+					if(err){
+						return next(err);
+					}
+					return res.status(200).json({
+						msg: '收藏文章列表获取成功',
+						data: articles,
+						result: true
+					});
+				});
+	},
+	cancelCollectedArticle (req, res, next) {
+		User.findOne({_id: req.user._id}, 'collections')
+			.exec((err, user) => {
+				if(err){
+					return next(err);
+				}
+				if(!user){
+					return next();
+				}
+				let index = user.collections.indexOf(req.body.articleId);
+				if(!~index){
+					return res.status(200).json({
+						msg: '你还没收藏改文章呢！',
+						result: false
+					});
+				}
+				user.collections.splice(index, 1);
+				User.update({_id: req.user._id}, {$set: {collections: user.collections}})
+					.exec((err, result) => {
+						if(err){
+							return next(err);
+						}
+						if(result.nModified){
+							return res.status(200).json({
+								result: true,
+								msg: '取消收藏成功',
+								token: tokenManage.createNewToken(user)
+							});
+						}	
+						return res.status(200).json({
+							result: false,
+							msg: '取消收藏失败'
+						});
+					})
+			});
 	},
 	deleteCount: function (req, res, next) {
 		// 需要删除账号  文章 文章下的评论 账号的评论

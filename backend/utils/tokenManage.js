@@ -64,6 +64,7 @@ module.exports = {
 			bio: user.bio,
 			sex: user.sex,
 			url: user.url,
+			collections: user.collections,
 			attentions: user.attentions,
 			fans: user.fans
 		}, config.redis.token.secret);

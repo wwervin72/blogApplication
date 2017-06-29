@@ -74,6 +74,15 @@ router.post('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, a
 // 用户删除文章
 router.delete('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.deleteArticle);
 
+// 用户收藏文章
+router.post('/user/article/collection', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.collectedArticle);
+
+// 用户获取收藏的文章
+router.get('/user/article/collection', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.getCollectedArticle);
+
+// 用户收藏文章
+router.delete('/user/article/collection', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.cancelCollectedArticle);
+
 // 更新文章
 router.put('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.update);
 

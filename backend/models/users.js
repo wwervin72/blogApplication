@@ -74,6 +74,10 @@ let UserSchema = new Schema({
 	fans: {
 		type: Array,
 		default: []
+	},
+	collections: {
+		type: Array,
+		default: []
 	}
 });
 
