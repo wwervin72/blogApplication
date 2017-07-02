@@ -54,6 +54,20 @@ module.exports = {
 			});
 		});
 	},
+	getTagArticles (req, res, next) {
+		let tag = req.query.tag;
+		Post.find({}, 'id title abstract avatar author comments tags createAt views heart stamp')
+			.$where('this.tags.indexOf(tag)!==-1')
+			.exec((err, articles) => {
+				if(err){
+					return next(err);
+				}
+				return res.status(200).json({
+					result: true,
+					data: articles
+				});
+			});
+	},
 	findArticleById: function (req, res, next) {
 		Post.findOne({id: req.query.articleId})
 			.populate({path: 'author', model: 'User', select: ['_id','nickname', 'avatar', 'username', 'attentions', 'fans']})
@@ -137,17 +151,25 @@ module.exports = {
 						title: req.body.title,
 						content: req.body.content,
 						tags: req.body.tags,
+						avatar: req.body.avatar || 'http://localhost:3000/asset/defaultArticleAvatar.jpg',
 						createAt: Date.now()
-					}}, function (err) {
-						if(err){
-							return next(err);
-						}
-						return res.status(200).json({
-							result: true,
-							msg: '修改成功',
-							token: token
-						});
+					}})
+			.exec(function (err, result) {
+				if(err){
+					return next(err);
+				}
+				if(result.nModified){
+					return res.status(200).json({
+						result: true,
+						msg: '修改成功',
+						token: token
 					});
+				}
+				return res.status(200).json({
+					result: false,
+					msg: '修改失败'
+				});
+			});
 	},
 	heart: function (req, res, next) {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);

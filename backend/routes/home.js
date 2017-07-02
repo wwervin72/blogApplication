@@ -32,6 +32,9 @@ router.get('/newviewtarticle', articleCtrl.getViewArticle);
 //获取具体某篇文章
 router.get('/article', articleCtrl.findArticleById);
 
+// 获取tag下的文章
+router.get('/tag/articles', articleCtrl.getTagArticles);
+
 //获取文章下的评论
 router.get('/comments', commentCtrl.getArticleComments);
 

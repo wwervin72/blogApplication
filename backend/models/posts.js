@@ -90,7 +90,7 @@ PostSchema.path('content').validate(content => content.length, '文章内容不�
 PostSchema.path('tags').validate(tags => tags.length, '文章标签不能为空');
 PostSchema.path('author').validate(author => author.length, '文章作者不能为空');
 
-PostSchema.path('createAt').get(value => moment(value).format('YYYY-MM-DD hh:mm:ss'));
+PostSchema.path('createAt').get(value => moment(value).format('YYYY-MM-DD HH:mm:ss'));
 
 PostSchema.set('toJSON', {getters: true, virtuals: false});
 
