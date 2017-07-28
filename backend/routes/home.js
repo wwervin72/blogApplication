@@ -71,8 +71,12 @@ router.put('/user/attention', tokenManage.verifyToken, tokenManage.verifyRedis, 
 //上传文件
 router.post('/upload', userCtrl.uploadFile);
 
+
 // 用户添加文章
 router.post('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.createPost);
+
+//上传图片
+router.post('/user/img', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.createImg);
 
 // 用户删除文章
 router.delete('/user/article', tokenManage.verifyToken, tokenManage.verifyRedis, articleCtrl.deleteArticle);

@@ -29,6 +29,17 @@ module.exports = {
 			});
 		});
 	},
+	createImg (req, res, next) {
+		function createUrl (server, uploadFolderName, fileName) {
+			return res.status(200).json({
+				result: true,
+				msg: '图片上传成功',
+				data: avatarUrl,
+				token: tokenManage.createNewToken(req.user)
+			});
+		}
+		uploadfile.upload(req, res, next, createUrl);
+	},
 	getAllPost: function (req, res, next) {
 		let pageNum = req.query.pageNum - 0;
 		let start = (req.query.currentPage - 1) * pageNum;
