@@ -4,6 +4,7 @@ let formidable = require('formidable');
 let server = 'localhost:3000';
 let uploadFolderName = 'upload';
 let uploadFolderPath = path.join(__dirname + '/../public', uploadFolderName);
+let multiparty = require('multiparty');
 
 module.exports = {
 	upload: function (req, res, next, cb) {
@@ -34,7 +35,7 @@ module.exports = {
 					extName = '.' + type.split('/')[1];
 				}
 				// 将文件名重新赋值为一个随机数（避免文件重名）
-				fileName = Math.random().toString().slice(2) + extName;
+				fileName = new Date().getTime() + Math.random().toString().slice(2) + extName;
 
 				// 构建将要存储的文件的路径
 				var fileNewPath = path.join(uploadFolderPath, fileName);
@@ -42,7 +43,7 @@ module.exports = {
 					if(err){
 						return next(err);
 					}
-					cb && cb(server, uploadFolderName, fileName);
+					cb && cb('http://' + server + '/' + uploadFolderName + '/' + fileName);
 				});
 			}
 		});

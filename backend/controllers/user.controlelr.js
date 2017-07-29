@@ -213,6 +213,7 @@ module.exports = {
 				if(!user){
 					return next();
 				}
+				tokenManage.refreshToken(req.user);
 				return res.status(200).json({
 					info: {
 						_id: user._id,

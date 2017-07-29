@@ -115,7 +115,7 @@ module.exports = {
 		})
 	},
 	// 刷新token
-	refreshToken: function (user, token) {
+	refreshToken: function (user) {
 		redisClient.expire('token_' + user._id, config.redis.token.expireTime);
 	},
 	// 删除key

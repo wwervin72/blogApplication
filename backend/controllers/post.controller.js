@@ -4,6 +4,7 @@ let Post = mongoose.model('Post');
 let Comment = mongoose.model('Comment');
 let moment = require('moment');
 let tokenManage = require('../utils/tokenManage');
+let uploadfile = require('../utils/uploadFile');
 
 module.exports = {
 	createPost: function (req, res, next) {
@@ -21,6 +22,7 @@ module.exports = {
 			if(err){
 				return next(err);
 			}
+			tokenManage.refreshToken(req.user);
 			return res.status(200).json({
 				result: true,
 				msg: '创建成功',
@@ -30,12 +32,14 @@ module.exports = {
 		});
 	},
 	createImg (req, res, next) {
-		function createUrl (server, uploadFolderName, fileName) {
+		let token = (req.query && req.query.token) || (req.body && req.body.token);
+		function createUrl (url) {
+			tokenManage.refreshToken(req.user);
 			return res.status(200).json({
 				result: true,
 				msg: '图片上传成功',
-				data: avatarUrl,
-				token: tokenManage.createNewToken(req.user)
+				data: url,
+				token: token
 			});
 		}
 		uploadfile.upload(req, res, next, createUrl);
