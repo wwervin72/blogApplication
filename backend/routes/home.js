@@ -44,6 +44,9 @@ router.get('/user', userCtrl.getUserInfoByName);
 //获取用户的文章
 router.get('/user/posts', userCtrl.findUserByName, articleCtrl.getUserPosts);
 
+//获取用户的收藏文章
+router.get('/user/collections', articleCtrl.getCollections);
+
 // 修改用户头像
 router.post('/user/avatar', tokenManage.verifyToken, tokenManage.verifyRedis, userCtrl.modifyAvatar);
 

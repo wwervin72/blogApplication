@@ -75,10 +75,10 @@ let UserSchema = new Schema({
 		type: Array,
 		default: []
 	},
-	collections: {
-		type: Array,
-		default: []
-	}
+	collections: [{
+		type: Schema.ObjectId,
+		ref: 'Post'
+	}]
 });
 
 UserSchema

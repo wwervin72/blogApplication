@@ -10,8 +10,8 @@ module.exports = {
 			article: req.body.articleId,
 			author: req.body.authorId,
 			content: req.body.content.trim(),
-			replyParent: req.body.replyParent,
-			replyUser: req.body.replyUser,
+			replyParent: req.body['replyParent[]'],
+			replyUser: req.body['replyUser[]'],
 			reply: req.body.reply
 		});
 		comment.save(function (err) {

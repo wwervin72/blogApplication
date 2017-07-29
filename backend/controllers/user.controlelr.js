@@ -248,6 +248,7 @@ module.exports = {
 		User.findOne({username: username})
 			.populate('attentions', ['_id','username','nickname', 'avatar'])
 			.populate('fans', ['_id','username','nickname', 'avatar'])
+			.populate('collections', ['_id'])
 			.exec((err, user) => {
 				if(err){
 					return next(err);
@@ -271,6 +272,7 @@ module.exports = {
 							nickname: user.nickname,
 							avatar: user.avatar,
 							attentions: user.attentions,
+							collections: user.collections,
 							fans: user.fans,
 							articles: articles
 						}
@@ -383,9 +385,8 @@ module.exports = {
 		})
 	},
 	modifyAvatar: function (req, res, next) {
-		function avatar (server, uploadFolderName, fileName) {
+		function avatar (avatarUrl) {
 			let token = (req.query && req.query.token) || (req.body && req.body.token);
-			let avatarUrl = 'http://' + server + '/' + uploadFolderName + '/' + fileName;
 			User.update({_id: req.user._id}, 
 						{$set: {
 							avatar: avatarUrl

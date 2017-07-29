@@ -69,6 +69,26 @@ module.exports = {
 			});
 		});
 	},
+	getCollections (req, res, next) {
+		let pageNum = req.query.pageNum - 0;
+		let start = (req.query.currentPage - 1) * pageNum;
+		Post.find({}, 'id title abstract avatar author comments tags createAt views heart stamp')
+			.populate('author', ['nickname', 'avatar', 'username'])
+			.where('_id')
+			.in(JSON.parse(req.query.collections))
+			.sort({_id: -1})
+			.skip(start)
+			.limit(pageNum)
+			.exec(function (err, result) {
+				if(err){
+					return next(err);
+				}
+				return res.status(200).json({
+					result: true,
+					data: result
+				});
+			});
+	},
 	getTagArticles (req, res, next) {
 		let tag = req.query.tag;
 		Post.find({}, 'id title abstract avatar author comments tags createAt views heart stamp')
@@ -293,7 +313,7 @@ module.exports = {
 		let token = (req.query && req.query.token) || (req.body && req.body.token);
 		if(req.user._id === req.body.authorId){
 			// 删除文章下的评论
-			Comment.remove({articleId: req.body.articleId}, function (err, result) {
+			Comment.remove({article: req.body.articleId}, function (err, result) {
 				if(err){
 					return next(err);
 				}
